@@ -407,7 +407,7 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 %--------------- Document ---------------%
 \begin{document}
 
-\title{Hierarchical agents via dynamic task delegation}
+\title{Dynamic task delegation for hierarchical agents}
 
 \author{
 	Sophie Libkind\and
@@ -424,7 +424,7 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 
 \chapter{Introduction}
 
-An agent is given a \emph{task} at an abstract level, and they will produce an \emph{outcome}. They begin by making a plan: invoke some subordinate agents and hand each of them a task of their own, have the resulting outcomes determine a new bunch of subordinate agents to hand different tasks to, and so on, until finally after some finite amount of time, an outcome is returned to the agent. The agent can learn from what occurred, so that the next time they're given the same task or a similar one, they can make a different plan. This same story can take place at any lower (or higher) level in the same way.
+An agent is given a \emph{task}, and their job is to produce an \emph{outcome}. They begin by making a plan: invoke some subordinate agents and hand each of them a task of their own, have the resulting outcomes determine a new bunch of subordinate agents to hand different tasks to, and so on, until finally after some finite amount of time, an outcome is returned to the agent. The agent can learn from what occurred, so that the next time they're given the same task or a similar one, they can make a different plan. This same story can take place at any lower (or higher) level in the same way.
 
 We can move from this natural language description of agents and subagents to a mathematical one, using the framework of polynomial functors. While polynomial functors are defined as ``coproducts of representables $\smset\to\smset$'', we will think of them as task-solution interfaces.
 \[
@@ -442,6 +442,8 @@ In this paper, we consider a more general sort of task delegation by invoking tw
 For example, consider the polynomial $\yon^\nn$; it has only one task, for which an outcome is any natural number. A map $\yon^\nn\to\free_{\yon^\nn\vee\yon^\nn}$ delegates the task to two subagents of the same sort. Such a map might send the unique task to the two-step process that first asks each subagent for a natural number, then asks whoever had the bigger number (or the first subagent if the numbers were equal) to choose a second number, and finally returns the sum to the original agent.
 
 The result is an accounting system for agents that recursively call subagents to perform tasks, all in finite time, and that can learn from the outcomes. Mathematically, we structure this as a generalization of \emph{dynamic monoidal category}, in the sense of \cite{shapiro2022dynamic}. This paper discussed various examples of categorical structures (categories, monoidal categories, multicategories, etc.) enriched in $\org$, which itself was introduced in \cite{spivak2021learners}. Here, we show that the free monad functor $\free_-$ is a monad on $\org$ and that it is lax monoidal with respect to $\vee$. The Kleisli double category $\org_\free$ serves as a base of enrichment for more flexible dynamic categorical structures, ones where the subordinate dynamics can occur at \emph{faster timescales} than the higher-level dynamics does.
+
+We go one step further by giving a double functor $[-,t]\colon\org_\free\op\to\org^\cofree$ for any polynomial monad $t$, which ``converts patterns to the matter they run on'', in the sense of \cite{libkind2024pattern}. Taking $t=\yon$, a hierarchical agent which adds up pairs of numbers that its subordinates choose would be sent to a machine that takes streams and adds up consecutive pairs of numbers in the corresponding way. Taking $t=\lott$ to be the monad corresponding to finite random variables, the same is true except that an element of randomness is introduced at each stage. All this will be made explicit in the text below.
 
 \section*{Plan of the paper}
 
