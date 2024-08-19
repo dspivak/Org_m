@@ -1,3 +1,182 @@
 \chapter{From matter to pattern}\label{sec:matter-pattern}
 
-\dnote{I'm happy to explain or write the Huffman coding example.}
+The main result of this work is the operad functor $(\org_\free^\#)\op \to (\org^\#)^\cofree$ defined in ~\cref{thm:matter-pattern} which ``turns pattern into matter''. In this Section we will prove ~\cref{thm:matter-pattern} and then make sense of this interpretation through examples.
+
+Following ~\cite{libkind2024pattern} the positions of $\free_p$ are $p$-shaped decision trees which we interpret as patterns of shape $p$. The nodes of such a tree are positions of $p$ (which we interpret as $p$-questions) and branches are directions of $p$ (which we interpret as $p$-answers). Given such a decision tree, we want a way to \textit{run} it. In other words, we want a device that gives the necessary information to 
+
+Let $t_1$ and $t_2$ be $\tri$-monoids. Recall, that by duoidality $t_1 \otimes t_2$ is a $\tri$-monoid as well. There is a unique polynomial map
+\begin{equation}\label{eq:p1-vee-p2}
+    (p_1 \vee p_2) \otimes \cofree_{[p_1, t_1]} \otimes \cofree_{[p_2,t_2]} \to t_1 \otimes t_2
+\end{equation}
+whose components consist of 
+\[
+    p_1 \otimes p_2 \otimes \cofree_{[p_1, t_1]} \otimes \cofree_{[p_2,t_2]} \to p_1 \otimes p_2 \otimes [p_1, t_1] \otimes [p_2,t_2] \to t_1 \otimes t_2 
+\]  and for $i = 1, 2$
+\[
+    p_i \otimes \cofree_{[p_1, t_1]} \otimes \cofree_{[p_2,t_2]} \to p_i \otimes \cofree_{[p_i, t_i]} \to p_i \otimes [p_i, t_i] \to t_i \to t_1 \otimes t_2.
+\]
+Via the $\free$ adjunction, the map in \cref{eq:p1-vee-p2} induces  a polynomial map 
+\begin{equation}\label{eq:free-p1-vee-p2}
+    \free_{p_1 \vee p_2} \otimes \cofree_{[p_1, t_1]} \otimes \cofree_{[p_2,t_2]} \to t_1 \otimes t_2.
+\end{equation}
+For any polynomial $q$, \cref{eq:free-p1-vee-p2} in turn induces a map
+\begin{equation}\label{eq:cofree_q_free_p1_vee_p2}
+    \cofree_{[q, \free_{p_1 \vee p_2}]} \otimes \cofree_{[p_1, t_1]} \otimes \cofree_{[p_2,t_2]} \to \cofree_{[q,t_1 \otimes t_2]}
+\end{equation}
+
+Importantly, the polynomial map in \cref{eq:free-p1-vee-p2} satisfies an associativity property which we summarize in \cref{lem:free_p1_vee_p2_associative}
+\begin{lemma}\label{lem:free_p1_vee_p2_associative}
+    For polynomials $p_1$, $p_2$, $q_1$, and $q_2$ and for $\tri$-monoids $s$, $t_1$, and $t_2$, the following diagram commutes.
+
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXGZyZWVfe3FfMSBcXHZlZSBxXzJ9IFxcb3RpbWVzIFxcY29mcmVlX3tbcV8xLCBzXX1cXG90aW1lcyBcXGNvZnJlZV97W3FfMiwgXFxmcmVlX3twXzEgXFx2ZWUgcF8yfV19IFxcb3RpbWVzIFxcY29mcmVlX3tbcF8xLCB0XzFdfSBcXG90aW1lcyBcXGNvZnJlZV97W3BfMiwgdF8yXX0iXSxbMSwwLCJcXGZyZWVfe3FfMSBcXHZlZSBxXzJ9IFxcb3RpbWVzIFxcY29mcmVlX3tbcV8xLCBzXX0gXFxvdGltZXMgXFxjb2ZyZWVfe1txXzIsIHRfMSBcXG90aW1lcyB0XzJdfSJdLFsxLDEsInMgXFxvdGltZXMgdF8xIFxcb3RpbWVzIHRfMiJdLFswLDEsInMgXFxvdGltZXMgXFxmcmVlX3twXzEgXFx2ZWUgcF8yfSBcXG90aW1lcyBcXGNvZnJlZV97W3BfMSwgdF8xXX0gXFxvdGltZXMgXFxjb2ZyZWVfe1twXzIsIHRfMl19Il0sWzAsMV0sWzEsMl0sWzMsMl0sWzAsM11d
+\[\begin{tikzcd}
+	{\free_{q_1 \vee q_2} \otimes \cofree_{[q_1, s]}\otimes \cofree_{[q_2, \free_{p_1 \vee p_2}]} \otimes \cofree_{[p_1, t_1]} \otimes \cofree_{[p_2, t_2]}} & {\free_{q_1 \vee q_2} \otimes \cofree_{[q_1, s]} \otimes \cofree_{[q_2, t_1 \otimes t_2]}} \\
+	{s \otimes \free_{p_1 \vee p_2} \otimes \cofree_{[p_1, t_1]} \otimes \cofree_{[p_2, t_2]}} & {s \otimes t_1 \otimes t_2}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+\end{tikzcd}\]
+    The clockwise map is an application of \cref{eq:cofree_q_free_p1_vee_p2} followed by an application of \cref{eq:free-p1-vee-p2}. The counter-clockwise map is defined by two applications of \cref{eq:free-p1-vee-p2}. 
+\end{lemma}
+\begin{proof}
+    It suffices to show that the diagram commutes when precomposed with the inclusions $q_i \to \free_{q_1 \vee q_2}$ and $q_1 \otimes q_2 \to \free_{q_1 \vee q_2}$.
+
+    For the inclusion $q_1 \to \free_{q_1 \vee q_2}$ it suffices to show that the following diagram commutes.
+    % https://q.uiver.app/#q=WzAsNixbMCwwLCJxXzEgXFxvdGltZXMgXFxjb2ZyZWVfe1txXzEsIHNdfVxcb3RpbWVzIFxcY29mcmVlX3tbcV8yLCBcXGZyZWVfe3BfMSBcXHZlZSBwXzJ9XX0gXFxvdGltZXMgXFxjb2ZyZWVfe1twXzEsIHRfMV19IFxcb3RpbWVzIFxcY29mcmVlX3tbcF8yLCB0XzJdfSJdLFsxLDAsInFfMSBcXG90aW1lcyBcXGNvZnJlZV97W3FfMSwgc119IFxcb3RpbWVzIFxcY29mcmVlX3tbcV8yLCB0XzEgXFxvdGltZXMgdF8yXX0iXSxbMSwxLCJxXzEgXFxvdGltZXMgW3FfMSwgc10gXFxvdGltZXMgXFx5b24iXSxbMCwxLCJzIFxcb3RpbWVzIFxceW9uIFxcb3RpbWVzIFxcY29mcmVlX3tbcF8xLCB0XzFdfSBcXG90aW1lcyBcXGNvZnJlZV97W3BfMiwgdF8yXX0iXSxbMCwyLCJzIFxcb3RpbWVzIFxcZnJlZV97cF8xIFxcdmVlIHBfMn0gXFxvdGltZXMgXFxjb2ZyZWVfe1twXzEsIHRfMV19IFxcb3RpbWVzIFxcY29mcmVlX3tbcF8yLCB0XzJdfSJdLFsxLDIsInNcXG90aW1lcyB0XzEgXFxvdGltZXMgdF8yIl0sWzAsMV0sWzEsMl0sWzMsMl0sWzAsM10sWzMsNF0sWzIsNV0sWzQsNV1d
+\[\begin{tikzcd}
+	{q_1 \otimes \cofree_{[q_1, s]}\otimes \cofree_{[q_2, \free_{p_1 \vee p_2}]} \otimes \cofree_{[p_1, t_1]} \otimes \cofree_{[p_2, t_2]}} & {q_1 \otimes \cofree_{[q_1, s]} \otimes \cofree_{[q_2, t_1 \otimes t_2]}} \\
+	{s \otimes \yon \otimes \cofree_{[p_1, t_1]} \otimes \cofree_{[p_2, t_2]}} & {q_1 \otimes [q_1, s] \otimes \yon} \\
+	{s \otimes \free_{p_1 \vee p_2} \otimes \cofree_{[p_1, t_1]} \otimes \cofree_{[p_2, t_2]}} & {s\otimes t_1 \otimes t_2}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+	\arrow[from=2-1, to=3-1]
+	\arrow[from=2-2, to=3-2]
+	\arrow[from=3-1, to=3-2]
+\end{tikzcd}\]
+It is obvious that the top square commutes and the bottom square commutes because the definition of \cref{eq:free-p1-vee-p2} implies that  $\free_{p_1 \vee p_2} \to [ \cofree_{[p_1, t_1]} \otimes \cofree_{[p_2, t_2]}, t_1 \otimes t_2]$ is a map of $\tri$-monoids and hence preserves the unit.
+
+For the inclusion $q_2 \to \free_{q_1 \vee q_2}$ and $q_1 \otimes q_2 \to \free_{q_1 \vee q_2}$, it suffices to show that the following diagram commutes. 
+% https://q.uiver.app/#q=WzAsNixbMCwwLCJxXzIgXFxvdGltZXMgXFxjb2ZyZWVfe1txXzIsIFxcZnJlZV97cF8xIFxcdmVlIHBfMn1dfSBcXG90aW1lcyBcXGNvZnJlZV97W3BfMSwgdF8xXX0gXFxvdGltZXMgXFxjb2ZyZWVfe1twXzIsIHRfMl19Il0sWzEsMCwicV8yIFxcb3RpbWVzIFxcY29mcmVlX3tbcV8yLCB0XzEgXFxvdGltZXMgdF8yXX0iXSxbMCwxLCJxXzIgXFxvdGltZXMgW3FfMiwgXFxmcmVlX3twXzEgXFx2ZWUgcF8yfV0gXFxvdGltZXMgXFxjb2ZyZWVfe1twXzEsIHRfMV19IFxcb3RpbWVzIFxcY29mcmVlX3tbcF8yLCB0XzJdfSJdLFswLDIsIlxcZnJlZV97cF8xIFxcdmVlIHBfMn1cXG90aW1lcyBcXGNvZnJlZV97W3BfMSwgdF8xXX0gXFxvdGltZXMgXFxjb2ZyZWVfe1twXzIsIHRfMl19Il0sWzEsMSwicV8yIFxcb3RpbWVzIFtxXzIsIHRfMVxcb3RpbWVzIHRfMl0iXSxbMSwyLCJ0XzEgXFxvdGltZXMgdF8yIl0sWzAsMl0sWzIsM10sWzMsNV0sWzQsNV0sWzEsNF0sWzAsMV1d
+\[\begin{tikzcd}
+	{q_2 \otimes \cofree_{[q_2, \free_{p_1 \vee p_2}]} \otimes \cofree_{[p_1, t_1]} \otimes \cofree_{[p_2, t_2]}} & {q_2 \otimes \cofree_{[q_2, t_1 \otimes t_2]}} \\
+	{q_2 \otimes [q_2, \free_{p_1 \vee p_2}] \otimes \cofree_{[p_1, t_1]} \otimes \cofree_{[p_2, t_2]}} & {q_2 \otimes [q_2, t_1\otimes t_2]} \\
+	{\free_{p_1 \vee p_2}\otimes \cofree_{[p_1, t_1]} \otimes \cofree_{[p_2, t_2]}} & {t_1 \otimes t_2}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=3-1]
+	\arrow[from=2-2, to=3-2]
+	\arrow[from=3-1, to=3-2]
+\end{tikzcd}\]
+It is immediate from the definition of the map in \cref{eq:cofree_q_free_p1_vee_p2}.
+
+\end{proof}
+
+The map in \cref{eq:free-p1-vee-p2} is the key ingredient to defining maps
+\begin{equation}\label{eq:free-p1-vee-pn}
+    \free_{p_1 \vee \cdots \vee p_n} \otimes \cofree_{[p_1, t_1]} \otimes \cdots\otimes \cofree_{[p_n, t_n]} \to t_1 \otimes \cdots \otimes t_n
+\end{equation}
+by induction.
+The base case  $\free_\yon \to t$ is the composite \[\free_\yon \to \yon \to t\] where the second map is the unit of $t$. For the induction step, the map in \cref{eq:free-p1-vee-pn} induces a cofunctor 
+\[
+    \cofree_{[p_1, t_1]} \otimes \cdots \otimes \cofree_{[p_n, t_n]} \to \cofree_{[p_1 \vee \cdots \vee p_n, t_1 \otimes \cdots \otimes t_n]}
+\] via the unit $\mun_{p_1 \vee \cdots \vee p_n}\colon p_1 \vee \cdots \vee p_n \to \free_{p_1 \vee \cdots \vee p_n}$.
+Composing this map with the map in \cref{eq:free-p1-vee-p2} concludes the induction argument:
+\begin{align*}
+    \free_{p_1 \vee \cdots \vee p_n \vee p_{n+1}} \otimes \cofree_{[p_1, t_1]} \otimes \cdots\otimes \cofree_{[p_n, t_n]} \otimes \cofree_{[p_{n+1} , t_{n+1}]} & \to \free_{p_1 \vee \cdots \vee p_n \vee p_{n+1}} \otimes \cofree_{[p_1 \vee \cdots \vee p_n, t_1 \otimes \cdots \otimes t_n]} \otimes \cofree_{[p_{n+1} , t_{n+1}]} \\
+    & \to t_1 \otimes \cdots \otimes t_n \otimes t_{n+1}.
+\end{align*}
+
+
+
+
+\begin{theorem}\label{thm:matter-pattern}
+    For any $\tri$-monoid $t$, there is an operad functor 
+    $(\org_\free^\#)\op \to (\org^\#)^\cofree$ which on objects maps a polynomial $p$ to the polynomial $[p,t]$. On morphisms, it is the $\smcat^\#$ map
+    \[
+        \cofree_{[q, \free_{p_1 \vee \cdots \vee p_n}]} \to \cofree_{[\cofree_{[p_1,t]} \otimes \cdots \otimes \cofree_{[p_n, t]}, \cofree_{[q,t]}]}
+    \] that is the image  of the following polynomial map under the obvious isomorphisms.
+    \begin{align*}
+        q \otimes \cofree_{[q, \free_{p_1 \vee \cdots \vee p_n}]} \otimes \cofree_{[p_1,t]} \otimes \cdots \otimes \cofree_{[p_n, t]}&  \xrightarrow{\mun_q} \free_q \otimes \cofree_{[q, \free_{p_1 \vee \cdots \vee p_n}]} \otimes \cofree_{[p_1,t]} \otimes \cdots \otimes \cofree_{[p_n, t]} \\
+         &\xrightarrow{\modstruct} \free_{q \otimes [q,\free_{p_1 \vee \cdots \vee p_n}]}\otimes \cofree_{[p_1,t]} \otimes \cdots \otimes \cofree_{[p_n, t]}\\
+        & \xrightarrow{\free_\eval} \free_{\free_{p_1 \vee \cdots \vee p_n}}\otimes \cofree_{[p_1,t]} \otimes \cdots \otimes \cofree_{[p_n, t]} \\
+        &\xrightarrow{\mcoun_{\free_{p_1 \vee \cdots \vee p_n}}} \free_{p_1 \vee \cdots \vee p_n}\otimes \cofree_{[p_1,t]} \otimes \cdots \otimes \cofree_{[p_n, t]} \\
+        & \xrightarrow{\lax} \free_{p_1 \vee \cdots \vee p_n}\otimes \cofree_{[p_1,t] \otimes \cdots \otimes [p_n, t]}\\
+        & \to t
+    \end{align*}    
+    where the final map is the map in \cref{eq:free-p1-vee-pn}.
+    
+\end{theorem}
+\begin{proof}
+    This functor preserves the identity because for all polynomials $p$, the definition of $\modstruct$ along with the zig-zag law of the $\free$ adjunction implies that the following diagram commutes. 
+
+    % https://q.uiver.app/#q=WzAsNixbMCwwLCJxIFxcb3RpbWVzIFxcY29mcmVlX3tbcSwgdF19Il0sWzAsMSwicSBcXG90aW1lcyBbcSwgdF0iXSxbMSwwLCJcXGZyZWVfcSBcXG90aW1lcyBcXGNvZnJlZV97W3EsdF19Il0sWzIsMCwiXFxmcmVlX3txIFxcb3RpbWVzIFtxLHRdfSJdLFszLDAsIlxcZnJlZV90Il0sWzMsMSwidCJdLFswLDEsInEgXFxvdGltZXMgXFxjY291bl97W3EsIHRdfSIsMl0sWzAsMiwiXFxtdW5fcSBcXG90aW1lcyBcXGNvZnJlZV97W3EsdF19Il0sWzEsNSwiXFxldmFsIiwyXSxbNCw1LCJcXG1jb3VuX3QiXSxbMiwzLCJcXG1vZHN0cnVjdF97cSwgW3EsdF19Il0sWzMsNCwiXFxmcmVlX1xcZXZhbCJdXQ==
+\[\begin{tikzcd}[column sep=huge]
+	{q \otimes \cofree_{[q, t]}} & {\free_q \otimes \cofree_{[q,t]}} & {\free_{q \otimes [q,t]}} & {\free_t} \\
+	{q \otimes [q, t]} &&& t
+	\arrow["{\mun_q \otimes \cofree_{[q,t]}}", from=1-1, to=1-2]
+	\arrow["{q \otimes \ccoun_{[q, t]}}"', from=1-1, to=2-1]
+	\arrow["{\modstruct_{q, [q,t]}}", from=1-2, to=1-3]
+	\arrow["{\free_\eval}", from=1-3, to=1-4]
+	\arrow["{\mcoun_t}", from=1-4, to=2-4]
+	\arrow["\eval"', from=2-1, to=2-4]
+\end{tikzcd}\]
+
+    To show that this functor preserves composition, by symmetry, it suffices to show that for $n \geq 1$ the following diagram of cofunctors commutes.
+
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXGNvZnJlZV97XFxsZWZ0W3IgLCBcXGZyZWVfe1xcYmlndmVlX3tqID0gMX1ebiBxX2p9XFxyaWdodF19IFxcb3RpbWVzIFxcY29mcmVlX3tcXGxlZnRbcV9uICwgXFxmcmVlX3tcXGJpZ3ZlZV97aSA9IDF9Xm0gcF9pfVxccmlnaHRdfSJdLFsxLDAsIlxcY29mcmVlX3tcXGxlZnRbciAsIFxcZnJlZV97XFxsZWZ0KFxcYmlndmVlX3tqID0gMX1ee24tMX0gcV9qXFxyaWdodCkgXFx2ZWUgXFxsZWZ0KFxcYmlndmVlX3tpID0gMX1ebSBwX2lcXHJpZ2h0KX1cXHJpZ2h0XX0iXSxbMCwxLCJcXGNvZnJlZV97XFxsZWZ0W1xcYmlnb3RpbWVzX3tqID0gMX1ebiBcXGNvZnJlZV97W3FfaiwgdF19LCBbciwgdF1cXHJpZ2h0XX0gXFxvdGltZXMgXFxjb2ZyZWVfe1xcbGVmdFtcXGJpZ290aW1lc197aSA9IDF9Xm0gXFxjb2ZyZWVfe1twX2ksIHRdfSwgW3FfbiwgdF1cXHJpZ2h0XX0iXSxbMSwxLCJcXGNvZnJlZV97XFxsZWZ0W1xcbGVmdChcXGJpZ290aW1lc197aiA9IDF9XntuLTF9IFtxX2osdF1cXHJpZ2h0KSBcXG90aW1lcyBcXGxlZnQoXFxiaWdvdGltZXMgX3tpID0gMX1ebSBbcF9pLCB0XVxccmlnaHQpLCBbciAsdF1cXHJpZ2h0XX0iXSxbMCwxLCIiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJiYXJyZWQifX19XSxbMiwzLCIiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJiYXJyZWQifX19XSxbMSwzLCIiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJiYXJyZWQifX19XSxbMCwyLCIiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJiYXJyZWQifX19XV0=
+\[\begin{tikzcd}
+	{\cofree_{\left[r , \free_{\bigvee_{j = 1}^n q_j}\right]} \otimes \cofree_{\left[q_n , \free_{\bigvee_{i = 1}^m p_i}\right]}} & {\cofree_{\left[r , \free_{\left(\bigvee_{j = 1}^{n-1} q_j\right) \vee \left(\bigvee_{i = 1}^m p_i\right)}\right]}} \\
+	{\cofree_{\left[\bigotimes_{j = 1}^n \cofree_{[q_j, t]}, [r, t]\right]} \otimes \cofree_{\left[\bigotimes_{i = 1}^m \cofree_{[p_i, t]}, [q_n, t]\right]}} & {\cofree_{\left[\left(\bigotimes_{j = 1}^{n-1} [q_j,t]\right) \otimes \left(\bigotimes _{i = 1}^m [p_i, t]\right), [r ,t]\right]}}
+	\arrow["\shortmid"{marking}, from=1-1, to=1-2]
+	\arrow["\shortmid"{marking}, from=1-1, to=2-1]
+	\arrow["\shortmid"{marking}, from=1-2, to=2-2]
+	\arrow["\shortmid"{marking}, from=2-1, to=2-2]
+\end{tikzcd}\]
+
+    For $m = 0$, it is immediate. For $m \geq 1$ consider the diagram on the following page. It is immediate that the top square commutes. The middle square commutes by definition of the upper horizontal map. The bottom square commutes by \cref{lem:free_p1_vee_p2_associative}.
+    \newpage
+    \begin{sideways}
+    % https://q.uiver.app/#q=WzAsOCxbMCwwLCJcXGZyZWVfe1xcYmlndmVlX3tqID0gMX1ebiBxX2p9IFxcb3RpbWVzIFxcbGVmdCggXFxiaWdvdGltZXNfe2ogPSAxfV57biAtIDF9IFxcY29mcmVlX3tbcV9qLCB0X2pdfVxccmlnaHQpIFxcb3RpbWVzIFxcY29mcmVlX3tbcV9uLCBcXGZyZWVfe1xcYmlndmVlX3tpID0gMX1ebSBwX2l9XX0gXFxvdGltZXMgXFxsZWZ0KFxcYmlnb3RpbWVzX3tpID0gMX1ebSBcXGNvZnJlZV97W3BfaSwgc19pXX1cXHJpZ2h0KSJdLFsxLDAsIiBcXGxlZnQoIFxcYmlnb3RpbWVzX3tqID0gMX1ee24gLSAxfSB0X2pcXHJpZ2h0KSBcXG90aW1lcyAgXFxmcmVlX3tcXGJpZ3ZlZV97aSA9IDF9Xm0gcF9pfSBcXG90aW1lcyBcXGxlZnQoXFxiaWdvdGltZXNfe2kgPSAxfV5tIFxcY29mcmVlX3tbcF9pLCBzX2ldfVxccmlnaHQpIl0sWzAsMSwiXFxmcmVlX3tcXGJpZ3ZlZV97aiA9IDF9Xm4gcV9qfSBcXG90aW1lcyBcXGxlZnQoIFxcYmlnb3RpbWVzX3tqID0gMX1ee24gLSAxfSBcXGNvZnJlZV97W3FfaiwgdF9qXX1cXHJpZ2h0KSBcXG90aW1lcyBcXGNvZnJlZV97W3FfbiwgXFxmcmVlX3tcXGJpZ3ZlZV97aSA9IDF9Xm0gcF9pfV19IFxcb3RpbWVzIFxcY29mcmVlX3tcXGxlZnRbXFxiaWd2ZWVfe2kgPSAxfV57bS0xfSBwX2ksIFxcYmlnb3RpbWVzX3tpID0gMX1ee20tMX0gc19pXFxyaWdodF19IFxcb3RpbWVzIFxcY29mcmVlX3tbcF9tLCBzX21dfSJdLFsxLDEsIiBcXGxlZnQoIFxcYmlnb3RpbWVzX3tqID0gMX1ee24gLSAxfSB0X2pcXHJpZ2h0KSBcXG90aW1lcyAgXFxmcmVlX3tcXGJpZ3ZlZV97aSA9IDF9Xm0gcF9pfSBcXG90aW1lcyBcXGNvZnJlZV97XFxsZWZ0W1xcYmlndmVlX3tpID0gMX1ee20tMX0gcF9pLCBcXGJpZ290aW1lc197aSA9IDF9XnttLTF9IHNfaVxccmlnaHRdfSBcXG90aW1lcyBcXGNvZnJlZV97W3BfbSwgc19tXX0iXSxbMCwyLCJcXGZyZWVfe1xcYmlndmVlX3tqID0gMX1ebiBxX2p9IFxcb3RpbWVzIFxcY29mcmVlX3tcXGxlZnRbXFxiaWd2ZWVfe2ogPSAxfV57biAtMX0gcV9qLCBcXGJpZ290aW1lc197aiA9IDF9XntuLTF9IHRfalxccmlnaHRdfSBcXG90aW1lcyBcXGNvZnJlZV97W3FfbiwgXFxmcmVlX3tcXGJpZ3ZlZV97aSA9IDF9Xm0gcF9pfV19IFxcb3RpbWVzIFxcY29mcmVlX3tcXGxlZnRbXFxiaWd2ZWVfe2kgPSAxfV57bS0xfSBwX2ksIFxcYmlnb3RpbWVzX3tpID0gMX1ee20tMX0gc19pXFxyaWdodF19IFxcb3RpbWVzIFxcY29mcmVlX3tbcF9tLCBzX21dfSJdLFsxLDIsIiBcXGxlZnQoIFxcYmlnb3RpbWVzX3tqID0gMX1ee24gLSAxfSB0X2pcXHJpZ2h0KSBcXG90aW1lcyAgXFxmcmVlX3tcXGJpZ3ZlZV97aSA9IDF9Xm0gcF9pfSBcXG90aW1lcyBcXGNvZnJlZV97XFxsZWZ0W1xcYmlndmVlX3tpID0gMX1ee20tMX0gcF9pLCBcXGJpZ290aW1lc197aSA9IDF9XnttLTF9IHNfaVxccmlnaHRdfSBcXG90aW1lcyBcXGNvZnJlZV97W3BfbSwgc19tXX0iXSxbMCwzLCJcXGxlZnQoIFxcYmlnb3RpbWVzX3tqID0gMX1ee24tMX0gdF9qXFxyaWdodCkgXFxvdGltZXMgIFxcZnJlZV97XFxiaWd2ZWVfe2kgPSAxfV5tIHBfaX0gXFxvdGltZXMgXFxjb2ZyZWVfe1xcbGVmdFtcXGJpZ3ZlZV97aSA9IDF9XnttLTF9IHBfaSwgXFxiaWdvdGltZXNfe2kgPSAxfV57bS0xfSBzX2lcXHJpZ2h0XX0gXFxvdGltZXMgXFxjb2ZyZWVfe1twX20sIHNfbV19Il0sWzEsMywiXFxsZWZ0KFxcYmlnb3RpbWVzX3tqID0gMX1ee24tMX10X2ogXFxyaWdodCkgXFxvdGltZXMgXFxsZWZ0KFxcYmlnb3RpbWVzX3tpID0gMX1ebSBzX2lcXHJpZ2h0KSJdLFswLDFdLFswLDJdLFsxLDNdLFsyLDNdLFswLDJdLFszLDUsIiIsMSx7ImxldmVsIjoyLCJzdHlsZSI6eyJoZWFkIjp7Im5hbWUiOiJub25lIn19fV0sWzIsNF0sWzQsNV0sWzUsN10sWzYsN10sWzQsNl1d
+\begin{tikzcd}[row sep = large]
+	{\free_{\bigvee_{j = 1}^n q_j} \otimes \left( \bigotimes_{j = 1}^{n - 1} \cofree_{[q_j, t_j]}\right) \otimes \cofree_{[q_n, \free_{\bigvee_{i = 1}^m p_i}]} \otimes \left(\bigotimes_{i = 1}^m \cofree_{[p_i, s_i]}\right)} & { \left( \bigotimes_{j = 1}^{n - 1} t_j\right) \otimes  \free_{\bigvee_{i = 1}^m p_i} \otimes \left(\bigotimes_{i = 1}^m \cofree_{[p_i, s_i]}\right)} \\
+	{\free_{\bigvee_{j = 1}^n q_j} \otimes \left( \bigotimes_{j = 1}^{n - 1} \cofree_{[q_j, t_j]}\right) \otimes \cofree_{[q_n, \free_{\bigvee_{i = 1}^m p_i}]} \otimes \cofree_{\left[\bigvee_{i = 1}^{m-1} p_i, \bigotimes_{i = 1}^{m-1} s_i\right]} \otimes \cofree_{[p_m, s_m]}} & { \left( \bigotimes_{j = 1}^{n - 1} t_j\right) \otimes  \free_{\bigvee_{i = 1}^m p_i} \otimes \cofree_{\left[\bigvee_{i = 1}^{m-1} p_i, \bigotimes_{i = 1}^{m-1} s_i\right]} \otimes \cofree_{[p_m, s_m]}} \\
+	{\free_{\bigvee_{j = 1}^n q_j} \otimes \cofree_{\left[\bigvee_{j = 1}^{n -1} q_j, \bigotimes_{j = 1}^{n-1} t_j\right]} \otimes \cofree_{[q_n, \free_{\bigvee_{i = 1}^m p_i}]} \otimes \cofree_{\left[\bigvee_{i = 1}^{m-1} p_i, \bigotimes_{i = 1}^{m-1} s_i\right]} \otimes \cofree_{[p_m, s_m]}} & { \left( \bigotimes_{j = 1}^{n - 1} t_j\right) \otimes  \free_{\bigvee_{i = 1}^m p_i} \otimes \cofree_{\left[\bigvee_{i = 1}^{m-1} p_i, \bigotimes_{i = 1}^{m-1} s_i\right]} \otimes \cofree_{[p_m, s_m]}} \\
+	{\left( \bigotimes_{j = 1}^{n-1} t_j\right) \otimes  \free_{\bigvee_{i = 1}^m p_i} \otimes \cofree_{\left[\bigvee_{i = 1}^{m-1} p_i, \bigotimes_{i = 1}^{m-1} s_i\right]} \otimes \cofree_{[p_m, s_m]}} & {\left(\bigotimes_{j = 1}^{n-1}t_j \right) \otimes \left(\bigotimes_{i = 1}^m s_i\right)}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+	\arrow[from=2-1, to=3-1]
+	\arrow[Rightarrow, no head, from=2-2, to=3-2]
+	\arrow[from=3-1, to=3-2]
+	\arrow[from=3-1, to=4-1]
+	\arrow[from=3-2, to=4-2]
+	\arrow[from=4-1, to=4-2]
+\end{tikzcd}
+\end{sideways}
+
+    
+\end{proof}
+
+
+Under the map of enriching categories $[-, \smset] \colon \smcat^\# \to \smcat$, 
+\cref{thm:matter-pattern} defines an $\smcat$-enriched operad functor $\org_\free\op \to \org^\cofree$ which turns a 
+$[q, \free_{p_1 \vee \cdots \vee p_m}]$-coalgebra into a 
+$[\cofree_{[p_1, t]} \otimes \cdots \otimes \cofree_{[p_m, t]}, [q, t]]$-coalgebra. 
+
+\begin{example}
+    Under the $\smcat$-enriched operad functor $\org_\free\op \to \org^\cofree$, the $[\yon^2, \free_{\alice \vee \bob \vee \carmen}]$-coalgebras defined in \cref{ex:stream-m} define a $[\cofree_{[\alice, t] \otimes \cofree_{[\bob, t]} \otimes \cofree_{[\carmen, t]}, [\yon^2, t]}$-coalgebra which is equivalent to a polynomial map 
+    \begin{equation}\label{eq:matter}
+        S\yon^S \otimes \yon^2 \otimes \cofree_{[\alice, t]} \otimes \cofree_{[\bob, t]} \otimes \cofree_{[\carmen, t]} \to t.
+    \end{equation}
+        
+    For $t = \yon$, the positions of the polynomial $\cofree_{[\alice, t]} = \cofree_{2\yon}$ are streams of $0$s and $1$s. A particular choice of stream $\yon \to \cofree_{[\alice, t]}$ represents Alice's behavior. Likewise for $\cofree_{[\bob, t]}$  and $\cofree_{[\carmen, t]}$.  Given behaviors for Alice, Bob, and Carmen and a starting state in $S$, \cref{eq:matter} defines a stream $\yon \to \cofree_{[\yon^2, \yon]}$. A token of this stream is produced by applying the results of the Alice, Bob, and Carmen streams to the decision tree in $\free_{\alice \vee \bob \vee \carmen}$ defined by the state. For each token, zero or one (or in the case of more complicated decision trees, multiple) tokens of Alice, Bob, and Carmen's streams are consumed. 
+
+    For more general $t$, these simple behavior streams are replaced with more complicated behaviors. For example, for $t = \lott$ Alice's behavior may be that of a biased coin whose bias may change over time. 
+\end{example}
+

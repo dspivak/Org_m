@@ -1,1 +1,57 @@
 \chapter{Background} \label{sec:background}
+
+
+
+\section{The free monad monad and the cofree comonad comonad}
+
+Two key players in our story are the free monad monad $\free$ and the cofree comonad comonad $\cofree$. These were introduced in \cite{libkind2024pattern} and we describe there key features below. A \defined{polynomial monad} (often abbreviated to monad) is a $\tri$-monoid. The category of polynomial monads is $\modpoly$. A \defined{ polynomial comonad} (often abbreviated to comonad) is a $\tri$-comonoid. The category of polynomial comonads is equivalent to the category $\smcat^\#$ consisting of categories and cofunctors between them.\cite{XXX}
+
+Given a polynomial $p$, the free monad is $\free_p$ whose positions are $p$-shaped decision trees and whose directions are the leaves of the tree. The free monad is defined via transfinite induction where we define polynomials $p\hoc{\alpha}$ for ordinals $\alpha$ and cartesian inclusions $\iota\hoc\alpha\colon p\hoc{\alpha} \to p\hoc{\alpha +1}$. For the base case, $p\hoc{0} \coloneqq \yon$. For successor ordinals $\alpha + 1$, $p\hoc{\alpha + 1} \coloneqq \yon + p \tri p\hoc{\alpha}$, and for limit ordinals $\alpha$, $p\hoc{\alpha} \coloneqq \colim_{\alpha' < \alpha} p \hoc{\alpha'}$. 
+
+
+\cite[Theorem 2.10]{libkind2024pattern} defines an adjunction
+\[
+    \adj{\poly}{\free_-}{U}{\modpoly}
+\]
+whose unit we denote $\mun$ and whose counit we denote $\mcoun$.
+
+Given a polynomial $p$, the cofree comonad is $\cofree_p$ whose positions are $p$-shaped behavior trees and whose directions are finite paths up the tree. For example, XXX % example used in the application
+\cite[Theorem 3.2]{libkind2024pattern} defines an adjunction 
+\[
+    \adj{\catsharp}{U}{\cofree_-}{\poly}
+\]
+whose counit we denote $\ccoun$.
+
+\cite[Theorem 3.4]{libkind2024pattern} shows that there is a left module over $U \circ  \cofree \colon \poly \to \poly$ whose action is defined by the natural transformation 
+\[
+    \modstruct_{p,q}\colon \free_p \otimes \cofree_q \to \free_{p \otimes q}.
+\] which is defined as the image of the composite
+\[
+    p \otimes \cofree_q \xrightarrow{p \otimes \ccoun_q} p \otimes q \xrightarrow{\mun_{p \otimes q}} \free_{p \otimes q}
+\] under the maps
+\[
+    \poly(p \otimes \cofree_q, \free_{p\otimes q})  \iso \modpoly(\free_p, [\cofree_q, \free_{p\otimes q}]) \to \poly(\free_p \otimes \cofree_q, \free_{p \otimes q}).
+\] We call $\modstruct$ the \defined{interaction law}.
+
+
+
+\section{The $\smcat^\#$-enriched category $\org^\#$}
+
+In this paper we define $\org^\#$ to be the $\smcat^\#$-enriched category whose objects are polynomials and its morphisms are defined by $\org^\#(p, q) = \cofree_{[p,q]}$. 
+Composition is defined by 
+\[
+    \cofree_{[p,q]} \otimes \cofree_{[q,r]} \to \cofree_{[p, q] \otimes [q, r]} \to \cofree_{[p, r]}
+\]
+where the first map is the laxator of $\cofree$ and the second uses functoriality of $\cofree$.
+
+For the identity on a polynomial $p$, we take the image of the polynomial identity on $p$ under the isomorphisms
+\[
+    \poly(p, p) \iso \poly(\yon , [p, p]) \iso \comodpoly(\yon, \cofree_{[p,p]}).
+\]
+
+Via the lax monoidal functor of enrichment categories $[-,\smset] \colon \smcat^\# \to \smcat$ taking the category $\cat{C}$ to the category $[\cat{C}, \smset]$ of $\cat{C}$-sets, we obtain the category-enriched category consisting of the 1-ary morphisms of the category enriched operad defined in \cite[Definition 2.19]{spivak2021learnersv1}.
+
+\begin{remark}
+    What is the relationship between $\poly$ and $\org^\#$? Since $(\poly, \otimes, \yon)$ has internal homs, $\poly$ can be viewed as a $(\poly, \otimes, \yon)$-enriched category. Via the lax monoidal functor of enrichment categories $\cofree\colon (\poly, \otimes, \yon) \to (\smcat^\#, \otimes, \yon)$, we obtain the $\smcat^\#$-enriched category $\org^\#$.
+\end{remark}
+
