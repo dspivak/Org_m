@@ -1,6 +1,6 @@
 \chapter{From matter to pattern}\label{sec:matter-pattern}
 
-The main result of this work is the operad functor $(\org_\free^\#)\op \to (\org^\#)^\cofree$ defined in ~\cref{thm:matter-pattern} which ``turns pattern into matter''. In this Section we will prove ~\cref{thm:matter-pattern} and then make sense of this interpretation through examples.
+The main result of this work is the operad functor $(\org_\free^\sharp)\op \to (\org^\sharp)^\cofree$ defined in ~\cref{thm:matter-pattern} which ``turns pattern into matter''. In this Section we will prove ~\cref{thm:matter-pattern} and then make sense of this interpretation through examples.
 
 Following ~\cite{libkind2024pattern} the positions of $\free_p$ are $p$-shaped decision trees which we interpret as patterns of shape $p$. The nodes of such a tree are positions of $p$ (which we interpret as $p$-questions) and branches are directions of $p$ (which we interpret as $p$-answers). Given such a decision tree, we want a way to \textit{run} it. In other words, we want a device that gives the necessary information to 
 
@@ -80,7 +80,7 @@ The map in \cref{eq:free-p1-vee-p2} is the key ingredient to defining maps
     \free_{p_1 \vee \cdots \vee p_n} \otimes \cofree_{[p_1, t_1]} \otimes \cdots\otimes \cofree_{[p_n, t_n]} \to t_1 \otimes \cdots \otimes t_n
 \end{equation}
 by induction.
-The base case  $\free_\yon \to t$ is the composite \[\free_\yon \to \yon \to t\] where the second map is the unit of $t$. For the induction step, the map in \cref{eq:free-p1-vee-pn} induces a cofunctor 
+The base case  $\free_\yon \to t$ is the composite \[\free_\yon \to \yon \to t\] where the second map is the unit of $t$. For the induction step, the map in \cref{eq:free-p1-vee-pn} induces a retrofunctor 
 \[
     \cofree_{[p_1, t_1]} \otimes \cdots \otimes \cofree_{[p_n, t_n]} \to \cofree_{[p_1 \vee \cdots \vee p_n, t_1 \otimes \cdots \otimes t_n]}
 \] via the unit $\mun_{p_1 \vee \cdots \vee p_n}\colon p_1 \vee \cdots \vee p_n \to \free_{p_1 \vee \cdots \vee p_n}$.
@@ -95,7 +95,7 @@ Composing this map with the map in \cref{eq:free-p1-vee-p2} concludes the induct
 
 \begin{theorem}\label{thm:matter-pattern}
     For any $\tri$-monoid $t$, there is an operad functor 
-    $(\org_\free^\#)\op \to (\org^\#)^\cofree$ which on objects maps a polynomial $p$ to the polynomial $[p,t]$. On morphisms, it is the $\smcat^\#$ map
+    $(\org_\free^\sharp)\op \to (\org^\sharp)^\cofree$ which on objects maps a polynomial $p$ to the polynomial $[p,t]$. On morphisms, it is the $\smcat^\sharp$ map
     \[
         \cofree_{[q, \free_{p_1 \vee \cdots \vee p_n}]} \to \cofree_{[\cofree_{[p_1,t]} \otimes \cdots \otimes \cofree_{[p_n, t]}, \cofree_{[q,t]}]}
     \] that is the image  of the following polynomial map under the obvious isomorphisms.
@@ -125,7 +125,7 @@ Composing this map with the map in \cref{eq:free-p1-vee-p2} concludes the induct
 	\arrow["\eval"', from=2-1, to=2-4]
 \end{tikzcd}\]
 
-    To show that this functor preserves composition, by symmetry, it suffices to show that for $n \geq 1$ the following diagram of cofunctors commutes.
+    To show that this functor preserves composition, by symmetry, it suffices to show that for $n \geq 1$ the following diagram of retrofunctors commutes.
 
     % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXGNvZnJlZV97XFxsZWZ0W3IgLCBcXGZyZWVfe1xcYmlndmVlX3tqID0gMX1ebiBxX2p9XFxyaWdodF19IFxcb3RpbWVzIFxcY29mcmVlX3tcXGxlZnRbcV9uICwgXFxmcmVlX3tcXGJpZ3ZlZV97aSA9IDF9Xm0gcF9pfVxccmlnaHRdfSJdLFsxLDAsIlxcY29mcmVlX3tcXGxlZnRbciAsIFxcZnJlZV97XFxsZWZ0KFxcYmlndmVlX3tqID0gMX1ee24tMX0gcV9qXFxyaWdodCkgXFx2ZWUgXFxsZWZ0KFxcYmlndmVlX3tpID0gMX1ebSBwX2lcXHJpZ2h0KX1cXHJpZ2h0XX0iXSxbMCwxLCJcXGNvZnJlZV97XFxsZWZ0W1xcYmlnb3RpbWVzX3tqID0gMX1ebiBcXGNvZnJlZV97W3FfaiwgdF19LCBbciwgdF1cXHJpZ2h0XX0gXFxvdGltZXMgXFxjb2ZyZWVfe1xcbGVmdFtcXGJpZ290aW1lc197aSA9IDF9Xm0gXFxjb2ZyZWVfe1twX2ksIHRdfSwgW3FfbiwgdF1cXHJpZ2h0XX0iXSxbMSwxLCJcXGNvZnJlZV97XFxsZWZ0W1xcbGVmdChcXGJpZ290aW1lc197aiA9IDF9XntuLTF9IFtxX2osdF1cXHJpZ2h0KSBcXG90aW1lcyBcXGxlZnQoXFxiaWdvdGltZXMgX3tpID0gMX1ebSBbcF9pLCB0XVxccmlnaHQpLCBbciAsdF1cXHJpZ2h0XX0iXSxbMCwxLCIiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJiYXJyZWQifX19XSxbMiwzLCIiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJiYXJyZWQifX19XSxbMSwzLCIiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJiYXJyZWQifX19XSxbMCwyLCIiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJiYXJyZWQifX19XV0=
 \[\begin{tikzcd}
@@ -164,7 +164,7 @@ Composing this map with the map in \cref{eq:free-p1-vee-p2} concludes the induct
 \end{proof}
 
 
-Under the map of enriching categories $[-, \smset] \colon \smcat^\# \to \smcat$, 
+Under the map of enriching categories $[-, \smset] \colon \smcat^\sharp \to \smcat$, 
 \cref{thm:matter-pattern} defines an $\smcat$-enriched operad functor $\org_\free\op \to \org^\cofree$ which turns a 
 $[q, \free_{p_1 \vee \cdots \vee p_m}]$-coalgebra into a 
 $[\cofree_{[p_1, t]} \otimes \cdots \otimes \cofree_{[p_m, t]}, [q, t]]$-coalgebra. 

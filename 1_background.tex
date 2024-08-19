@@ -1,10 +1,15 @@
 \chapter{Background} \label{sec:background}
 
+For background on $\poly$ see \cite{**}. In \cref{sec.(co)free(co)monad} we briefly recall the free monad $\free_-$ and cofree comonad $\cofree_-$ constructions, as well as the module structure $\free_p\otimes\cofree_q\to\free_{p\otimes q}$ between them. In \cref{sec.orgsharp} we discuss the $\smcat^\sharp$-enriched category $\org^\sharp$ \dnote{because it ?}.
 
 
-\section{The free monad monad and the cofree comonad comonad}
+\section{The free monad monad and the cofree comonad comonad}\label{sec.(co)free(co)monad}
 
-Two key players in our story are the free monad monad $\free$ and the cofree comonad comonad $\cofree$. These were introduced in \cite{libkind2024pattern} and we describe there key features below. A \defined{polynomial monad} (often abbreviated to monad) is a $\tri$-monoid. The category of polynomial monads is $\modpoly$. A \defined{ polynomial comonad} (often abbreviated to comonad) is a $\tri$-comonoid. The category of polynomial comonads is equivalent to the category $\smcat^\#$ consisting of categories and cofunctors between them.\cite{XXX}
+Two key players in our story are the free monad monad $\free$ and the cofree comonad comonad $\cofree$. These were introduced in \cite{Old stuff, maybe talk about Kelly?} and an intuitive explanation was given in \cite{libkind2024pattern}; we describe their key features below. A \defined{polynomial monad} (referred to here as monad) is a $\tri$-monoid. The category of polynomial monads is $\modpoly$. A \defined{ polynomial comonad} (referred to here as comonad) is a $\tri$-comonoid. There is an equivalence
+\[
+\Cat{Comod}_\poly\cong\smcat^\sharp
+\]
+between the category of polynomial comonads and the category $\smcat^\sharp$ consisting of categories and retrofunctors between them.\cite{XXX}
 
 Given a polynomial $p$, the free monad is $\free_p$ whose positions are $p$-shaped decision trees and whose directions are the leaves of the tree. The free monad is defined via transfinite induction where we define polynomials $p\hoc{\alpha}$ for ordinals $\alpha$ and cartesian inclusions $\iota\hoc\alpha\colon p\hoc{\alpha} \to p\hoc{\alpha +1}$. For the base case, $p\hoc{0} \coloneqq \yon$. For successor ordinals $\alpha + 1$, $p\hoc{\alpha + 1} \coloneqq \yon + p \tri p\hoc{\alpha}$, and for limit ordinals $\alpha$, $p\hoc{\alpha} \coloneqq \colim_{\alpha' < \alpha} p \hoc{\alpha'}$. 
 
@@ -20,11 +25,14 @@ Given a polynomial $p$, the cofree comonad is $\cofree_p$ whose positions are $p
 \[
     \adj{\catsharp}{U}{\cofree_-}{\poly}
 \]
-whose counit we denote $\ccoun$.
-
-\cite[Theorem 3.4]{libkind2024pattern} shows that there is a left module over $U \circ  \cofree \colon \poly \to \poly$ whose action is defined by the natural transformation 
+whose counit we denote $\ccoun$. The functor $\cofree$ is lax monoidal with respect to $\otimes$, so it has a productor and unitor of the following types:
 \[
-    \modstruct_{p,q}\colon \free_p \otimes \cofree_q \to \free_{p \otimes q}.
+\cofree_p\otimes\cofree_q\to\cofree_{p\otimes q}\qqand\yon\to\cofree_\yon.
+\]
+
+The main result of \cite[Theorem 3.4]{libkind2024pattern} was to prove that $\free_-$ is a left module over $U \circ  \cofree \colon \poly \to \poly$ whose action is defined by the natural transformation 
+\[
+    \modstruct_{p,q}\colon \free_p \otimes \cofree_q \to \free_{p \otimes q}
 \] which is defined as the image of the composite
 \[
     p \otimes \cofree_q \xrightarrow{p \otimes \ccoun_q} p \otimes q \xrightarrow{\mun_{p \otimes q}} \free_{p \otimes q}
@@ -35,23 +43,25 @@ whose counit we denote $\ccoun$.
 
 
 
-\section{The $\smcat^\#$-enriched category $\org^\#$}
+\section{The $\smcat^\sharp$-enriched category $\org^\sharp$}\label{sec.orgsharp}
 
-In this paper we define $\org^\#$ to be the $\smcat^\#$-enriched category whose objects are polynomials and its morphisms are defined by $\org^\#(p, q) = \cofree_{[p,q]}$. 
+In this paper we define $\org^\sharp$ to be the $\smcat^\sharp$-enriched category whose objects are polynomials and whose morphisms are defined by $\org^\sharp(p, q) = \cofree_{[p,q]}$. 
 Composition is defined by 
 \[
     \cofree_{[p,q]} \otimes \cofree_{[q,r]} \to \cofree_{[p, q] \otimes [q, r]} \to \cofree_{[p, r]}
 \]
-where the first map is the laxator of $\cofree$ and the second uses functoriality of $\cofree$.
+where the first map is the productor of $\cofree$ and the second uses functoriality of $\cofree$ and internal-hom composition.
 
-For the identity on a polynomial $p$, we take the image of the polynomial identity on $p$ under the isomorphisms
+For the identity on a polynomial $p$, we use the fact that $\yon$ has a unique comonoid structure, and take the image of the polynomial identity on $p$ under the isomorphisms
 \[
     \poly(p, p) \iso \poly(\yon , [p, p]) \iso \comodpoly(\yon, \cofree_{[p,p]}).
 \]
 
-Via the lax monoidal functor of enrichment categories $[-,\smset] \colon \smcat^\# \to \smcat$ taking the category $\cat{C}$ to the category $[\cat{C}, \smset]$ of $\cat{C}$-sets, we obtain the category-enriched category consisting of the 1-ary morphisms of the category enriched operad defined in \cite[Definition 2.19]{spivak2021learnersv1}.
+Consider the lax monoidal functor
+\[\Cat{CAT}(-,\smset) \colon \smcat^\sharp \to \smcat\]
+which sends the category $\cat{C}$ to the category $\cat{C}$-sets, i.e.\ functors $\cat{C}\to\smset$. This gives a change of enrichment, which sends $\org^\sharp$ to the monoidal 2-category whose objects are polynomials under $\otimes$ and for which $\hom(p,q)=\cofree_{[p,q]}-\smset$. This is equivalent to the category-enriched operad $\org$ defined in \cite[Definition 2.19]{spivak2021learnersv1}.
 
 \begin{remark}
-    What is the relationship between $\poly$ and $\org^\#$? Since $(\poly, \otimes, \yon)$ has internal homs, $\poly$ can be viewed as a $(\poly, \otimes, \yon)$-enriched category. Via the lax monoidal functor of enrichment categories $\cofree\colon (\poly, \otimes, \yon) \to (\smcat^\#, \otimes, \yon)$, we obtain the $\smcat^\#$-enriched category $\org^\#$.
+    What is the relationship between $\poly$ and $\org^\sharp$? Since $(\poly, \otimes, \yon)$ has internal homs, $\poly$ can be viewed as a $(\poly, \otimes, \yon)$-enriched category. Via the lax monoidal functor of enrichment categories $\cofree\colon (\poly, \otimes, \yon) \to (\smcat^\sharp, \otimes, \yon)$, we obtain the $\smcat^\sharp$-enriched category $\org^\sharp$.
 \end{remark}
 

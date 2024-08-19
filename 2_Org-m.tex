@@ -1,28 +1,28 @@
-\chapter{$\org^\#_\free$}\label{sec:orgm}
+\chapter{$\org^\sharp_\free$}\label{sec:orgm}
 
-\section{$\free$ is a monad on $\org^\#$}
+\section{$\free$ is a monad on $\org^\sharp$}
 
-We will define a $\smcat^\#$-enriched functor $\free \colon \org^\# \to \org^\#$ and show that it is a monad. 
+We will define a $\smcat^\sharp$-enriched functor $\free \colon \org^\sharp \to \org^\sharp$ and show that it is a monad. 
 
 On objects $\free$ takes a polynomial $p$ to the free monad $\free_p$. On morphisms $\free \colon \cofree_{[p, q]} \to \cofree_{[\free_p, \free_q]}$ is the image of the composite, 
 \[
     \free_p \otimes \cofree_{[p,q]} \xrightarrow{\modstruct_{p, [p, q]}} \free_{p \otimes [p, q]} \xrightarrow{\free_\eval} \free_q
 \] under the composite 
 \[
-    \poly(\free_p\otimes \cofree_{[p, q]}, \free_q) \iso \poly(\cofree_{[p,q]}, [\free_p, \free_q]) \iso \smcat^\#(\cofree_{[p,q]}, \cofree_{[\free_p, \free_q]}.
+    \poly(\free_p\otimes \cofree_{[p, q]}, \free_q) \iso \poly(\cofree_{[p,q]}, [\free_p, \free_q]) \iso \smcat^\sharp(\cofree_{[p,q]}, \cofree_{[\free_p, \free_q]}.
 \]
 
 % Need to show that $\free$ satisfies preserves identity and composition
 
 \begin{theorem}
-    The $\smcat^\#$-enriched functor $\free \colon \org^\# \to \org^\#$ is a monad. 
+    The $\smcat^\sharp$-enriched functor $\free \colon \org^\sharp \to \org^\sharp$ is a monad. 
 \end{theorem}
 \begin{proof}
-    We need to define $\smcat^\#$-enriched natural transformations $1 \Rightarrow \free$ and $\free \circ \free \Rightarrow \free$ for the identity and multiplication.
+    We need to define $\smcat^\sharp$-enriched natural transformations $1 \Rightarrow \free$ and $\free \circ \free \Rightarrow \free$ for the identity and multiplication.
 
-    For a polynomial $p$, define the identity at $p$ is an element of $\smcat^\#(\yon, \cofree_{[p, \free_p]})$. We define it to be the image of $\mun_p \colon p \to \free_p$  under the isomorphims
+    For a polynomial $p$, define the identity at $p$ is an element of $\smcat^\sharp(\yon, \cofree_{[p, \free_p]})$. We define it to be the image of $\mun_p \colon p \to \free_p$  under the isomorphims
     \[
-        \poly(p, \free_p) \iso \poly(y, [p, \free_p]) \iso \smcat^\#(\yon, \cofree_{[p, \free_p]}.
+        \poly(p, \free_p) \iso \poly(y, [p, \free_p]) \iso \smcat^\sharp(\yon, \cofree_{[p, \free_p]}.
     \]
 
     To show that the identity is natural, we must show that for all polynomials $p$ and $q$, the following diagram commutes. 
@@ -54,7 +54,7 @@ On objects $\free$ takes a polynomial $p$ to the free monad $\free_p$. On morphi
 
     For a polynomial $p$, define the multiplication at $p$ to be the image of the counit $\mcoun_{\free_p} \colon \free_{\free_p} \to \free_p$ under the isomorphisms
     \[
-        \poly(\free_{\free_p}, \free_p) \iso \poly(\yon, [\free_{\free_p}, \free_p]) \iso \smcat^\#(\yon, \cofree_{[\free_{\free_p}, \free_p]}).
+        \poly(\free_{\free_p}, \free_p) \iso \poly(\yon, [\free_{\free_p}, \free_p]) \iso \smcat^\sharp(\yon, \cofree_{[\free_{\free_p}, \free_p]}).
     \] 
     To show that the multiplication is natural we must show that for all polynomial $p$ and $q$, the following diagram commutes. 
 
@@ -92,18 +92,18 @@ On objects $\free$ takes a polynomial $p$ to the free monad $\free_p$. On morphi
 
 \begin{remark}\label{rmk:free-lifts}
     The composite $U \circ \free \colon \poly \to \poly$ is a monad. 
-    How is it related to our monad $\free \colon \org^\# \to \org^\#$? 
-    Consider the map of enriching functors $\smcat^\#(\yon , -) \colon \smcat^\# \to \smset$. Under $\smcat^\#(\yon , -)$, the morphisms $\cofree_{[p,q]}$ in $\org^\#$ map to 
+    How is it related to our monad $\free \colon \org^\sharp \to \org^\sharp$? 
+    Consider the map of enriching functors $\smcat^\sharp(\yon , -) \colon \smcat^\sharp \to \smset$. Under $\smcat^\sharp(\yon , -)$, the morphisms $\cofree_{[p,q]}$ in $\org^\sharp$ map to 
     \[
-        \smcat^\#(\yon, \cofree_{[p,q]}) \iso \poly(\yon, [p,q]) \iso \poly(p, q).
+        \smcat^\sharp(\yon, \cofree_{[p,q]}) \iso \poly(\yon, [p,q]) \iso \poly(p, q).
     \]
-    Therefore, under this map of enriching functors $\org^\#$ becomes $\poly$ and the monad $\free \colon \org^\# \to \org^\#$ becomes the monad $U \circ \free \colon \poly \to \poly$.
+    Therefore, under this map of enriching functors $\org^\sharp$ becomes $\poly$ and the monad $\free \colon \org^\sharp \to \org^\sharp$ becomes the monad $U \circ \free \colon \poly \to \poly$.
 \end{remark}
 
 
-\section{The operad $\org^\#_\free$}\label{sec:operad-orgm}
+\section{The operad $\org^\sharp_\free$}\label{sec:operad-orgm}
 
-We begin by showing that $\org^\#$ has a symmetric monoidal structure $(\vee, 0)$ and that $\free \colon \org^\# \to \org^\#$ is lax monoidal with respect to $\vee$.
+We begin by showing that $\org^\sharp$ has a symmetric monoidal structure $(\vee, 0)$ and that $\free \colon \org^\sharp \to \org^\sharp$ is lax monoidal with respect to $\vee$.
 
 There is a symmetric monoidal structure $\vee$ on $\poly$ whose unit is $0$ and which is defined by 
 \[
@@ -172,7 +172,7 @@ There is a symmetric monoidal structure $\vee$ on $\poly$ whose unit is $0$ and 
 \end{proof}
 
 
-We can extend the symmetric monoidal structure $\vee$ to $\org^\#$ as follows.
+We can extend the symmetric monoidal structure $\vee$ to $\org^\sharp$ as follows.
 The monoidal structure on objects is the same as that for $\poly$.
 We define the monoidal structure on morphisms in three components. First, there is a map 
 \[
@@ -187,7 +187,7 @@ We define the monoidal structure on morphisms in three components. First, there 
 The action of the monoidal product on morphisms is the image of this map under the isomophisms,
 \begin{align*}
     \poly((p \vee p')\otimes \cofree_{[p,q]}\otimes \cofree_{[p', q']}, q \vee q') &\iso \poly(\cofree_{[p,q]}\otimes \cofree_{[p', q']}, [p \vee p', q \vee q']) \\
-    &\iso \smcat^\#(\cofree_{[p,q]}\otimes \cofree_{[p', q']}, \cofree_{ [p \vee p', q \vee q']}).
+    &\iso \smcat^\sharp(\cofree_{[p,q]}\otimes \cofree_{[p', q']}, \cofree_{ [p \vee p', q \vee q']}).
 \end{align*}
 
 The associator, left and right unitors, triangle identity, and pentagon identity all follow directly from the fact that $\vee$ with unit $0$ is a symmetric monoidal structure on $\poly$ \cite{spivak2022reference}.
@@ -196,32 +196,32 @@ The associator, left and right unitors, triangle identity, and pentagon identity
     
 
 \begin{theorem}
-    The $\smcat^\#$-enriched functor $\free \colon \org^\# \to \org^\#$ is lax monoidal with respect to the monoidal structure $\vee$.
+    The $\smcat^\sharp$-enriched functor $\free \colon \org^\sharp \to \org^\sharp$ is lax monoidal with respect to the monoidal structure $\vee$.
 \end{theorem}
 \begin{proof}
     The unitor is the image of the unitor of $\free \colon \poly \to \poly$ under the isomorphisms
     \[
-        \poly(0, \free_0) \iso \poly(\yon , [0, \free_0]) \iso \smcat^\#(\yon, \cofree_{[0, \free_0]}.
+        \poly(0, \free_0) \iso \poly(\yon , [0, \free_0]) \iso \smcat^\sharp(\yon, \cofree_{[0, \free_0]}.
     \]
     The laxator is the image of the laxator of $\free \colon \poly \to \poly$ under the isomorphisms
     \[
-        \poly(\free_p \vee \free_q, \free_{p \vee q}) \iso \poly(\yon, [\free_p \vee \free_q, \free_{p \vee q}]) \iso \smcat^\#(\yon, \cofree_{[\free_p \vee \free_q, \free_{p \vee q}]}).
+        \poly(\free_p \vee \free_q, \free_{p \vee q}) \iso \poly(\yon, [\free_p \vee \free_q, \free_{p \vee q}]) \iso \smcat^\sharp(\yon, \cofree_{[\free_p \vee \free_q, \free_{p \vee q}]}).
     \]
     Associativity and unitality follow directly.
 \end{proof}
 
 \begin{definition}
-    Let $\org^\#_\free$ be the $\smcat^\#$-enriched operad underlying the Kleisli category $\org^\#_\free$. The objects of $\org^\#_\free$ are polynomials and its morphisms are defined by 
+    Let $\org^\sharp_\free$ be the $\smcat^\sharp$-enriched operad underlying the Kleisli category $\org^\sharp_\free$. The objects of $\org^\sharp_\free$ are polynomials and its morphisms are defined by 
     \[
-        \org^\#_\free(p_1 , \cdots, p_m; q) = \cofree_{[p_1 \vee \cdots \vee p_m, \free_q]}.
+        \org^\sharp_\free(p_1 , \cdots, p_m; q) = \cofree_{[p_1 \vee \cdots \vee p_m, \free_q]}.
     \]
 
-    Let $(\org^\#_\free)\op$ be the $\smcat^\#$-enriched operad underlying the opposite category $(\org^\#_\free)\op$. The objects of $(\org^\#_\free)\op$ are polynomials and its morphisms are defined by 
+    Let $(\org^\sharp_\free)\op$ be the $\smcat^\sharp$-enriched operad underlying the opposite category $(\org^\sharp_\free)\op$. The objects of $(\org^\sharp_\free)\op$ are polynomials and its morphisms are defined by 
     \[
-        (\org^\#_\free)\op(q_1, \cdots , q_m; p) = \cofree_{[p, \free_{q_1 \vee \cdots \vee q_m}]}.
+        (\org^\sharp_\free)\op(q_1, \cdots , q_m; p) = \cofree_{[p, \free_{q_1 \vee \cdots \vee q_m}]}.
     \]
 
-    Let $\org_\free$ and $\org_\free\op$ be the corresponding $\smcat$-enriched categories under the map of enriching categories $[-,\smset] \colon \smcat^\# \to \smcat$.
+    Let $\org_\free$ and $\org_\free\op$ be the corresponding $\smcat$-enriched categories under the map of enriching categories $[-,\smset] \colon \smcat^\sharp \to \smcat$.
 \end{definition}
 
 
