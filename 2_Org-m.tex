@@ -9,8 +9,9 @@ On objects $\free$ takes a polynomial $p$ to the free monad $\free_p$. On morphi
     \free_p \otimes \cofree_{[p,q]} \xrightarrow{\modstruct_{p, [p, q]}} \free_{p \otimes [p, q]} \xrightarrow{\free_\eval} \free_q
 \] under the composite 
 \[
-    \poly(\free_p\otimes \cofree_{[p, q]}, \free_q) \iso \poly(\cofree_{[p,q]}, [\free_p, \free_q]) \iso \smcat^\sharp(\cofree_{[p,q]}, \cofree_{[\free_p, \free_q]}.
+    \poly(\free_p\otimes \cofree_{[p, q]}, \free_q) \iso \poly(\cofree_{[p,q]}, [\free_p, \free_q]) \iso \smcat^\sharp(\cofree_{[p,q]}, \cofree_{[\free_p, \free_q]}).
 \]
+where the first isomorphism is the $\otimes$-hom adjunction and the second isomorphism is induced by the fact that $\cofree_{[p,q]}$ is a comonad and $\cofree_{[\free_p, \free_q]}$ is cofree.
 
 % Need to show that $\free$ satisfies preserves identity and composition
 
@@ -18,7 +19,7 @@ On objects $\free$ takes a polynomial $p$ to the free monad $\free_p$. On morphi
     The $\smcat^\sharp$-enriched functor $\free \colon \org^\sharp \to \org^\sharp$ is a monad. 
 \end{theorem}
 \begin{proof}
-    We need to define $\smcat^\sharp$-enriched natural transformations $1 \Rightarrow \free$ and $\free \circ \free \Rightarrow \free$ for the identity and multiplication.
+    We need to define $\smcat^\sharp$-enriched natural transformations $\id_\poly \Rightarrow \free$ and $\free \circ \free \Rightarrow \free$ for the unit and multiplication.
 
     For a polynomial $p$, define the identity at $p$ is an element of $\smcat^\sharp(\yon, \cofree_{[p, \free_p]})$. We define it to be the image of $\mun_p \colon p \to \free_p$  under the isomorphims
     \[
@@ -107,7 +108,7 @@ We begin by showing that $\org^\sharp$ has a symmetric monoidal structure $(\vee
 
 There is a symmetric monoidal structure $\vee$ on $\poly$ whose unit is $0$ and which is defined by 
 \[
-    p \vee q \coloneqq p + p \otimes q + q.
+    p \vee q \coloneqq p + (p \otimes q) + q.
 \] 
 
 
@@ -201,7 +202,7 @@ The associator, left and right unitors, triangle identity, and pentagon identity
 \begin{proof}
     The unitor is the image of the unitor of $\free \colon \poly \to \poly$ under the isomorphisms
     \[
-        \poly(0, \free_0) \iso \poly(\yon , [0, \free_0]) \iso \smcat^\sharp(\yon, \cofree_{[0, \free_0]}.
+        \poly(0, \free_0) \iso \poly(\yon , [0, \free_0]) \iso \smcat^\sharp(\yon, \cofree_{[0, \free_0]}).
     \]
     The laxator is the image of the laxator of $\free \colon \poly \to \poly$ under the isomorphisms
     \[
@@ -221,7 +222,7 @@ The associator, left and right unitors, triangle identity, and pentagon identity
         (\org^\sharp_\free)\op(q_1, \cdots , q_m; p) = \cofree_{[p, \free_{q_1 \vee \cdots \vee q_m}]}.
     \]
 
-    Let $\org_\free$ and $\org_\free\op$ be the corresponding $\smcat$-enriched categories under the map of enriching categories $[-,\smset] \colon \smcat^\sharp \to \smcat$.
+    Let $\org_\free$ and $\org_\free\op$ be the corresponding $\smcat$-enriched categories under the map of enriching categories $\Cat{CAT}(-,\smset) \colon \smcat^\sharp \to \smcat$.
 \end{definition}
 
 
@@ -246,6 +247,5 @@ We can upgrade this coalgebra to have non-trivial dynamics. Consider a coalgebra
 
 A more complicated dynamics might learn a preference over initial consultants versus tie-breakers based on the quality of the results. 
 
-If Alice, Bob, and Carmen also dynamically decide between $0$ and $1$ based on a decision tree of subordinate answers, then composition in $\org_\free\op$ defines a coalgebra which operates on these sub-subordinates. 
-
+If the subordinates Alice, Bob, and Carmen also dynamically decide between $0$ and $1$ based on a decision tree of their own subordinate answers, then composition in $\org_\free\op$ defines a coalgebra which operates on these sub-subordinates. 
 \end{example}
