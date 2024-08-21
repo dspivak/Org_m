@@ -95,7 +95,10 @@ Composing this map with the map in \cref{eq:free-p1-vee-p2} concludes the induct
 
 \begin{theorem}\label{thm:matter-pattern}
     For any $\tri$-monoid $t$, there is an operad functor 
-    $(\org_\free^\sharp)\op \to (\org^\sharp)^\cofree$ which on objects maps a polynomial $p$ to the polynomial $[p,t]$. On morphisms, it is the $\smcat^\sharp$ map
+    \[
+    [-,t]\colon (\org_\free^\sharp)\op \to (\org^\sharp)^\cofree
+    \]
+    which on objects maps a polynomial $p$ to the polynomial $[p,t]$. On morphisms, it is the $\smcat^\sharp$ map
     \[
         \cofree_{[q, \free_{p_1 \vee \cdots \vee p_n}]} \to \cofree_{[\cofree_{[p_1,t]} \otimes \cdots \otimes \cofree_{[p_n, t]}, \cofree_{[q,t]}]}
     \] that is the image  of the following polynomial map under the obvious isomorphisms.
@@ -164,19 +167,21 @@ Composing this map with the map in \cref{eq:free-p1-vee-p2} concludes the induct
 \end{proof}
 
 
-Under the map of enriching categories $[-, \smset] \colon \smcat^\sharp \to \smcat$, 
+Under the map of enriching categories $\Cat{CAT}(-, \smset) \colon \smcat^\sharp \to \smcat$, 
 \cref{thm:matter-pattern} defines an $\smcat$-enriched operad functor $\org_\free\op \to \org^\cofree$ which turns a 
 $[q, \free_{p_1 \vee \cdots \vee p_m}]$-coalgebra into a 
 $[\cofree_{[p_1, t]} \otimes \cdots \otimes \cofree_{[p_m, t]}, [q, t]]$-coalgebra. 
 
 \begin{example}
-    Consider the $[\yon^2, \free_{\alice \vee \bob \vee \carmen}]$-coalgebras defined in \cref{ex:stream-m}. Under the $\smcat$-enriched operad functor $\org_\free\op \to \org^\cofree$, each defines a $[\cofree_{[\alice, t] \otimes \cofree_{[\bob, t]} \otimes \cofree_{[\carmen, t]}, [\yon^2, t]}$-coalgebra which is equivalent to a polynomial map 
+    Consider the $[\yon^2, \free_{\alice \vee \bob \vee \carmen}]$-coalgebras defined in \cref{ex:stream-m}. Under the $\smcat$-enriched operad functor $[-,t]\colon\org_\free\op \to \org^\cofree$, each one defines a $[\cofree_{[\alice, t] \otimes \cofree_{[\bob, t]} \otimes \cofree_{[\carmen, t]}}, [\yon^2, t])$-coalgebra which is equivalent to a polynomial map 
     \begin{equation}\label{eq:matter}
         S\yon^S \otimes \yon^2 \otimes \cofree_{[\alice, t]} \otimes \cofree_{[\bob, t]} \otimes \cofree_{[\carmen, t]} \to t.
     \end{equation}
         
-    For $t = \yon$, the positions of the polynomial $\cofree_{[\alice, t]} = \cofree_{2\yon}$ are streams of $0$s and $1$s. A particular choice of stream $\yon \to \cofree_{[\alice, t]}$ represents Alice's behavior. Likewise for $\cofree_{[\bob, t]}$  and $\cofree_{[\carmen, t]}$.  Given behaviors for Alice, Bob, and Carmen and a starting state in $S$, \cref{eq:matter} defines a stream $\yon \to \cofree_{[\yon^2, \yon]}$. A token of this stream is produced by applying the results of the Alice, Bob, and Carmen streams to the decision tree in $\free_{\alice \vee \bob \vee \carmen}$ defined by the state. For each token, zero or one (or in the case of more complicated decision trees, multiple) tokens of Alice, Bob, and Carmen's streams are consumed. 
+    For $t = \yon$, the positions of the polynomial $\cofree_{[\alice, t]} = \cofree_{2\yon}$ \dnote{say somewhere that $[\yon^2,\yon]\cong2\yon$} are streams of $0$s and $1$s. A particular choice of stream $\yon \to \cofree_{[\alice, t]}$ represents Alice's behavior. Likewise for $\cofree_{[\bob, t]}$  and $\cofree_{[\carmen, t]}$.  Given behaviors for Alice, Bob, and Carmen and a starting state in $S$, \cref{eq:matter} defines a stream $\yon \to \cofree_{[\yon^2, \yon]}$. A token of this stream is produced by applying the results of the Alice, Bob, and Carmen streams to the decision tree in $\free_{\alice \vee \bob \vee \carmen}$ defined by the state. For each token, zero or one (or in the case of more complicated decision trees, multiple) tokens of Alice, Bob, and Carmen's streams are consumed. 
+    
+    \dnote{Give example of some input streams and show how the elements are consumed to give the output?}
 
-    For more general $t$, these simple behavior streams are replaced with more complicated behaviors. For example, for $t = \lott$ Alice's behavior may be that of a biased coin whose bias may change over time. 
+    For more general $t$, these simple behavior streams are replaced with more complicated behaviors. For example, for $t = \lott$ Alice's behavior may be that of a biased coin whose bias may change over time. \dnote{Show example?}
 \end{example}
 
