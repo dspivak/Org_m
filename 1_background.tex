@@ -58,7 +58,7 @@ For the identity on a polynomial $p$, we use the fact that $\yon$ has a unique c
 \]
 
 Consider the lax monoidal functor
-\[\Cat{CAT}(-,\smset) \colon \smcat^\sharp \to \smcat\]
+\[\Cat{CAT}(-,\smset) \colon \smcat^\sharp \to \smcat\]\dnote{I know I suggested the above notation, but I now think we should use different notation, here and below. Retrofunctors $\cat{C}\coto\cat{D}$ can be factored as vertical (bijective on objects) followed by cartesian (discrete opfibration). So $\Cat{CAT}(-,\smset)$ is really the functor that assigns to each $\cat{D}$ the category of Cartesian retrofunctors $\cat{C}\to\cat{D}$ over it and given $F\colon\cat{D}\to\cat{D}'$, factor the composite $\cat{C}\to\cat{D}'$ and use the second factor. Since cartesian retrofunctors are exactly the same as discrete opfibrations, and since these are equivalent to copresheaves, we denote this by XYZ.}
 which sends the category $\cat{C}$ to the category $\cat{C}$-sets, i.e.\ functors $\cat{C}\to\smset$. This gives a change of enrichment, which sends $\org^\sharp$ to the monoidal 2-category whose objects are polynomials under $\otimes$ and for which $\hom(p,q)=\cofree_{[p,q]}-\smset$. This is equivalent to the category-enriched operad $\org$ defined in \cite[Definition 2.19]{spivak2021learnersv1}.
 
 \begin{remark}
