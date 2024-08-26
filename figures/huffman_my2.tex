@@ -1,0 +1,27 @@
+\[
+\begin{tikzpicture}[level distance=1cm, sibling distance=1cm]
+    \node[circle,fill,inner sep=1pt] {}
+        child {
+            node[circle,fill,inner sep=3pt] {}
+            child {
+                node[circle,fill,inner sep=1pt] {}
+                child {
+                    node[circle,fill,inner sep=3pt] {}
+                    child { node[circle,fill,inner sep=3pt] {} }
+                }
+                child { node[circle,fill,inner sep=1pt] {} }
+            }
+            child { node[circle,fill,inner sep=3pt] {} }
+        }
+        child {
+            node[circle,fill,inner sep=3pt] {}
+            child {
+                node[circle,fill,inner sep=1pt] {}
+                child { node[circle,fill,inner sep=1pt] {} }
+                child { node[circle,fill,inner sep=1pt] {} }
+            }
+            child { node[circle,fill,inner sep=3pt] {} }
+        }
+        child { node[circle,fill,inner sep=3pt] {} };
+\end{tikzpicture}
+\]
