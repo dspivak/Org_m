@@ -101,16 +101,14 @@ Composing this map with the map in \cref{eq:free-p1-vee-p2} concludes the induct
     which on objects maps a polynomial $p$ to the polynomial $[p,t]$. On morphisms, it is the $\smcat^\sharp$ map
     \[
         \cofree_{[q, \free_{p_1 \vee \cdots \vee p_n}]} \to \cofree_{[\cofree_{[p_1,t]} \otimes \cdots \otimes \cofree_{[p_n, t]}, \cofree_{[q,t]}]}
-    \] that is the image  of the following polynomial map under the obvious isomorphisms.
+    \] that is the image under $\cofree \colon \poly \to \smcat^\#$ of the  polynomial map $[q, \free_{p_1 \vee \cdots \vee p_n}] \to [\cofree_{[p_1, t]} \otimes \cdots \otimes \cofree_{[p_n, t]} , [q, t]]$ induced by 
     \begin{align*}
-        q \otimes \cofree_{[q, \free_{p_1 \vee \cdots \vee p_n}]} \otimes \cofree_{[p_1,t]} \otimes \cdots \otimes \cofree_{[p_n, t]}&  \xrightarrow{\mun_q} \free_q \otimes \cofree_{[q, \free_{p_1 \vee \cdots \vee p_n}]} \otimes \cofree_{[p_1,t]} \otimes \cdots \otimes \cofree_{[p_n, t]} \\
-         &\xrightarrow{\modstruct} \free_{q \otimes [q,\free_{p_1 \vee \cdots \vee p_n}]}\otimes \cofree_{[p_1,t]} \otimes \cdots \otimes \cofree_{[p_n, t]}\\
-        & \xrightarrow{\free_\eval} \free_{\free_{p_1 \vee \cdots \vee p_n}}\otimes \cofree_{[p_1,t]} \otimes \cdots \otimes \cofree_{[p_n, t]} \\
-        &\xrightarrow{\mcoun_{\free_{p_1 \vee \cdots \vee p_n}}} \free_{p_1 \vee \cdots \vee p_n}\otimes \cofree_{[p_1,t]} \otimes \cdots \otimes \cofree_{[p_n, t]} \\
-        & \xrightarrow{\lax} \free_{p_1 \vee \cdots \vee p_n}\otimes \cofree_{[p_1,t] \otimes \cdots \otimes [p_n, t]}\\
+        q \otimes [q, \free_{p_1 \vee \cdots \vee p_n}] \otimes \cofree_{[p_1, t]} \otimes \cdots \otimes \cofree_{[p_n, t]} & \xrightarrow{\eval} \free_{p_1 \vee \cdots \vee p_n} \otimes \cofree_{[p_1, t]} \otimes \cdots \otimes \cofree_{[p_n, t]}  \\
+        & \to t \otimes \cdots \otimes t \\
+        & \to t \tri \cdots \tri t\\
         & \to t
     \end{align*}    
-    where the final map is the map in \cref{eq:free-p1-vee-pn}.
+    where the third to last map is the map in \cref{eq:free-p1-vee-pn} and the final map is the $\tri$-product for $t$.
     
 \end{theorem}
 \begin{proof}
@@ -185,3 +183,94 @@ $[\cofree_{[p_1, t]} \otimes \cdots \otimes \cofree_{[p_m, t]}, [q, t]]$-coalgeb
     For more general $t$, these simple behavior streams are replaced with more complicated behaviors. For example, for $t = \lott$ Alice's behavior may be that of a biased coin whose bias may change over time. \dnote{Show example?}
 \end{example}
 
+Distilling this example, a morphism $\org_\free\op(\yon^{A_1}, \cdots, \yon^{A_n}; \yon^B)$ are dynamic patterns that define how to turn streams of tokens in $A_1, \cdots, A_n$ into a stream of tokens in $B$. Therefore we defined the category of \defined{stream processors} to be the full subcategory of $\org_\free\op$ spanned by monomials.
+
+\newcommand{\huff}{{\mathsf{huff}}}
+
+\begin{example}[Huffman coding]
+
+Huffman coding is a technique for data compression in which more frequent symbols get shorter codes, while less frequent ones get longer codes. Given a distribution on $N$ symbols, Huffman coding defines a binary code on each symbol. ~\cref{fig:huffman-standard} exemplifies how to produce a Huffman code for a language with symbols and respective probabilities:
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|r|c|c|c|c|c|}\hline
+        symbol & A & B &C &D &E \\ \hline
+        probability of occurrence & 0.30 & 0.02 & 0.45 & 0.15 & 0.08 \\ \hline
+    \end{tabular}
+    \label{tab:symbols}
+\end{table}
+
+
+\begin{figure}
+    \centering
+    \include{figures/huffman-standard-example}
+    \caption{A tree that defines the Huffman code for the data given in Table~\ref{tab:symbols}. The basic strategy of the Huffman code is to produce a binary tree by iteratively combining the two groups of symbols with lowest probability. For each symbol, the path from the root to that symbol's leaf defines a binary encoding of the symbol. In this example, the codes are $C$: 0, $A$: 10, $D$: 110, $E$: 1110, and $B$: 1111. Note that the most frequent symbol ($C$) has the shortest code while the least frequent symbols ($B$ and $E$) have the longest codes.}
+    \label{fig:huffman-standard}
+\end{figure}
+
+The code is a polynomial functor \[
+    \huff \colon \lott \to \free_{\yon^2}
+\] which we define inductively as polynomial functors $\huff_N \colon \sum_{\Delta_N} \yon^N \to \free_{\yon^2}$ for $N \geq 1$. Note that the positions of $\free_{\yon^2}$ are binary trees whose directions are the leaves of the tree.
+
+For the base case, $\huff_1 \colon \yon \to \free_{\yon^2}$ is the inclusion of $\yon$ into $\free_{\yon^2}$. For the inductive step, suppose we have defined $\huff_{N}$. Consider the cartesian map \[
+    \sum_{\Delta_{N+1}} \yon^{N+1} \to \sum_{\Delta_N} \yon^N \tri (\yon + \yon^2)
+\] defined as follows. On positions we map a distribution on $N+1$ tickets to a distribution on $N$ tickets by combining the two tickets with lowest probability. Each of the $N$ tickets maps to $\yon^2$ if it combines two tickets in the original distribution and to $\yon$ otherwise. On directions, it maps the two directions of $\yon^2$ to the two tickets that were combined. For the remaining tickets in $N$, it maps the single the direction of $\yon$ to the original ticket in $N+1$.\footnote{
+    To give an unambiguous definition of this map, requires several design choices which we enumerate here by defining the map explicitly. On positions, let $P$ be a distribution on $N + 1$ tickets. Let $i_1 \leq i_2 \in 1, \cdots , N$ be the pair of tickets that minimizes $P(i_1) + P(i_2)$, $i_1$, and $i_1 + i_2$. This pair is unique. Then define $P'$ to be a distribution on $N$ tickets defined by \[
+        P'(i) = \begin{cases}
+            P(i_1) + P(i_2) & i = i_1\\
+            P(i) & i < i_2, i \neq i_1 \\
+            P(i-1) & i \geq i_2.
+        \end{cases}
+    \] Finally, to complete the map on positions, we define a map $N \to (\yon + \yon^2)(1)$ which takes $i$ to the $\yon^2$ position if $i = i_1$ and the $\yon$ position otherwise. On directions, it is defined by $(i_1, k) \mapsto i_k$ for $k = 1,2$, $(i, *) \mapsto i$ for $i < i_2, i \neq i_1$, and $(i, *) \mapsto i + 1$ for $i \geq i_2$.
+}
+Figure~\ref{fig:huffN} is an example of this map for $N = 5$ on the position $(0.30, 0.02, 0.45, 0.15, 0.08)$.
+
+
+\begin{figure}
+    \centering
+    \include{figures/huffN}
+    \caption{An example of the map $\sum_{\Delta_{N+1}} \yon^{N+1} \to \sum_{\Delta_N} \yon^N \tri (\yon + \yon^2)$ for $N = 4$ on the position $(0.3, 0.02, 0.45, 0.15, 0.08)$. The red arrows depict the map on positions and directions. }
+    \label{fig:huffN}
+\end{figure}
+
+
+Then we define $\huff_{N+1}$ to be the composite
+\[
+    \sum_{\Delta_{N+1}} \yon^{N+1} \to \sum_{\Delta_N}\yon^N \tri (\yon + \yon^2) \xrightarrow{{\huff_{N}}} \free_{\yon^2} \tri (\yon + \yon^2) \to \free_{\yon^2} \tri \free_{\yon^2} \to \free_{\yon^2}
+\] where the second to last map is given by the inclusion $\yon + \yon^2 \to \free_{\yon^2}$ and the final map is the $\tri$-monoidal structure on $\free_{\yon^2}$.
+
+Figure~\ref{fig:huff} gives an example of $\huff$ on the position $(0.3, 0.02, 0.45, 0.15, 0.08)$.
+
+\begin{figure}
+    \centering
+    \include{figures/huff}
+    \caption{The action of $\huff \colon \lott \to \free_{\yon^2}$ on the position $(0.3, 0.02, 0.45, 0.15, 0.08)$.}
+    \label{fig:huff}
+\end{figure}
+
+The map $\huff$ --- equivalent to a map $\yon \to [\lott, \free_{\yon^2}]$ --- defines the \emph{pattern} of the Huffman code for every lottery. The pattern-to-matter operation given by the functor in Theorem~\ref{thm:matter-pattern} turns this pattern into a dynamic decoder as follows. 
+
+Let $A$ be an alphabet. A position of $\lott \tri A$ is equivalent to a choice of lottery and for each ticket a symbol in $A$.  Together with the map $\huff$, these  define a map:
+\begin{align*}
+    \yon & \to (\lott \tri A\yon) \otimes [\lott, \free_{\yon^2}] & \\
+    & \to (\lott \tri A\yon) \otimes [\cofree_{2\yon}, [\lott, \yon]] & \\
+    & \to [\cofree_{2\yon}, \yon ] \tri A\yon & \text{duoidality and evaluation}\\
+    & \to [\cofree_{2\yon}, A\yon] & \text{duodality}
+\end{align*}
+This map is equivalent to a polynomial map $\cofree_{2\yon} \to A\yon$. On positions it maps a stream of $0$s and $1$s to the symbol of $A$ whose code uniquely begins the stream. On directions, it selects the leading bits that are part of the code. 
+
+By iteratively decoding, this polynomial map is a cofunctor $\cofree_{2\yon} \to \cofree_{A\yon}$. The positions of $\cofree_{2\yon}$ are bit streams and for each position it has $\nn$ directions which represent the number of initial bits produced/consumed. Likewise, the positions of $\cofree_{A\yon}$ are streams of symbols in $A$ and for each position it has $\nn$ directions which represent the number of initial symbols produced/consumed. 
+
+On positions the induced cofunctor $\cofree_{2\yon} \to \cofree_{A\yon}$ decodes a bit stream into a stream of symbols in $A$. On directions, it maps $n$ symbols produced to the number of initial bits that encode the $n$ symbols.
+
+For example consider the position of $\lott \tri \{A, B, C, D, E\}$ given by the lottery on $5$ tickets with probabilities $(0.3, 0.02, 0.45, 0.15, 0.08)$ where each of the 5 tickets are mapped to $A$, $B$, $C$, $D$, and $E$ respectively. This data defines a cofunctor $\cofree_{2\yon} \to \cofree_{\{A, B, C, D, E\}\yon}$. An example of the behavior of this cofunctor is give in Figure~\ref{fig:huff-stream}.
+
+
+\begin{figure}
+    \include{figures/huffman-example}
+    \caption{On positions, a bit stream beginning with \texttt{00101100101000...} produces a stream of symbols beginning with \texttt{ACDACB...}. The $|$ depicts the action on directions. In particular, the direction corresponding to the prefix \texttt{A}, maps to the prefix \texttt{00}, since this is the Huffman encoding of the symbol $A$. It maps the direction corresponding to the prefix \texttt{AC} to the prefix \texttt{001}. And so forth.}
+    \label{fig:huff-stream}
+\end{figure}
+
+
+\end{example}
