@@ -69,16 +69,16 @@ bimr/.tip={Glyph[glyph math command=triangleright, glyph length=.95ex]},
 % Adjunctions
 \newcommand{\adj}[5][30pt]{%[size] Cat L, Left, Right, Cat R.
 \begin{tikzcd}[ampersand replacement=\&, column sep=#1]
-  #2\ar[r, shift left=7pt, "#3"]
+  #2\ar[r, shift left=5pt, "#3"]
   \ar[r, phantom, "\scriptstyle\Rightarrow"]\&
-  #5\ar[l, shift left=7pt, "#4"]
+  #5\ar[l, shift left=5pt, "#4"]
 \end{tikzcd}
 }
 
 \newcommand{\adjr}[5][30pt]{%[size] Cat R, Right, Left, Cat L.
 \begin{tikzcd}[ampersand replacement=\&, column sep=#1]
-  #2\ar[r, shift left=7pt, "#3"]\&
-  #5\ar[l, shift left=7pt, "#4"]
+  #2\ar[r, shift left=5pt, "#3"]\&
+  #5\ar[l, shift left=5pt, "#4"]
   \ar[l, phantom, "\scriptstyle\Leftarrow"]
 \end{tikzcd}
 }

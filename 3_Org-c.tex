@@ -1,31 +1,32 @@
 \chapter{$\org^\cofree$}\label{sec:orgc}
 
-\section{$\cofree$ is a comonad on $\org^\#$}
+\dnote{Introduce chapter}
 
-We will define a $\smcat^\#$-enriched functor $\cofree \colon \org^\# \to \org^\#$ and show that it is a comonad.
+\section{$\cofree$ is a comonad on $\org^\sharp$}
+
+We will define a $\smcat^\sharp$-enriched functor $\cofree \colon \org^\sharp \to \org^\sharp$ and show that it is a comonad.
 
 On objects $\cofree$ takes a polynomial $p$ to the cofree comonad $\cofree_p$. On morphisms $\cofree \colon \cofree_{[p,q]} \to \cofree_{[\cofree_p, \cofree_q]}$ is the image of the composite
 \[
     \cofree_p \otimes \cofree_{[p,q]} \xrightarrow{\lax} \cofree_{p \otimes [p,q]} \xrightarrow{\cofree_\eval} \cofree_q
 \] under the composite
 \[
-    \smcat^\#(\cofree_p \otimes \cofree_{[p,q]}, \cofree_q) \to  \poly(\cofree_p \otimes \cofree_{[p,q]}, \cofree_q) \iso \poly(\cofree_{[p,q]}, [\cofree_p, \cofree_q]) \iso \smcat^\#(\cofree_{[p,q]}, \cofree_{[\cofree_p, \cofree_q]}).
+    \smcat^\sharp(\cofree_p \otimes \cofree_{[p,q]}, \cofree_q) \to  \poly(\cofree_p \otimes \cofree_{[p,q]}, \cofree_q) \iso \poly(\cofree_{[p,q]}, [\cofree_p, \cofree_q]) \iso \smcat^\sharp(\cofree_{[p,q]}, \cofree_{[\cofree_p, \cofree_q]}).
 \]
 
 \begin{theorem}
-    The $\smcat^\#$-enriched functor $\cofree \colon \org^\# \to \org^\#$ is a comonad.
+    The $\smcat^\sharp$-enriched functor $\cofree \colon \org^\sharp \to \org^\sharp$ is a comonad.
 \end{theorem}
 \begin{proof}
-    We need to define $\smcat^\#$-enriched natural transformations $\cofree \Rightarrow 1$ and $\cofree \Rightarrow \cofree \circ \cofree$ to the co-identity and co-multiplication maps.
+    We need to define $\smcat^\sharp$-enriched natural transformations $\cofree \Rightarrow \id_\poly$ and $\cofree \Rightarrow \cofree \circ \cofree$ to the co-unit and comultiplication maps.
 
-    For the polynomial $p$, the co-identity at $p$ is an element of $\smcat^\#(\yon, \cofree_{[\cofree_p, p]})$. We define it to be the image of the counit $\ccoun_p \colon \cofree_p \to p$ under the isomorphisms
+    For the polynomial $p$, the counit at $p$ is an element of $\smcat^\sharp(\yon, \cofree_{[\cofree_p, p]})$. We define it to be the image of the counit $\ccoun_p \colon \cofree_p \to p$ under the isomorphisms
     \[
-        \poly(\cofree_p, p) \iso \poly(\yon, [\cofree_p, p]) \iso \smcat^\#(\yon, \cofree_{[\cofree_p, p]}).
+        \poly(\cofree_p, p) \iso \poly(\yon, [\cofree_p, p]) \iso \smcat^\sharp(\yon, \cofree_{[\cofree_p, p]}).
     \]
 
-    To show that the co-identity is natural we must show that the following diagram commutes.
 
-    To show that the co-identity is natural we must show that the following diagram commutes.
+    To show that the counit is natural we must show that the following diagram commutes.
 
   % https://q.uiver.app/#q=WzAsNixbMCwwLCJcXGNvZnJlZV97W3AscV19Il0sWzEsMF0sWzIsMCwiXFxjb2ZyZWVfe1tcXGNvZnJlZV9wLCBwXX0gXFxvdGltZXMgXFxjb2ZyZWVfe1twLHFdfSJdLFswLDEsIlxcY29mcmVlX3tbXFxjb2ZyZWVfcCwgXFxjb2ZyZWVfcV19Il0sWzEsMSwiXFxjb2ZyZWVfe1tcXGNvZnJlZV9wLCBcXGNvZnJlZV9xXX0gXFxvdGltZXMgXFxjb2ZyZWVfe1tcXGNvZnJlZV9xLCBxXX0iXSxbMiwxLCJcXGNvZnJlZV97W1xcY29mcmVlX3AsIHFdfSJdLFswLDNdLFswLDJdLFsyLDVdLFs0LDVdLFszLDRdXQ==
   \[\begin{tikzcd}
@@ -53,13 +54,13 @@ On objects $\cofree$ takes a polynomial $p$ to the cofree comonad $\cofree_p$. O
     	\arrow[from=2-2, to=2-3]
     \end{tikzcd}\]
 
-  The left-hand square commutes by definition of the laxator. The right-hand square commutes by naturality of the co-unit.
+  The left-hand square commutes by definition of the compositor. The right-hand square commutes by naturality of the co-unit.
 
-    For a polynomial $p$, define the co-multiplication at $p$ to be the image of the unit $\cun_{\cofree_p} \colon \cofree_p \to \cofree_{\cofree_p}$ under the isomorphisms
+    For a polynomial $p$, define the comultiplication at $p$ to be the image of the unit $\cun_{\cofree_p} \colon \cofree_p \to \cofree_{\cofree_p}$ under the isomorphisms
     \[
         \poly(\cofree_p, \cofree_{\cofree_p}) \iso \poly(\yon, [\cofree_p, \cofree_{\cofree_p}]) \iso \cofree(\yon, \cofree_{[\cofree_p, \cofree_{\cofree_p}]}).
     \]
-    To show that co-multiplication is natural we must show that the following diagram commutes. 
+    To show that comultiplication is natural we must show that the following diagram commutes. 
 
     % https://q.uiver.app/#q=WzAsOCxbMCwwLCJcXGNvZnJlZV97W3AscV19Il0sWzEsMCwiXFxjb2ZyZWVfe1tcXGNvZnJlZV9wLCBcXGNvZnJlZV9xXX0iXSxbMiwwLCJcXGNvZnJlZV97W1xcY29mcmVlX3tcXGNvZnJlZV9wfSwgXFxjb2ZyZWVfe1xcY29mcmVlX3F9XX0iXSxbMywwLCJcXGNvZnJlZV97W1xcY29mcmVlX3AsIFxcY29mcmVlX3tcXGNvZnJlZV9wfV19IFxcb3RpbWVzIFxcY29mcmVlX3tbXFxjb2ZyZWVfe1xcY29mcmVlX3B9LCBcXGNvZnJlZV97XFxjb2ZyZWVfcX1dfSJdLFswLDEsIlxcY29mcmVlX3tbXFxjb2ZyZWVfcCwgXFxjb2ZyZWVfcV19Il0sWzIsMSwiXFxjb2ZyZWVfe1tcXGNvZnJlZV9wLCBcXGNvZnJlZV9xXX0gXFxvdGltZXMgXFxjb2ZyZWVfe1tcXGNvZnJlZV9xLCBcXGNvZnJlZV97XFxjb2ZyZWVfcX1dfSJdLFsxLDFdLFszLDEsIlxcY29mcmVlX3tbXFxjb2ZyZWVfcCwgXFxjb2ZyZWVfe1xcY29mcmVlX3F9XX0iXSxbMCw0XSxbNCw1XSxbMCwxXSxbMSwyXSxbMiwzXSxbNSw3XSxbMyw3XV0=
   \[\begin{tikzcd}
@@ -81,7 +82,7 @@ On objects $\cofree$ takes a polynomial $p$ to the cofree comonad $\cofree_p$. O
 	{\cofree_p \otimes \cofree_{[\cofree_p, \cofree_q]}} & {\cofree_{\cofree_p}\otimes \cofree_{[\cofree_p, \cofree_q]}} & {\cofree_{\cofree_p \otimes [\cofree_p, \cofree_q]} } & {\cofree_{\cofree_q}} \\
 	&& {\cofree_p \otimes [\cofree_p, \cofree_q]} & {\cofree_q}
 	\arrow["{\cun_{\cofree_p} \otimes \cofree_{[\cofree_p, \cofree_q]}}", from=1-1, to=1-2]
-	\arrow["{\cofree_p \otimes \ccoun_{[\cofree_p, \cofree_q]}}"', from=1-1, to=2-3]
+	\arrow["{\cofree_p \otimes \ccoun_{[\cofree_p, \cofree_q]}}"', bend right=15pt, from=1-1, to=2-3]
 	\arrow["\lax", from=1-2, to=1-3]
 	\arrow["{\ccoun_{\cofree_p} \otimes \ccoun_{[\cofree_p, \cofree_q]}}"{description}, from=1-2, to=2-3]
 	\arrow["{\cofree_{\eval}}", from=1-3, to=1-4]
@@ -90,31 +91,31 @@ On objects $\cofree$ takes a polynomial $p$ to the cofree comonad $\cofree_p$. O
 	\arrow["\eval"', from=2-3, to=2-4]
 \end{tikzcd}\]
 
-  The left-hand triangle commutes by the zig-zag law of the adjunction. The middle triangle commutes by definition of the laxator. And the right-hand square commutes by naturality of the co-unit.
+  The left-hand triangle commutes by the zig-zag law of the adjunction. The middle triangle commutes by definition of the compositor. And the right-hand square commutes by naturality of the co-unit.
 
-  These maps satisfy the co-identity law because of the zig-zag laws of the adjunction. Co-multiplication satisfies co-associativity by naturality of the unit. 
+  These maps satisfy the counit law because of the zig-zag laws of the adjunction. Co-multiplication satisfies co-associativity by naturality of the unit. 
 
     
 \end{proof}
 
 \begin{remark}
-    As in \cref{rmk:free-lifts} the comonad $U \circ \cofree \colon \poly \to \poly$ is the image of $\smcat^\#$-enriched comonad $\cofree \colon \org^\# \to \org^\#$ under the map of the enriching functors $\smcat^\#(\yon, -) \colon \smcat^\# \to \smset$.
+    As in \cref{rmk:free-lifts} the comonad $U \circ \cofree \colon \poly \to \poly$ is the image of $\smcat^\sharp$-enriched comonad $\cofree \colon \org^\sharp \to \org^\sharp$ under the map of the enriching functors $\smcat^\sharp(\yon, -) \colon \smcat^\sharp \to \smset$.
 \end{remark}
 
-\section{The operad $(\org^\#)^\cofree$}
+\section{The operad $(\org^\sharp)^\cofree$}
 
-As in \cref{sec:operad-orgm}, we will define a $\smcat^\#$-enriched operad $(\org^\#)^\cofree$ whose 1-ary morphisms are the morphisms of the co-Kleisli category $(\org^\#)^\cofree$. However, unlike the operad $\org^\#_\free$, this operad will not underlie a symmetric monoidal structure on the co-Kleisli category. We choose this more bespoke definition, because it leads to a lovely correspondence with the $\smcat^\#$-enriched operad $\org^\#_\free$ that is the heart of \cref{sec:matter-pattern}.
+As in \cref{sec:operad-orgm}, we will define a $\smcat^\sharp$-enriched operad $(\org^\sharp)^\cofree$ whose 1-ary morphisms are the morphisms of the co-Kleisli category $(\org^\sharp)^\cofree$. However, unlike the operad $\org^\sharp_\free$, this operad will not underlie a symmetric monoidal structure on the co-Kleisli category. We choose this more bespoke definition, because it leads to a lovely correspondence with the $\smcat^\sharp$-enriched operad $\org^\sharp_\free$ that is the heart of \cref{sec:matter-pattern}.
 
 \begin{theorem}
-    There is a $\smcat^\#$-enriched operad $(\org^\#)^\cofree$ whose objects are polynomials and whose morphisms are defined by 
+    There is a $\smcat^\sharp$-enriched operad $(\org^\sharp)^\cofree$ whose objects are polynomials and whose morphisms are defined by 
     \[
-        (\org^\#)^\cofree(p_1, \cdots , p_m, q) \coloneqq \cofree_{[\cofree_{p_1} \otimes \cdots \otimes \cofree_{p_m}, q]}.
+        (\org^\sharp)^\cofree(p_1, \cdots , p_m, q) \coloneqq \cofree_{[\cofree_{p_1} \otimes \cdots \otimes \cofree_{p_m}, q]}.
     \]
 \end{theorem}
 \begin{proof}
     For a polynomial $p$, the identity on $p$ is given by the image of the counit $\ccoun_p \colon \cofree_p \to p$ under the isomorphisms
     \[
-        \poly(\cofree_p, p) \iso \poly(\yon, [\cofree_p, p]) \iso \smcat^\#(\yon, \cofree_{[\cofree_p, p]}).
+        \poly(\cofree_p, p) \iso \poly(\yon, [\cofree_p, p]) \iso \smcat^\sharp(\yon, \cofree_{[\cofree_p, p]}).
     \]
     Composition $\circ_i$ is given by the image of the polynomial map
     \begin{align*}
@@ -127,9 +128,9 @@ As in \cref{sec:operad-orgm}, we will define a $\smcat^\#$-enriched operad $(\or
     \end{align*}
     in
     \[
-        \smcat^\#(\cofree_{[\cofree_{p_1} \otimes \cdots \otimes \cofree_{p_m}, q_k]} \otimes \cofree_{[\cofree_{q_1} \otimes \cdots \otimes \cofree_{q_n}, r]}, \cofree_{[\cofree_{q_1} \otimes \cdots \otimes \cofree_{q_{k - 1}} \otimes \cofree_{p_1} \otimes \cdots \otimes \cofree_{p_m} \otimes \cofree_{q _{k + 1}} \otimes \cdots \otimes \cofree_{q_n}, r]})
+        \smcat^\sharp(\cofree_{[\cofree_{p_1} \otimes \cdots \otimes \cofree_{p_m}, q_k]} \otimes \cofree_{[\cofree_{q_1} \otimes \cdots \otimes \cofree_{q_n}, r]}, \cofree_{[\cofree_{q_1} \otimes \cdots \otimes \cofree_{q_{k - 1}} \otimes \cofree_{p_1} \otimes \cdots \otimes \cofree_{p_m} \otimes \cofree_{q _{k + 1}} \otimes \cdots \otimes \cofree_{q_n}, r]})
     \]
-    The unit and associativity laws follow from parallel reasoning of the unit and associativity laws of the comonad $\cofree \colon \org^\# \to \org^\#$.
+    The unit and associativity laws follow from parallel reasoning of the unit and associativity laws of the comonad $\cofree \colon \org^\sharp \to \org^\sharp$.
 \end{proof}
 
 \begin{example}
