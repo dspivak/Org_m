@@ -1,6 +1,6 @@
-\chapter{$\org^\sharp_\free$}\label{sec:orgm}
+\chapter{An operad of pattern delegation}\label{sec:orgm}
 
-\dnote{Introduce the section}
+In this section we will promote the free monad monad to a monad on $\org^\#$ and show that it is lax monoidal with respect to the monoidal product $\vee$. Then the Kleisli construction defines an $\smcat^\#$-enriched operad $\org_\free^\#$.
 
 \section{Extension of $\free$ to a monad on $\org^\sharp$}
 
@@ -15,7 +15,20 @@ On objects $\free$ takes a polynomial $p$ to the free monad $\free_p$. On morphi
 \]
 where the first isomorphism is the $\otimes$-hom adjunction and the second isomorphism is induced by the fact that $\cofree_{[p,q]}$ is a comonad and $\cofree_{[\free_p, \free_q]}$ is cofree.
 
-% Need to show that $\free$ satisfies preserves identity and composition
+This map preserves identity because the composite
+\[
+    p \to p \otimes [p,p] \xrightarrow{\eval} p
+\] is the identity on $p$ where the first map is the interal-hom identity. It preserves composition because the following diagram commutes % https://q.uiver.app/#q=WzAsNCxbMCwwLCJwIFxcb3RpbWVzIFtwLHFdIFxcb3RpbWVzIFtxLCByXSJdLFswLDEsInEgXFxvdGltZXMgW3Escl0iXSxbMSwxLCJyIl0sWzEsMCwicCBcXG90aW1lcyBbcCwgcl0iXSxbMCwxXSxbMSwyXSxbMywyXSxbMCwzXV0=
+\[\begin{tikzcd}
+	{p \otimes [p,q] \otimes [q, r]} & {p \otimes [p, r]} \\
+	{q \otimes [q,r]} & r
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+\end{tikzcd}\]
+The top horizontal map is given by internal-hom composition.
+
 
 \begin{theorem}
     The $\smcat^\sharp$-enriched functor $\free \colon \org^\sharp \to \org^\sharp$ is a monad. 
@@ -28,7 +41,7 @@ where the first isomorphism is the $\otimes$-hom adjunction and the second isomo
         \poly(p, \free_p) \iso \poly(y, [p, \free_p]) \iso \smcat^\sharp(\yon, \cofree_{[p, \free_p]}.
     \]
 
-    To show that the identity is natural, we must show that for all polynomials $p$ and $q$, the following diagram commutes. 
+    To show that the identity is natural, we must show that for all polynomials $p$ and $q$, the following diagram of cofunctors commutes. 
     % https://q.uiver.app/#q=WzAsNixbMCwwLCJcXGNvZnJlZV97W3AscV19Il0sWzEsMF0sWzIsMCwiXFxjb2ZyZWVfe1twLHFdfSBcXG90aW1lcyBcXGNvZnJlZV97W3EsIFxcZnJlZV9xXX0iXSxbMCwxLCJcXGNvZnJlZV97W1xcZnJlZV9wLCBcXGZyZWVfcV19Il0sWzEsMSwiXFxjb2ZyZWVfe1twLCBcXGZyZWVfcF19IFxcb3RpbWVzIFxcY29mcmVlX3tbXFxmcmVlX3AsIFxcZnJlZV9xXX0iXSxbMiwxLCJcXGNvZnJlZV97W3AsIFxcZnJlZV9xXX0iXSxbMCwyXSxbMCwzXSxbMyw0XSxbNCw1XSxbMiw1XV0=
     \[\begin{tikzcd}
     {\cofree_{[p,q]}} & {} & {\cofree_{[p,q]} \otimes \cofree_{[q, \free_q]}} \\
@@ -40,7 +53,7 @@ where the first isomorphism is the $\otimes$-hom adjunction and the second isomo
     \arrow[from=2-2, to=2-3]
     \end{tikzcd}\]
 
-    It suffices to show that the following diagram commutes.
+    By the universal property of cofunctor maps into the cofree comonad $\cofree_{[p, \free_q]}$, it suffices to show that the following diagram commutes.
     % https://q.uiver.app/#q=WzAsNixbMCwwLCJwIFxcb3RpbWVzIFxcY29mcmVlX3tbcCxxXX0iXSxbMCwxLCJcXGZyZWVfcCBcXG90aW1lcyBcXGNvZnJlZV97W3AscV19Il0sWzEsMCwicCBcXG90aW1lcyBbcCwgcV0iXSxbMSwxLCJcXGZyZWVfe3AgXFxvdGltZXMgW3AscV19Il0sWzIsMSwiXFxmcmVlX3EiXSxbMiwwLCJxIl0sWzAsMiwicCBcXG90aW1lcyBcXGNjb3VuX3tbcCxxXX0iXSxbMiw1LCJcXGV2YWwiXSxbNSw0LCJcXG11bl9xIl0sWzIsMywiXFxtdW5fe3AgXFxvdGltZXMgW3AscV19Il0sWzMsNCwiXFxmcmVlX1xcZXZhbCIsMl0sWzEsMywiXFxtb2RzdHJ1Y3Rfe3AsIFtwLHFdfSIsMl0sWzAsMSwiXFxtdW5fcCBcXG90aW1lcyBcXGNvZnJlZV97W3AscV19IiwyXV0=
     \[\begin{tikzcd}[column sep=huge, row sep = large]
 	{p \otimes \cofree_{[p,q]}} & {p \otimes [p, q]} & q \\
@@ -59,7 +72,7 @@ where the first isomorphism is the $\otimes$-hom adjunction and the second isomo
     \[
         \poly(\free_{\free_p}, \free_p) \iso \poly(\yon, [\free_{\free_p}, \free_p]) \iso \smcat^\sharp(\yon, \cofree_{[\free_{\free_p}, \free_p]}).
     \] 
-    To show that the multiplication is natural we must show that for all polynomial $p$ and $q$, the following diagram commutes. 
+    To show that the multiplication is natural we must show that for all polynomial $p$ and $q$, the following diagram of cofunctors commutes. 
 
     % https://q.uiver.app/#q=WzAsNyxbMSwwLCJcXGNvZnJlZV97W1xcZnJlZV9wLFxcZnJlZV9xXX0iXSxbMiwwLCJcXGNvZnJlZV97W1xcZnJlZV97XFxmcmVlX3B9LCBcXGZyZWVfe1xcZnJlZV9xfV19Il0sWzMsMCwiXFxjb2ZyZWVfe1tcXGZyZWVfe1xcZnJlZV9wfSwgXFxmcmVlX3tcXGZyZWVfcX1dfSBcXG90aW1lcyBcXGNvZnJlZV97W1xcZnJlZV97XFxmcmVlX3F9LCBcXGZyZWVfcV19Il0sWzIsMSwiXFxjb2ZyZWVfe1tcXGZyZWVfe1xcZnJlZV9wfSwgXFxmcmVlX3BdfVxcb3RpbWVzIFxcY29mcmVlX3tbXFxmcmVlX3AsIFxcZnJlZV9xXX0iXSxbMywxLCJcXGNvZnJlZV97W1xcZnJlZV97XFxmcmVlX3B9LCBcXGZyZWVfcV19Il0sWzAsMCwiXFxjb2ZyZWVfe1twLHFdfSJdLFswLDEsIlxcY29mcmVlX3tbXFxmcmVlX3AsIFxcZnJlZV9xXX0iXSxbMCwxXSxbMSwyXSxbMiw0XSxbMyw0XSxbNiwzXSxbNSw2XSxbNSwwXV0=
       \[\begin{tikzcd}
@@ -74,7 +87,7 @@ where the first isomorphism is the $\otimes$-hom adjunction and the second isomo
     \arrow[from=2-3, to=2-4]
   \end{tikzcd}\]
 
-  It suffices \dnote{Why does it suffice?} to show that the following diagram commutes.
+  Again by the universal property of the cofree comonad $\cofree_{[\free_{\free_p}, \free_q]}$ it suffices to show that the following diagram commutes.
   % https://q.uiver.app/#q=WzAsNixbMCwwLCJcXGZyZWVfe1xcZnJlZV9wfSBcXG90aW1lcyBcXGNvZnJlZV97W1xcZnJlZV9wLCBcXGZyZWVfcV19Il0sWzAsMSwiXFxmcmVlX3AgXFxvdGltZXMgXFxjb2ZyZWVfe1tcXGZyZWVfcCwgXFxmcmVlX3FdfSJdLFsxLDEsIlxcZnJlZV9wIFxcb3RpbWVzIFtcXGZyZWVfcCwgXFxmcmVlX3FdIl0sWzEsMCwiXFxmcmVlX3tcXGZyZWVfcCBcXG90aW1lcyBbXFxmcmVlX3AsIFxcZnJlZV9xXX0iXSxbMiwxLCJcXGZyZWVfcSJdLFsyLDAsIlxcZnJlZV97XFxmcmVlX3F9Il0sWzAsMSwiXFxtY291bl97XFxmcmVlX3B9IFxcb3RpbWVzIFxcY29mcmVlX3tbXFxmcmVlX3AsIFxcZnJlZV9xXX0iLDJdLFsxLDIsIlxcZnJlZV9wIFxcb3RpbWVzIFxcY2NvdW5fe1tcXGZyZWVfcCwgXFxmcmVlX3FdfSIsMl0sWzAsMywiXFxtb2RzdHJ1Y3Rfe1xcZnJlZV9wLCBbXFxmcmVlX3AsIFxcZnJlZV9xXX0iXSxbMiwzLCJcXG11bl97XFxmcmVlX3AgXFxvdGltZXMgW1xcZnJlZV9wLCBcXGZyZWVfcV19Il0sWzMsNSwiXFxmcmVlX3tcXGV2YWx9Il0sWzUsNCwiXFxtY291bl97XFxmcmVlX3F9Il0sWzIsNCwiXFxldmFsIiwyXV0=
 \[\begin{tikzcd}[column sep=huge,row sep=25pt]
 	{\free_{\free_p} \otimes \cofree_{[\free_p, \free_q]}} & {\free_{\free_p \otimes [\free_p, \free_q]}} & {\free_{\free_q}} \\
@@ -106,7 +119,7 @@ where the first isomorphism is the $\otimes$-hom adjunction and the second isomo
 
 \section{The operad $\org^\sharp_\free$}\label{sec:operad-orgm}
 
-We begin by showing that $\org^\sharp$ has a symmetric monoidal structure $(\vee, 0)$ and that $\free \colon \org^\sharp \to \org^\sharp$ is lax monoidal with respect to $\vee$.\dnote{Then?}
+We begin by showing that $\org^\sharp$ has a symmetric monoidal structure $(\vee, 0)$ and that $\free \colon \org^\sharp \to \org^\sharp$ is lax monoidal with respect to $\vee$. Then the Kleisli category $\org^\#_\free$ is monoidal and hence has an underlying operad which we refer to as $\org^\#_\free$ as well.
 
 There is a symmetric monoidal structure $\vee$ on $\poly$ whose unit is $0$ and which is defined by 
 \[
@@ -151,10 +164,10 @@ First we define the maps.
 \end{itemize}
         Lastly we must show that the diagram in \cref{eq:p_freeq_freepveeq} commutes. By definition of $\iota\hoc{\alpha}$ it suffices to show that for all $\alpha' < \alpha$, the following diagram commutes. 
 
-        % https://q.uiver.app/#q=WzAsNSxbMCwwLCIoXFx5b24gKyBwIFxcdHJpIHAgXFxob2N7XFxhbHBoYSd9KSBcXG90aW1lcyBcXGZyZWVfcSJdLFswLDEsIlxcbGVmdChcXHlvbiArIHAgXFx0cmkgIFxcbGVmdChcXGNvbGltX3tcXGFscGhhJyA8IFxcYWxwaGF9IHAgXFxob2N7XFxhbHBoYSd9IFxccmlnaHQpXFxyaWdodCkgXFxvdGltZXMgXFxmcmVlX3EiXSxbMSwxLCJcXGZyZWVfcSAgKyBwIFxcdHJpIFxcY29saW1fe1xcYWxwaGEnIDwgXFxhbHBoYX0gcCBcXGhvY3tcXGFscGhhJ30gXFxvdGltZXMgXFxmcmVlX3EiXSxbMSwwLCJcXGZyZWVfcSArIHAgXFx0cmkgKHAgXFxob2N7XFxhbHBoYSd9IFxcb3RpbWVzIFxcZnJlZV9xfSJdLFsyLDEsIlxcZnJlZV97cCBcXHZlZSBxfSJdLFswLDFdLFswLDNdLFsxLDJdLFszLDJdLFsyLDRdLFszLDRdXQ==
+        % https://q.uiver.app/#q=WzAsNSxbMCwwLCIoXFx5b24gKyBwIFxcdHJpIHAgXFxob2N7XFxhbHBoYSd9KSBcXG90aW1lcyBcXGZyZWVfcSJdLFswLDEsIlxcbGVmdChcXHlvbiArIHAgXFx0cmkgIFxcbGVmdChcXGNvbGltX3tcXGFscGhhJyA8IFxcYWxwaGF9IHAgXFxob2N7XFxhbHBoYSd9IFxccmlnaHQpXFxyaWdodCkgXFxvdGltZXMgXFxmcmVlX3EiXSxbMSwxLCJcXGZyZWVfcSAgKyBwIFxcdHJpICgoXFxjb2xpbV97XFxhbHBoYScgPCBcXGFscGhhfSBwIFxcaG9je1xcYWxwaGEnfSApXFxvdGltZXMgXFxmcmVlX3EpIl0sWzEsMCwiXFxmcmVlX3EgKyBwIFxcdHJpIChwIFxcaG9je1xcYWxwaGEnfSBcXG90aW1lcyBcXGZyZWVfcSkiXSxbMiwxLCJcXGZyZWVfe3AgXFx2ZWUgcX0iXSxbMCwxXSxbMCwzXSxbMSwyXSxbMywyXSxbMiw0XSxbMyw0XV0=
 \[\begin{tikzcd}
-	{(\yon + p \tri p \hoc{\alpha'}) \otimes \free_q} & {\free_q + p \tri (p \hoc{\alpha'} \otimes \free_q} \\
-	{\left(\yon + p \tri  \left(\colim_{\alpha' < \alpha} p \hoc{\alpha'} \right)\right) \otimes \free_q} & {\free_q  + p \tri \colim_{\alpha' < \alpha} p \hoc{\alpha'} \otimes \free_q} & {\free_{p \vee q}}
+	{(\yon + p \tri p \hoc{\alpha'}) \otimes \free_q} & {\free_q + p \tri (p \hoc{\alpha'} \otimes \free_q)} \\
+	{\left(\yon + p \tri  \left(\colim_{\alpha' < \alpha} p \hoc{\alpha'} \right)\right) \otimes \free_q} & {\free_q  + p \tri ((\colim_{\alpha' < \alpha} p \hoc{\alpha'} )\otimes \free_q)} & {\free_{p \vee q}}
 	\arrow[from=1-1, to=1-2]
 	\arrow[from=1-1, to=2-1]
 	\arrow[from=1-2, to=2-2]
@@ -162,14 +175,15 @@ First we define the maps.
 	\arrow[from=2-1, to=2-2]
 	\arrow[from=2-2, to=2-3]
 \end{tikzcd}\]
-        The left-hand square commutes by naturality of duoidality and the distributive law. The right-hand triangle commutes by definition of $\left(\colim_{\alpha' < \alpha} p \hoc{\alpha'}\right) \otimes \free_q \to \free_{p \vee q}$.
+
+    The left-hand square commutes by naturality of duoidality and the distributive law. The right-hand triangle commutes by definition of $\left(\colim_{\alpha' < \alpha} p \hoc{\alpha'}\right) \otimes \free_q \to \free_{p \vee q}$.
 
 
     We have now defined a map $\free_p \to [ \free_{q}, \free_{p \vee q}]$. The induced map $\free_p \otimes \free_q \to \free_{p \vee q}$ along with the maps $\free_p \to \free_{p \vee q}$ and $\free_q \to \free_{p \vee q}$ given by $\free$ applied to the inclusions $p \to p \vee q$ and $q \to p \vee q$, together define the compositor 
     \[
         \free_p \vee \free_q \to \free_{p \vee q}.
     \]
-    The unitor is the unique map $\mun_0 = ! \colon  0 \to \free_0$.
+    The unitor is the unique map $\mun_0  \colon  0 \to \free_0$.
 
     Associativity is straightforward by transfinite induction and  unitality is immediate. 
 \end{proof}
@@ -230,24 +244,30 @@ The associator, left and right unitors, triangle identity, and pentagon identity
 
 
 
-The $\smcat$-enriched category $\org_\free\op$ has polynomials as objects and a morphism in $\org_\free\op(p_1, \cdots, p_m; q)$ is a $[q, \free_{p_1 \vee \cdots \vee p_m}]$-coalgebra. We can think of such a coalgebra as a dynamically changing strategy that answers $q$-shaped questions using $p_i$-shaped subordinates. Given a position of $q$ (which we think of as a $q$ question) the state of the coalgebra determines a decision tree made up of $p_i$ components. At each fork of the decision tree one or more $p_i$ questions may be asked. Each possible either either returns an answer to the $q$ question and updates the state or determines another set of $p_i$ questions to be asked. 
+The $\smcat$-enriched category $\org_\free\op$ has polynomials as objects and a morphism in $\org_\free\op(p_1, \cdots, p_m; q)$ is a $[q, \free_{p_1 \vee \cdots \vee p_m}]$-coalgebra. We can think of such a coalgebra as a dynamically changing strategy that completes $q$-shaped tasks using $p_i$-shaped subordinates. Given a position of $q$ (which we think of as a $q$ task) the state of the coalgebra determines a decision tree made up of $p_i$ components. At each fork of the decision tree one or more $p_i$ tasks may be invoked. Each possible outcome either either returns an outcome to the $q$ task and updates the state or determines another set of $p_i$ tasks to be invoked. 
 
-In the $\smcat$-enriched operad $\org$ defined in \cite{XXX}, each subordinate must be consulted exactly once and the answers from each subordinate aggregated into a single answer. The morphisms of $\org_\free\op$ are more general since subordinates may be  consulted one or many times strategically as a result of previous subordinate answers. 
+In the $\smcat$-enriched operad $\org$ defined in \cite{shapiro2022dynamic}, each subordinate must be consulted exactly once and the answers from each subordinate aggregated into a single answer. The morphisms of $\org_\free\op$ are more general since subordinates may be  consulted one or many times strategically as a result of previous subordinate answers. 
 
 \begin{example}\label{ex:stream-m}
 
+Consider the polynomials \textcolor{cyan}{$\alice = \yon^2$}, \textcolor{magenta}{$\bob = \yon^2$}, and \textcolor{teal}{$\carmen = \yon^2$}. These polynomials represent subordinates Alice, Bob, and Carmen who when consulted return one of two outcomes. 
+A coalgebra in $\org_\free\op(\alice, \bob, \carmen; \yon^2)$ will consult Alice, Bob, and Carmen in order to produce one of two outcomes. It is a dynamically changing pattern for delegating the task of determining one of two outcomes to subordinates Alice, Bob, and Carmen.
 
+To begin, consider the coalgebra with a single state that is defined by the polynomial map $\yon^2 \to \free_{\alice \vee \bob \vee \carmen}$ defined in \cref{fig:carmen-tie-breaks}. 
 
-Consider the polynomials \textcolor{cyan}{$\alice = \yon^2$}, \textcolor{magenta}{$\bob = \yon^2$}, and \textcolor{teal}{$\carmen = \yon^2$}. These polynomials represent subordinates Alice, Bob, and Carmen who when consulted return one of two choices. 
-A coalgebra in $\org_\free\op(\alice, \bob, \carmen; \yon^2)$ will consult Alice, Bob, and Carmen in order to produce one of two choices. 
+\begin{figure}
+    \centering
+    \include{figures/carmen-tie-breaks}
+    \caption{A position of $\free_{\alice \vee \bob \vee \carmen}$. There is a delegation pattern $\yon^2 \to \free_{\alice \vee \bob \vee \carmen}$ that maps the single position of $\yon^2$ to this position $\free_{\alice \vee \bob \vee \carmen}$. It maps the directions from left to right to $0$, $0$, $1$, $0$, $1$, and $1$. }
+    \label{fig:carmen-tie-breaks}
+\end{figure}
+ In other words, Alice and Bob are both asked for a $0$ or $1$. If their outcomes agree then that value is returned. Otherwise, Carmen is the tie-breaker. 
 
-To begin, we might consider the coalgebra with a single state that is defined by the polynomial map $\yon^2 \to \free_{\alice \vee \bob \vee \carmen}$ that maps the single position of $\yon^2$ to the following decision tree
-\input{figures/carmen-tie-breaks}
-and maps the directions from left to right to $0$, $0$, $1$, $0$, $1$, and $1$. In other words, Alice and Bob are both asked for a $0$ or $1$. If their responses agree then that value is returned. Otherwise, Carmen is the tie-breaker. 
-
-We can upgrade this coalgebra to have non-trivial dynamics. Consider a coalgebra with three states. The first states takes the single position of $\yon^2$ to the decision tree as above. The second state takes the single position of $\yon^2$ to a similar decision tree except where Alice is the tie-breaker instead of Carmen. The third state takes the single position of $\yon^2$ to the decision tree where Bob is the tie-breaker. On directions, if Carmen tie-breaks then the state updates so that Alice is the new tie-breaker. Once Alice tie-breaks, then the state updates so that Bob is the new tie-breaker. And so on.
+We can upgrade this coalgebra to have non-trivial dynamics. Consider a coalgebra with three states. The first state takes the single position of $\yon^2$ to the decision tree as above. The second state takes the single position of $\yon^2$ to a similar decision tree  that has Alice as the tie-breaker instead of Carmen. The third state takes the single position of $\yon^2$ to the decision tree where Bob is the tie-breaker. On directions, if Carmen tie-breaks then the state updates so that Alice is the new tie-breaker. Once Alice tie-breaks, then the state updates so that Bob is the new tie-breaker. And so on.
 
 A more complicated dynamics might learn a preference over initial consultants versus tie-breakers based on the quality of the results. 
 
 If the subordinates Alice, Bob, and Carmen also dynamically decide between $0$ and $1$ based on a decision tree of their own subordinate answers, then composition in $\org_\free\op$ defines a coalgebra which operates on these sub-subordinates. 
+
+
 \end{example}

@@ -1,6 +1,7 @@
-\chapter{$\org^\cofree$}\label{sec:orgc}
+\chapter{The behavior of delegation}\label{sec:orgc}
 
-\dnote{Introduce chapter}
+The operad $\org_\free$ defines patterns of dynamic delegation. This interpretation begs the question of how delegation patterns translate into behaviors of taskmasters and their subordinates. In other words, how do each of the examples in \cref{ex:stream-m} turn the behaviors of Alice, Bob, and Carmen into a behavior of their taskmaster? We begin to answer this question by defining an operad $\org^\cofree$ that gives the semantics for the relationship between behaviors of subordinates and behaviors of their taskmaster.
+
 
 \section{$\cofree$ is a comonad on $\org^\sharp$}
 
@@ -13,12 +14,13 @@ On objects $\cofree$ takes a polynomial $p$ to the cofree comonad $\cofree_p$. O
 \[
     \smcat^\sharp(\cofree_p \otimes \cofree_{[p,q]}, \cofree_q) \to  \poly(\cofree_p \otimes \cofree_{[p,q]}, \cofree_q) \iso \poly(\cofree_{[p,q]}, [\cofree_p, \cofree_q]) \iso \smcat^\sharp(\cofree_{[p,q]}, \cofree_{[\cofree_p, \cofree_q]}).
 \]
+This map $\cofree \colon \org^\# \to \org^\#$ preserves identity and composition for the same reasons that $\free \colon \org^\# \to \org^\#$ does. 
 
 \begin{theorem}
     The $\smcat^\sharp$-enriched functor $\cofree \colon \org^\sharp \to \org^\sharp$ is a comonad.
 \end{theorem}
 \begin{proof}
-    We need to define $\smcat^\sharp$-enriched natural transformations $\cofree \Rightarrow \id_\poly$ and $\cofree \Rightarrow \cofree \circ \cofree$ to the co-unit and comultiplication maps.
+    We need to define $\smcat^\sharp$-enriched natural transformations $\cofree \Rightarrow \id_\poly$ and $\cofree \Rightarrow \cofree \circ \cofree$ for the co-unit and comultiplication maps.
 
     For the polynomial $p$, the counit at $p$ is an element of $\smcat^\sharp(\yon, \cofree_{[\cofree_p, p]})$. We define it to be the image of the counit $\ccoun_p \colon \cofree_p \to p$ under the isomorphisms
     \[
@@ -54,7 +56,7 @@ On objects $\cofree$ takes a polynomial $p$ to the cofree comonad $\cofree_p$. O
     	\arrow[from=2-2, to=2-3]
     \end{tikzcd}\]
 
-  The left-hand square commutes by definition of the compositor. The right-hand square commutes by naturality of the co-unit.
+  The left-hand square commutes by definition of the compositor. The right-hand square commutes by naturality of the counit.
 
     For a polynomial $p$, define the comultiplication at $p$ to be the image of the unit $\cun_{\cofree_p} \colon \cofree_p \to \cofree_{\cofree_p}$ under the isomorphisms
     \[
@@ -104,12 +106,12 @@ On objects $\cofree$ takes a polynomial $p$ to the cofree comonad $\cofree_p$. O
 
 \section{The operad $(\org^\sharp)^\cofree$}
 
-As in \cref{sec:operad-orgm}, we will define a $\smcat^\sharp$-enriched operad $(\org^\sharp)^\cofree$ whose 1-ary morphisms are the morphisms of the co-Kleisli category $(\org^\sharp)^\cofree$. However, unlike the operad $\org^\sharp_\free$, this operad will not underlie a symmetric monoidal structure on the co-Kleisli category. We choose this more bespoke definition, because it leads to a lovely correspondence with the $\smcat^\sharp$-enriched operad $\org^\sharp_\free$ that is the heart of \cref{sec:matter-pattern}.
+As in \cref{sec:operad-orgm}, we will define a $\smcat^\sharp$-enriched operad $(\org^\sharp)^\cofree$ whose 1-ary morphisms are the morphisms of the co-Kleisli category $(\org^\sharp)^\cofree$. However, unlike the operad $\org^\sharp_\free$, this operad will not underlie a symmetric monoidal structure on the co-Kleisli category. We choose this more bespoke definition, because it leads to a lovely correspondence with the $\smcat^\sharp$-enriched operad $\org^\sharp_\free$ that is at the heart of \cref{sec:matter-pattern}.
 
 \begin{theorem}
     There is a $\smcat^\sharp$-enriched operad $(\org^\sharp)^\cofree$ whose objects are polynomials and whose morphisms are defined by 
     \[
-        (\org^\sharp)^\cofree(p_1, \cdots , p_m, q) \coloneqq \cofree_{[\cofree_{p_1} \otimes \cdots \otimes \cofree_{p_m}, q]}.
+        (\org^\sharp)^\cofree(p_1, \cdots , p_m; q) \coloneqq \cofree_{[\cofree_{p_1} \otimes \cdots \otimes \cofree_{p_m}, q]}.
     \]
 \end{theorem}
 \begin{proof}
@@ -133,6 +135,10 @@ As in \cref{sec:operad-orgm}, we will define a $\smcat^\sharp$-enriched operad $
     The unit and associativity laws follow from parallel reasoning of the unit and associativity laws of the comonad $\cofree \colon \org^\sharp \to \org^\sharp$.
 \end{proof}
 
+\begin{definition}
+    Let $\org^\cofree$ be the $\smcat$-enriched category corresponding to $(\org^\sharp)^\cofree$ under the map of enriching categories $\Cat{CAT}(-,\smset) \colon \smcat^\sharp \to \smcat$.
+\end{definition}
+
 \begin{example}
-    
+    A coalgebra in $\org^\cofree(A_1\yon, \cdots , A_n\yon; B\yon)$ on positions takes a state and a stream of symbols in $A_i$ for each $i = 1, \cdots, n$ and produces a symbol in $B$. On directions, it updates the state and returns a prefix in each of the $A_i$ streams. As we will see in \cref{sec:matter-pattern}, we interpret these prefixes as the symbols in each $A_i$ which were used in the production of the $B$ symbol. Furthermore, we interpret the $A_i$ streams as behaviors of subordinates. These subordinates simply output a symbol in $A_i$ when they are invoked, and each subordinate may be invoked any finite number of times in order to produce a symbol in $B$.
 \end{example}

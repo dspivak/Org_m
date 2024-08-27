@@ -21,24 +21,27 @@ We can understand any such element $\varphi:\poly(p,q)$ as a \emph{task delegati
 
 In this paper, we consider a more general sort of task delegation by invoking two additional notions: a monoidal structure $\vee$ (which we pronounce as ``or'') and the free monad construction $\free_-$. The monoidal structure allows for the possibility of multiple agents acting simultaneously, and the free monad allows for the possibility of a multi-step process to take place before an outcome is returned. In general, we will see that a task in $\free_p$ is a well-founded tree---or flowchart---of tasks from $p$. 
 
-For example, consider the polynomial $\yon^\nn$; it has only one task, for which an outcome is any natural number. A map $\yon^\nn\to\free_{\yon^\nn\vee\yon^\nn}$ delegates the task to two subagents of the same sort. Such a map might assign to the unique task the two-step process that first asks each subagent for a natural number, then asks whoever had the bigger number (or the first subagent if the numbers were equal) to choose a second number, and finally returns the sum to the original agent. We will see that Huffman coding, an efficient data compression technique, is another example.
+For example, consider the polynomial $\yon^\nn$; it has only one task, for which an outcome is any natural number. A map $\yon^\nn\to\free_{\yon^\nn\vee\yon^\nn}$ delegates the task to two subagents of the same sort. Such a map might assign to the unique task the two-step process that first asks each subagent for a natural number, then asks whoever had the bigger number (or the first subagent if the numbers were equal) to choose a second number, and finally returns the sum to the original agent. 
+
+In Example~\ref{ex:stream-m}, we will define a map $\yon ^2 \to \free_{\yon^2 \vee \yon^2 \vee \yon^2}$ that delegates the task of selecting a bit to three subagents by asking the first two subagents for a bit. If they agree then return that bit. Otherwise, invoke the third subagent as a tie-breaker. This pattern of task delegation corresponds to the following position of $\free_{\yon^2 \vee \yon^2 \vee \yon^2}$. Note that we use colors to depict the outcomes of the different subagents. 
+\input{figures/carmen-tie-breaks}
+We will see that Huffman coding, an efficient data compression technique, is another example.
 
 We thus obtain a language, which can be seen as an accounting system for agents that can each recursively call subagents to perform tasks, as well as for how agents can \emph{learn} from the resulting outcomes. Mathematically, we structure this as a generalization of \emph{dynamic monoidal category}, in the sense of \cite{shapiro2022dynamic}, of which the gradient descent and backpropagation pattern in deep learning is also an example. That paper discussed various examples of categorical structures (categories, monoidal categories, multicategories, etc.) enriched in $\org$, a variant of which was introduced in \cite[Def 2.19]{spivak2021learnersv1}. 
 
-In this paper, we show that the free monad monad $\free_-\colon\poly\to\poly$ extends to a monad on $\org$, one which is furthermore lax monoidal with respect to $\vee$. The Kleisli \dnote{Replace ``double'' throughout the intro with XXX.} double category $\org_\free$ serves as a base of enrichment for a more flexible kind of dynamic categorical structures, ones where the subordinate dynamics can occur at \emph{faster timescales} than the higher-level dynamics does.
+In this paper, we show that the free monad monad $\free_-\colon\poly\to\poly$ extends to a monad on $\org$, one which is furthermore lax monoidal with respect to $\vee$. The Kleisli $\smcat$-enriched category $\org_\free$ serves as a base of enrichment for a more flexible kind of dynamic categorical structures, ones where the subordinate dynamics can occur at \emph{faster timescales} than the higher-level dynamics does.
 
-\dnote{Draw a tree-shaped picture here?}
 
-We go only two steps further. First we describe a dynamic operad that we denote $\org^\cofree$, corresponding to the cofree comonad comonad $\cofree_-\colon\poly\to\poly$. And second, we provide a double functor $[-,t]\colon\org_\free\op\to\org^\cofree$ for any polynomial monad $t$, which ``converts patterns to the matter they run on'', in the sense of \cite{libkind2024pattern}. Taking $t=\yon$, a hierarchical agent which adds up pairs of numbers that its subordinates choose would be sent to a machine that takes streams of numbers and adds up consecutive pairs in the corresponding way. Taking $t=\lott$ to be the monad corresponding to finite-sample-space random variables, the same is true except that an element of randomness is introduced at each stage. All this will be made explicit in the text below.
+We go only two steps further. First we describe a $\smcat$-enriched  operad that we denote $\org^\cofree$, corresponding to the cofree comonad comonad $\cofree_-\colon\poly\to\poly$. And second, we provide a $\smcat$-enriched functor $[-,t]\colon\org_\free\op\to\org^\cofree$ for any polynomial monad $t$, which ``converts patterns to the matter they run on'', in the sense of \cite{libkind2024pattern}. For example, taking $t=\yon$, a hierarchical agent which adds up pairs of numbers that its subordinates choose would be sent to a machine that takes streams of numbers and adds up consecutive pairs in the corresponding way. Taking $t=\lott$ to be the monad corresponding to finite-sample-space random variables, the same is true except that an element of randomness is introduced at each stage. All this will be made explicit in the text below.
 
 
 \section*{Plan of the paper}
 
 In \cref{sec:background} we introduce the $\smcat^\sharp$-enriched category $\org^\sharp$ as well as the adjunctions which define the free monad monad $\free$ and the cofree comonad comonad $\cofree$. 
-In \cref{sec:orgm}, we define the XXX $\org_\free$ and in \cref{sec:orgc} we define the XXX $\org^\cofree$. 
-Finally, in \cref{sec:matter-pattern} we define a XXX functor $[-, t] \colon \org_\free\op \to \org^\cofree$ for any polynomial monad $t$ and give several applications. 
+In \cref{sec:orgm}, we define the $\smcat$-enriched operad $\org_\free$ and in \cref{sec:orgc} we define the $\smcat$-enriched operad $\org^\cofree$. 
+Finally, in \cref{sec:matter-pattern} we define a $\smcat$-enriched operad functor $[-, t] \colon \org_\free\op \to \org^\cofree$ for any polynomial monad $t$ and give several applications. 
 
 \section*{Acknowledgments}
-We appreciate helpful conversations with C.B. Aberl\'e, who suggested our stream-processing example, \cref{**}.
+We appreciate helpful conversations with C.B. Aberl\'e, who suggested our stream-processing example, \cref{ex:stream-m2}.
 
 \thanksAFOSR{FA9550-23-1-0376}.

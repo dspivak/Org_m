@@ -1,17 +1,21 @@
 \chapter{Background} \label{sec:background}
 
-For background on $\poly$ see \cite{**}. In \cref{sec.(co)free(co)monad} we briefly recall the free monad $\free_-$ and cofree comonad $\cofree_-$ constructions, as well as the module structure $\free_p\otimes\cofree_q\to\free_{p\otimes q}$ between them. In \cref{sec.orgsharp} we discuss the $\smcat^\sharp$-enriched category $\org^\sharp$ \dnote{because it ?}.
+For background on $\poly$ see \cite{niu2022poly}. In \cref{sec.(co)free(co)monad} we briefly recall the free monad $\free_-$ and cofree comonad $\cofree_-$ constructions, as well as the module structure $\free_p\otimes\cofree_q\to\free_{p\otimes q}$ between them. In \cref{sec.orgsharp} we discuss the $\smcat^\sharp$-enriched category $\org^\sharp$ to which we will extend the free monad and cofree comonad constructions.
 
 
 \section{The free monad monad and the cofree comonad comonad}\label{sec.(co)free(co)monad}
 
-Two key players in our story are the free monad monad $\free$ and the cofree comonad comonad $\cofree$. These were introduced in \cite{Old stuff, maybe talk about Kelly?} and an intuitive explanation was given in \cite{libkind2024pattern}; we describe their key features below. A \defined{polynomial monad} (referred to here as monad) is a $\tri$-monoid. The category of polynomial monads is $\modpoly$. A \defined{ polynomial comonad} (referred to here as comonad) is a $\tri$-comonoid. There is an equivalence
+Two key players in our story are the free monad monad $\free$ and the cofree comonad comonad $\cofree$. The general construction of the free monad monad was introduced in \cite{kelly1980unified} and an intuitive explanation was given in \cite{libkind2024pattern}; we describe their key features below. A \defined{polynomial monad} (referred to here as monad) is a $\tri$-monoid. The category of polynomial monads is $\modpoly$. A \defined{ polynomial comonad} (referred to here as comonad) is a $\tri$-comonoid. There is an equivalence
 \[
-\Cat{Comod}_\poly\cong\smcat^\sharp
+    \Cat{Comod}_\poly\cong\smcat^\sharp
 \]
-between the category of polynomial comonads and the category $\smcat^\sharp$ consisting of categories and retrofunctors between them.\cite{XXX}
+between the category of polynomial comonads and the category $\smcat^\sharp$ consisting of categories and retrofunctors between them.
 
-Given a polynomial $p$, the free monad is $\free_p$ whose positions are $p$-shaped decision trees and whose directions are the leaves of the tree. The free monad is defined via transfinite induction where we define polynomials $p\hoc{\alpha}$ for ordinals $\alpha$ and cartesian inclusions $\iota\hoc\alpha\colon p\hoc{\alpha} \to p\hoc{\alpha +1}$. For the base case, $p\hoc{0} \coloneqq \yon$. For successor ordinals $\alpha + 1$, $p\hoc{\alpha + 1} \coloneqq \yon + p \tri p\hoc{\alpha}$, and for limit ordinals $\alpha$, $p\hoc{\alpha} \coloneqq \colim_{\alpha' < \alpha} p \hoc{\alpha'}$. 
+Given a polynomial $p$, the free monad is the polynomial $\free_p$ whose positions are $p$-shaped decision trees and whose directions are the leaves of the tree. For example, the following is a position of $\free_{\yon^2}$ with $5$ directions. 
+
+\input{figures/mp-example}
+
+The free monad is defined via transfinite induction where we define polynomials $p\hoc{\alpha}$ for ordinals $\alpha$ and cartesian inclusions $\iota\hoc\alpha\colon p\hoc{\alpha} \to p\hoc{\alpha +1}$. For the base case, $p\hoc{0} \coloneqq \yon$. For successor ordinals $\alpha + 1$, $p\hoc{\alpha + 1} \coloneqq \yon + p \tri p\hoc{\alpha}$, and for limit ordinals $\alpha$, $p\hoc{\alpha} \coloneqq \colim_{\alpha' < \alpha} p \hoc{\alpha'}$. 
 
 
 \cite[Theorem 2.10]{libkind2024pattern} defines an adjunction
@@ -20,7 +24,8 @@ Given a polynomial $p$, the free monad is $\free_p$ whose positions are $p$-shap
 \]
 whose unit we denote $\mun$ and whose counit we denote $\mcoun$.
 
-Given a polynomial $p$, the cofree comonad is $\cofree_p$ whose positions are $p$-shaped behavior trees and whose directions are finite paths up the tree. For example, XXX % example used in the application
+Given a polynomial $p$, the cofree comonad is $\cofree_p$ whose positions are $p$-shaped behavior trees and whose directions are finite paths up the tree. For example, a position of $\cofree_{2y}$ is a stream of $0$s and $1$ (the two positions of $2y$). Its directions are the natural numbers, where a direction $n$ corresponds to the first $n$ tokens of the stream.
+
 \cite[Theorem 3.2]{libkind2024pattern} defines an adjunction 
 \[
     \adj{\catsharp}{U}{\cofree_-}{\poly}
@@ -36,7 +41,7 @@ The main result of \cite[Theorem 3.4]{libkind2024pattern} was to prove that $\fr
 \] which is defined as the image of the composite
 \[
     p \otimes \cofree_q \xrightarrow{p \otimes \ccoun_q} p \otimes q \xrightarrow{\mun_{p \otimes q}} \free_{p \otimes q}
-\] under the maps
+\] under the isomorphisms
 \[
     \poly(p \otimes \cofree_q, \free_{p\otimes q})  \iso \modpoly(\free_p, [\cofree_q, \free_{p\otimes q}]) \to \poly(\free_p \otimes \cofree_q, \free_{p \otimes q}).
 \] We call $\modstruct$ the \defined{interaction law}.
@@ -45,7 +50,7 @@ The main result of \cite[Theorem 3.4]{libkind2024pattern} was to prove that $\fr
 
 \section{The $\smcat^\sharp$-enriched category $\org^\sharp$}\label{sec.orgsharp}
 
-In this paper we define $\org^\sharp$ to be the $\smcat^\sharp$-enriched category whose objects are polynomials and whose morphisms are defined by $\org^\sharp(p, q) = \cofree_{[p,q]}$. 
+In this paper we define $\org^\sharp$ to be the $\smcat^\sharp$-enriched category whose objects are polynomials and whose morphisms are defined by $\org^\sharp(p, q) \coloneqq \cofree_{[p,q]}$. 
 Composition is defined by 
 \[
     \cofree_{[p,q]} \otimes \cofree_{[q,r]} \to \cofree_{[p, q] \otimes [q, r]} \to \cofree_{[p, r]}
@@ -54,7 +59,7 @@ where the first map is the productor of $\cofree$ and the second uses functorial
 
 For the identity on a polynomial $p$, we use the fact that $\yon$ has a unique comonoid structure, and take the image of the polynomial identity on $p$ under the isomorphisms
 \[
-    \poly(p, p) \iso \poly(\yon , [p, p]) \iso \comodpoly(\yon, \cofree_{[p,p]}).
+    \poly(p, p) \iso \poly(\yon , [p, p]) \iso \smcat^\#(\yon, \cofree_{[p,p]}).
 \]
 
 Consider the lax monoidal functor

@@ -1,8 +1,8 @@
 \chapter{From matter to pattern}\label{sec:matter-pattern}
 
-The main result of this work is the operad functor $(\org_\free^\sharp)\op \to (\org^\sharp)^\cofree$ defined in ~\cref{thm:matter-pattern} which ``turns pattern into matter''. In this Section we will prove ~\cref{thm:matter-pattern} and then make sense of this interpretation through examples.
+The main result of this work is the operad functor $(\org_\free^\sharp)\op \to (\org^\sharp)^\cofree$ defined in ~\cref{thm:matter-pattern} which \emph{turns patterns of delegation into matter (i.e. behaviors)}. In this Section we will prove ~\cref{thm:matter-pattern} and then make sense of this interpretation through examples.
 
-Following ~\cite{libkind2024pattern} the positions of $\free_p$ are $p$-shaped decision trees which we interpret as patterns of shape $p$. The nodes of such a tree are positions of $p$ (which we interpret as $p$-questions) and branches are directions of $p$ (which we interpret as $p$-answers). Given such a decision tree, we want a way to \textit{run} it. In other words, we want a device that gives the necessary information to 
+% Following ~\cite{libkind2024pattern} the positions of $\free_p$ are $p$-shaped decision trees which we interpret as patterns of shape $p$. The nodes of such a tree are positions of $p$ (which we interpret as $p$-questions) and branches are directions of $p$ (which we interpret as $p$-answers). Given such a decision tree, we want a way to \textit{run} it. In other words, we want a device that gives the necessary information to 
 
 Let $t_1$ and $t_2$ be $\tri$-monoids. Recall, that by duoidality $t_1 \otimes t_2$ is a $\tri$-monoid as well. There is a unique polynomial map
 \begin{equation}\label{eq:p1-vee-p2}
@@ -80,14 +80,15 @@ The map in \cref{eq:free-p1-vee-p2} is the key ingredient to defining maps
     \free_{p_1 \vee \cdots \vee p_n} \otimes \cofree_{[p_1, t_1]} \otimes \cdots\otimes \cofree_{[p_n, t_n]} \to t_1 \otimes \cdots \otimes t_n
 \end{equation}
 by induction.
-The base case  $\free_\yon \to t$ is the composite \[\free_\yon \to \yon \to t\] where the second map is the unit of $t$. For the induction step, the map in \cref{eq:free-p1-vee-pn} induces a retrofunctor 
+The base case  $\free_\yon \to \yon$ is the counit $\mcoun_\yon$. For the induction step, the map in \cref{eq:free-p1-vee-pn} induces a retrofunctor 
 \[
     \cofree_{[p_1, t_1]} \otimes \cdots \otimes \cofree_{[p_n, t_n]} \to \cofree_{[p_1 \vee \cdots \vee p_n, t_1 \otimes \cdots \otimes t_n]}
 \] via the unit $\mun_{p_1 \vee \cdots \vee p_n}\colon p_1 \vee \cdots \vee p_n \to \free_{p_1 \vee \cdots \vee p_n}$.
 Composing this map with the map in \cref{eq:free-p1-vee-p2} concludes the induction argument:
 \begin{align*}
-    \free_{p_1 \vee \cdots \vee p_n \vee p_{n+1}} \otimes \cofree_{[p_1, t_1]} \otimes \cdots\otimes \cofree_{[p_n, t_n]} \otimes \cofree_{[p_{n+1} , t_{n+1}]} & \to \free_{p_1 \vee \cdots \vee p_n \vee p_{n+1}} \otimes \cofree_{[p_1 \vee \cdots \vee p_n, t_1 \otimes \cdots \otimes t_n]} \otimes \cofree_{[p_{n+1} , t_{n+1}]} \\
-    & \to t_1 \otimes \cdots \otimes t_n \otimes t_{n+1}.
+    & \free_{p_1 \vee \cdots \vee p_n \vee p_{n+1}} \otimes \cofree_{[p_1, t_1]} \otimes \cdots\otimes \cofree_{[p_n, t_n]} \otimes \cofree_{[p_{n+1} , t_{n+1}]} \\
+   & \quad \to  \free_{p_1 \vee \cdots \vee p_n \vee p_{n+1}} \otimes \cofree_{[p_1 \vee \cdots \vee p_n, t_1 \otimes \cdots \otimes t_n]} \otimes \cofree_{[p_{n+1} , t_{n+1}]} \\
+      &\quad \to  t_1 \otimes \cdots \otimes t_n \otimes t_{n+1}.
 \end{align*}
 
 
@@ -101,7 +102,7 @@ Composing this map with the map in \cref{eq:free-p1-vee-p2} concludes the induct
     which on objects maps a polynomial $p$ to the polynomial $[p,t]$. On morphisms, it is the $\smcat^\sharp$ map
     \[
         \cofree_{[q, \free_{p_1 \vee \cdots \vee p_n}]} \to \cofree_{[\cofree_{[p_1,t]} \otimes \cdots \otimes \cofree_{[p_n, t]}, \cofree_{[q,t]}]}
-    \] that is the image under $\cofree \colon \poly \to \smcat^\#$ of the  polynomial map $[q, \free_{p_1 \vee \cdots \vee p_n}] \to [\cofree_{[p_1, t]} \otimes \cdots \otimes \cofree_{[p_n, t]} , [q, t]]$ induced by 
+    \] that is the image under $\cofree \colon \poly \to \smcat^\#$ of the  polynomial map \[ [q, \free_{p_1 \vee \cdots \vee p_n}] \to [\cofree_{[p_1, t]} \otimes \cdots \otimes \cofree_{[p_n, t]} , [q, t]]\] induced by 
     \begin{align*}
         q \otimes [q, \free_{p_1 \vee \cdots \vee p_n}] \otimes \cofree_{[p_1, t]} \otimes \cdots \otimes \cofree_{[p_n, t]} & \xrightarrow{\eval} \free_{p_1 \vee \cdots \vee p_n} \otimes \cofree_{[p_1, t]} \otimes \cdots \otimes \cofree_{[p_n, t]}  \\
         & \to t \otimes \cdots \otimes t \\
@@ -170,26 +171,42 @@ Under the map of enriching categories $\Cat{CAT}(-, \smset) \colon \smcat^\sharp
 $[q, \free_{p_1 \vee \cdots \vee p_m}]$-coalgebra into a 
 $[\cofree_{[p_1, t]} \otimes \cdots \otimes \cofree_{[p_m, t]}, [q, t]]$-coalgebra. 
 
-\begin{example}
+\begin{example}\label{ex:stream-m2}
     Consider the $[\yon^2, \free_{\alice \vee \bob \vee \carmen}]$-coalgebras defined in \cref{ex:stream-m}. Under the $\smcat$-enriched operad functor $[-,t]\colon\org_\free\op \to \org^\cofree$, each one defines a $[\cofree_{[\alice, t] \otimes \cofree_{[\bob, t]} \otimes \cofree_{[\carmen, t]}}, [\yon^2, t])$-coalgebra which is equivalent to a polynomial map 
     \begin{equation}\label{eq:matter}
         S\yon^S \otimes \yon^2 \otimes \cofree_{[\alice, t]} \otimes \cofree_{[\bob, t]} \otimes \cofree_{[\carmen, t]} \to t.
     \end{equation}
         
-    For $t = \yon$, the positions of the polynomial $\cofree_{[\alice, t]} = \cofree_{2\yon}$ \dnote{say somewhere that $[\yon^2,\yon]\cong2\yon$} are streams of $0$s and $1$s. A particular choice of stream $\yon \to \cofree_{[\alice, t]}$ represents Alice's behavior. Likewise for $\cofree_{[\bob, t]}$  and $\cofree_{[\carmen, t]}$.  Given behaviors for Alice, Bob, and Carmen and a starting state in $S$, \cref{eq:matter} defines a stream $\yon \to \cofree_{[\yon^2, \yon]}$. A token of this stream is produced by applying the results of the Alice, Bob, and Carmen streams to the decision tree in $\free_{\alice \vee \bob \vee \carmen}$ defined by the state. For each token, zero or one (or in the case of more complicated decision trees, multiple) tokens of Alice, Bob, and Carmen's streams are consumed. 
+    In general $[\yon^A , \yon] \iso A\yon$. So for $t = \yon$, the positions of the polynomial $\cofree_{[\alice, t]} = \cofree_{2\yon}$ are streams of $0$s and $1$s. A particular choice of stream $\yon \to \cofree_{[\alice, t]}$ represents Alice's behavior, in other words which bits she will respond with when invoked. Likewise for $\cofree_{[\bob, t]}$  and $\cofree_{[\carmen, t]}$.  Given behaviors for Alice, Bob, and Carmen and a starting state in $S$, \cref{eq:matter} defines a stream $\yon \to \cofree_{[\yon^2, t]}$. A token of this stream is produced by applying the results of the Alice, Bob, and Carmen streams to the decision tree in $\free_{\alice \vee \bob \vee \carmen}$ defined by the state. For each token, zero or one (or in the case of more complicated decision trees, multiple) tokens of Alice, Bob, and Carmen's streams are consumed. \cref{fig:abc-stream} gives an example of the map from behaviors of Alice, Bob, and Carmen for the delegation pattern described in \cref{fig:carmen-tie-breaks}.
+
+    \begin{figure}
+        \begin{subfigure}[b]{0.32\textwidth}
+             \include{figures/abc-stream}
+             \caption{}
+         \end{subfigure}
+         \begin{subfigure}[b]{0.32\textwidth}
+             \include{figures/abc-stream2}
+             \caption{}
+         \end{subfigure}
+         \begin{subfigure}[b]{0.32\textwidth}
+             \include{figures/abc-stream3}
+             \caption{}
+         \end{subfigure}
+        \caption{The functor $[-, \yon ] \colon \org_\free\op \to \org^\cofree$ transforms the delegation pattern in \cref{fig:carmen-tie-breaks} in to a way of determining outcomes from behaviors of Alice, Bob, and Carmen. For example, given the shown streams of behavior, this delegation pattern  first produces a $0$ (see (a)) because Alice and Bob agreed. This outcome consumes the first token in Alice's stream and Bob's stream. It consumes none of the tokens in Carmen's stream, because Carmen was not invoked to tie-break. Next, it produces a $1$ (see (b)) by Carmen's tie-break. These first two outcomes consume  the first two tokens in Alice's stream and Bob's stream. It consumes the first token in Carmen's stream. Next, it produces a $0$ again (see (c)). These first three outcomes consume the first three tokens in Alice's stream and Bob's stream. It consumes the first token in Carmen's stream.}
+        \label{fig:abc-stream}
+    \end{figure}
     
-    \dnote{Give example of some input streams and show how the elements are consumed to give the output?}
 
     For more general $t$, these simple behavior streams are replaced with more complicated behaviors. For example, for $t = \lott$ Alice's behavior may be that of a biased coin whose bias may change over time. \dnote{Show example?}
 \end{example}
 
-Distilling this example, a morphism $\org_\free\op(\yon^{A_1}, \cdots, \yon^{A_n}; \yon^B)$ are dynamic patterns that define how to turn streams of tokens in $A_1, \cdots, A_n$ into a stream of tokens in $B$. Therefore we defined the category of \defined{stream processors} to be the full subcategory of $\org_\free\op$ spanned by monomials.
+Distilling this example, a morphism $\org_\free\op(\yon^{A_1}, \cdots, \yon^{A_n}; \yon^B)$ is a  dynamic pattern that defines how to turn streams of tokens in $A_1, \cdots, A_n$ into a stream of tokens in $B$. Therefore we defined the category of \defined{stream processors} to be the full subcategory of $\org_\free\op$ spanned by monomials.
 
 \newcommand{\huff}{{\mathsf{huff}}}
 
 \begin{example}[Huffman coding]
 
-Huffman coding is a technique for data compression in which more frequent symbols get shorter codes, while less frequent ones get longer codes. Given a distribution on $N$ symbols, Huffman coding defines a binary code on each symbol. ~\cref{fig:huffman-standard} exemplifies how to produce a Huffman code for a language with symbols and respective probabilities:
+Huffman coding is a technique for data compression in which more frequent symbols get shorter codes, while less frequent ones get longer codes. Given a distribution on $N$ symbols, its Huffman code is a binary code for each symbol. ~\cref{fig:huffman-standard} exemplifies how to produce a Huffman code for a language with symbols and respective probabilities:
 
 \begin{table}[h]
     \centering
@@ -208,7 +225,7 @@ Huffman coding is a technique for data compression in which more frequent symbol
     \label{fig:huffman-standard}
 \end{figure}
 
-The code is a polynomial functor \[
+Huffman coding corresponds to a polynomial functor \[
     \huff \colon \lott \to \free_{\yon^2}
 \] which we define inductively as polynomial functors $\huff_N \colon \sum_{\Delta_N} \yon^N \to \free_{\yon^2}$ for $N \geq 1$. Note that the positions of $\free_{\yon^2}$ are binary trees whose directions are the leaves of the tree.
 
@@ -223,7 +240,7 @@ For the base case, $\huff_1 \colon \yon \to \free_{\yon^2}$ is the inclusion of 
         \end{cases}
     \] Finally, to complete the map on positions, we define a map $N \to (\yon + \yon^2)(1)$ which takes $i$ to the $\yon^2$ position if $i = i_1$ and the $\yon$ position otherwise. On directions, it is defined by $(i_1, k) \mapsto i_k$ for $k = 1,2$, $(i, *) \mapsto i$ for $i < i_2, i \neq i_1$, and $(i, *) \mapsto i + 1$ for $i \geq i_2$.
 }
-Figure~\ref{fig:huffN} is an example of this map for $N = 5$ on the position $(0.30, 0.02, 0.45, 0.15, 0.08)$.
+Figure~\ref{fig:huffN} is an example of this map for $N = 4$ on the position $(0.30, 0.02, 0.45, 0.15, 0.08)$.
 
 
 \begin{figure}
@@ -236,9 +253,8 @@ Figure~\ref{fig:huffN} is an example of this map for $N = 5$ on the position $(0
 
 Then we define $\huff_{N+1}$ to be the composite
 \[
-    \sum_{\Delta_{N+1}} \yon^{N+1} \to \sum_{\Delta_N}\yon^N \tri (\yon + \yon^2) \xrightarrow{{\huff_{N}}} \free_{\yon^2} \tri (\yon + \yon^2) \to \free_{\yon^2} \tri \free_{\yon^2} \to \free_{\yon^2}
+    \sum_{\Delta_{N+1}} \yon^{N+1} \to \sum_{\Delta_N}\yon^N \tri (\yon + \yon^2) \to \free_{\yon^2} \tri (\yon + \yon^2) \to \free_{\yon^2} \tri \free_{\yon^2} \to \free_{\yon^2}
 \] where the second to last map is given by the inclusion $\yon + \yon^2 \to \free_{\yon^2}$ and the final map is the $\tri$-monoidal structure on $\free_{\yon^2}$.
-
 Figure~\ref{fig:huff} gives an example of $\huff$ on the position $(0.3, 0.02, 0.45, 0.15, 0.08)$.
 
 \begin{figure}
@@ -263,12 +279,12 @@ By iteratively decoding, this polynomial map is a cofunctor $\cofree_{2\yon} \to
 
 On positions the induced cofunctor $\cofree_{2\yon} \to \cofree_{A\yon}$ decodes a bit stream into a stream of symbols in $A$. On directions, it maps $n$ symbols produced to the number of initial bits that encode the $n$ symbols.
 
-For example consider the position of $\lott \tri \{A, B, C, D, E\}$ given by the lottery on $5$ tickets with probabilities $(0.3, 0.02, 0.45, 0.15, 0.08)$ where each of the 5 tickets are mapped to $A$, $B$, $C$, $D$, and $E$ respectively. This data defines a cofunctor $\cofree_{2\yon} \to \cofree_{\{A, B, C, D, E\}\yon}$. An example of the behavior of this cofunctor is give in Figure~\ref{fig:huff-stream}.
+For example consider the position of $\lott \tri \{A, B, C, D, E\}$ given by the lottery on $5$ tickets with probabilities $(0.3, 0.02, 0.45, 0.15, 0.08)$ and where each of the 5 tickets is mapped to $A$, $B$, $C$, $D$, and $E$ respectively. This data defines a cofunctor $\cofree_{2\yon} \to \cofree_{\{A, B, C, D, E\}\yon}$. An example of the behavior of this cofunctor is give in Figure~\ref{fig:huff-stream}.
 
 
 \begin{figure}
     \include{figures/huffman-example}
-    \caption{On positions, a bit stream beginning with \texttt{00101100101000...} produces a stream of symbols beginning with \texttt{ACDACB...}. The $|$ depicts the action on directions. In particular, the direction corresponding to the prefix \texttt{A}, maps to the prefix \texttt{00}, since this is the Huffman encoding of the symbol $A$. It maps the direction corresponding to the prefix \texttt{AC} to the prefix \texttt{001}. And so forth.}
+    \caption{On positions, a bit stream beginning with \texttt{00101100101000...} produces a stream of symbols beginning with \texttt{ACDACB...}. In the top line the $|$ depicts the action on directions. In particular, the direction corresponding to the prefix \texttt{A}, maps to the prefix \texttt{00}, since this is the Huffman encoding of the symbol $A$. It maps the direction corresponding to the prefix \texttt{AC} to the prefix \texttt{001}. And so forth.}
     \label{fig:huff-stream}
 \end{figure}
 

@@ -1,19 +1,19 @@
 \[
-\begin{tikzpicture}[trees,
-   level distance=1.5cm,sibling distance=1.75cm, 
+\begin{tikzpicture}[trees,thick,
+   level distance=1cm,sibling distance=1.5cm, 
    edge from parent path={(\tikzparentnode) -- (\tikzchildnode)}]
-\Tree [.$\bullet$
+\Tree [.$\quad$
     \edge node[auto=left] {$(\azero, \bzero)$};  
     [.$\quad$ ]
     \edge node[auto=right] {$(\azero, \bone)$};
-    [.$\bullet$
+    [.$\quad$
       \edge node[auto=left] {$\czero$};
       [.$\quad$ ] 
       \edge node[auto=right] {$\cone$};
       [.$\quad$ ] 
     ] 
     \edge node[auto=left] {$(\aone, \bzero)$};
-    [.$\bullet$
+    [.$\quad$
       \edge node[auto=left] {$\czero$};
       [.$\quad$ ] 
       \edge node[auto=right] {$\cone$};
