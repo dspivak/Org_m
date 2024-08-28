@@ -22,9 +22,7 @@
 
 
 
-\usepackage[backend=biber, backref=true, maxbibnames = 10, style = alphabetic]{biblatex}
-\usepackage[bookmarks=true, colorlinks=true, linkcolor=blue!50!black,
-citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperref}
+\usepackage[bookmarks=true, colorlinks=true, linkcolor=blue!50!black, citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperref}
 \usepackage[capitalize]{cleveref}
 
 \usepackage{tikz}
@@ -53,7 +51,6 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 
 
 % biblatex %
-  \addbibresource{Library20240724.bib} 
 
 % hyperref %
   \hypersetup{final}
@@ -95,6 +92,11 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 
 \usepackage{forest}
 
+\usepackage[backref=true, maxbibnames = 10, style = alphabetic]{biblatex}
+
+\addbibresource{Library20240724.bib} 
+
+
 %--------------- Document ---------------%
 \begin{document}
 
@@ -126,4 +128,5 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 Bring in behavior contracts for $\org_\free$, as in \cite{schultz2016dynamical,spivak2021learners}.
 
 \printbibliography
+
 \end{document}
