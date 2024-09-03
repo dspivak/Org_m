@@ -92,7 +92,7 @@
 
 \usepackage{forest}
 
-\usepackage[backref=true, maxbibnames = 10, style = alphabetic]{biblatex}
+\usepackage[backend=biber, backref=true, maxbibnames = 10, style = alphabetic]{biblatex}
 
 \addbibresource{Library20240724.bib} 
 
@@ -101,7 +101,7 @@
 \begin{document}
 
 \title{Dynamic task delegation for hierarchical agents}
-\title{Dynamic delegation for hierarchical agency}
+% \title{Dynamic delegation for hierarchical agency}
 
 \author{
 	Sophie Libkind\and
@@ -113,6 +113,9 @@
 \maketitle
 
 \begin{abstract}
+This paper is the fourth installment in a series of toy models of hierarchical structure for dynamical systems using polynomial functors. In the first iteration, the operad underlying the symmetric monoidal category $(\poly, \otimes, \yon)$ can be viewed as defining the behavior of hierarchical delegation. In particular, a morphism $\poly(p_1 \otimes \cdots \otimes p_m, q)$ turns the outputs of subordindates with interfaces $p_i$ into the output of an agent with interface $q$ and turns a task given to the agent into a task for each of the subordinates \cite{niu2022poly}. \cite{shapiro2022dynamic} extends this story by making it \emph{dynamic}. In other words, the way that subordinate outputs become agent outputs and agent tasks become subordinate tasks can change over time rather than remaining fixed. Most recently \cite{libkind2024pattern} further extends the story of hierarchical delegation in two different ways. First, it allows the specification of hierarchical delegation programmatically (which we refer to as \emph{pattern}) rather than via behaviors (which we refer to as \emph{matter}).  Second, it allows for the time scales of the subordinates and agents to differ. An agent may rely on several outputs of its subordinates in order to produce its own output.
+
+In this article, we extend the story yet again. First, we extend the framework so that subordinates may be invoked asynchronously depending on the outcomes of other subordinates. From the perspective of programs/pattern, this extension takes the form of a $\smcat$-enriched operad $\org_\free$. From the perspective of behavior/matter, this extension takes the form of a $\smcat$-enriched operad $\org^\cofree$.  Second, we crispen the relationship between the programmatic and behavioral perspectives via a functor $[-, t] \colon \org_\free\op \to \org^\cofree$ for a polynomial monad $t$.
 
 \end{abstract}
 
