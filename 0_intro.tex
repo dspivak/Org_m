@@ -2,7 +2,7 @@
 
 An agent $A$ is given a \emph{task}, and their job is to deliver an \emph{outcome}. They begin by making a plan: invoke a bunch of $A$'s subordinate agents and hand each of them a task of their own, have the subordinates' resulting outcomes determine a different of bunch of $A$'s subordinate agents to hand different tasks to, and so on, until finally after some finite amount of time, the process terminates and $A$ obtains an outcome. Agent $A$ can learn from whatever is delivered from its subordinates, so that the next time it is given the same task or a similar one, it can make a different plan. This same story can take place at any lower (or higher) level in the same way. In other words, each subordinate agent $B$ may also be executing a plan that invokes $B$'s own subordinates, or instead $A$ itself might be a subordinate who was invoked by the plan of a higher-level agent.
 
-We can move from this natural language description of agents and subagents to a mathematical one, using the framework of polynomial functors. While polynomial functors are defined as ``coproducts of representables $\smset\to\smset$'', we will think of them as task-solution interfaces.
+We can move from this natural language description of agents and subagents to a mathematical one, using the framework of polynomial functors (also known as \emph{containers} \cite{abbott2005containers,abbot2003categoriesthesis,ahman2014when}). While polynomial functors are defined as ``coproducts of representables $\smset\to\smset$'', we will think of them as task-solution interfaces.
 \[
 \sum_{T:\text{task}}\yon^{\text{Outcome}[T]}
 \]
@@ -32,14 +32,14 @@ We thus obtain a language, which can be seen as an accounting system for agents 
 In this paper, we show that the free monad monad $\free_-\colon\poly\to\poly$ extends to a monad on $\org$, one which is furthermore lax monoidal with respect to $\vee$. The Kleisli $\smcat$-enriched category $\org_\free$ serves as a base of enrichment for a more flexible kind of dynamic categorical structures, ones where the subordinate dynamics can occur at \emph{faster timescales} than the higher-level dynamics does.
 
 
-We go  two steps further. First we describe a $\smcat$-enriched  operad that we denote $\org^\cofree$, corresponding to the cofree comonad comonad $\cofree_-\colon\poly\to\poly$. And second, we provide a $\smcat$-enriched functor $[-,t]\colon\org_\free\op\to\org^\cofree$ for any polynomial monad $t$, which ``converts patterns to the matter they run on'', in the sense of \cite{libkind2024pattern}. For example, taking $t=\yon$, a hierarchical agent which adds numbers returned by its subordinates  would be sent to a machine that takes streams of numbers (the behaviors of the subordinates)  to the stream of their sum (the behavior of the agent). Taking $t=\lott$ to be the monad corresponding to finite-sample-space random variables, the same is true except that an element of randomness is introduced to the behaviors of the subordinates and agent. All this will be made explicit in the text below.
+We go  two steps further. First we describe a $\smcat$-enriched operad \cite{Leinster:2004a} that we denote $\org^\cofree$, corresponding to the cofree comonad comonad $\cofree_-\colon\poly\to\poly$. And second, we provide a $\smcat$-enriched functor $[-,t]\colon\org_\free\op\to\org^\cofree$ for any polynomial monad $t$, which ``converts patterns to the matter they run on'', in the sense of \cite{libkind2024pattern}; see also \cite{Katsumata2020interaction}. For example, taking $t=\yon$, a hierarchical agent which adds numbers returned by its subordinates  would be sent to a machine that takes streams of numbers (the behaviors of the subordinates)  to the stream of their sum (the behavior of the agent). Taking $t=\lott$ to be the monad corresponding to finite-sample-space random variables, the same is true except that an element of randomness is introduced to the behaviors of the subordinates and agent. All this will be made explicit in the text below.
 
 
 \section*{Plan of the paper}
 
 In \cref{sec:background} we introduce the $\smcat^\sharp$-enriched category $\org^\sharp$ as well as the adjunctions which define the free monad monad $\free$ and the cofree comonad comonad $\cofree$. 
 In \cref{sec:orgm}, we define the $\smcat$-enriched operad $\org_\free$ and in \cref{sec:orgc} we define the $\smcat$-enriched operad $\org^\cofree$. 
-Finally, in \cref{sec:matter-pattern} we define a $\smcat$-enriched operad functor $[-, t] \colon \org_\free\op \to \org^\cofree$ for any polynomial monad $t$ and give several applications. 
+Finally, in \cref{sec:matter-pattern} we define a $\smcat$-enriched operad functor $[-, t] \colon \org_\free\op \to \org^\cofree$ for any polynomial monad $t$ and give several applications.
 
 \section*{Acknowledgments}
 We appreciate helpful conversations with C.B. Aberl\'e, who suggested our stream-processing example, \cref{ex:stream-m2}.
