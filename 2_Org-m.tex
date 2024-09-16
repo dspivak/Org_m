@@ -1,6 +1,6 @@
 \chapter{An operad of pattern delegation}\label{sec:orgm}
 
-In this section we will promote the free monad monad to a monad on $\org^\#$ and show that it is lax monoidal with respect to the monoidal product $\vee$. Then the Kleisli construction defines an $\smcat^\#$-enriched operad $\org_\free^\#$.
+In this section we will promote the free monad monad $\free$ to a monad on $\org^\#$ and show that it is lax monoidal with respect to the monoidal product $\vee$. Then the Kleisli construction defines an $\smcat^\#$-enriched operad $\org_\free^\#$.
 
 \section{Extension of $\free$ to a monad on $\org^\sharp$}
 
@@ -18,7 +18,7 @@ where the first isomorphism is the $\otimes$-hom adjunction and the second isomo
 This map preserves identity because the composite
 \[
     p \to p \otimes [p,p] \xrightarrow{\eval} p
-\] is the identity on $p$ where the first map is the interal-hom identity. It preserves composition because the following diagram commutes % https://q.uiver.app/#q=WzAsNCxbMCwwLCJwIFxcb3RpbWVzIFtwLHFdIFxcb3RpbWVzIFtxLCByXSJdLFswLDEsInEgXFxvdGltZXMgW3Escl0iXSxbMSwxLCJyIl0sWzEsMCwicCBcXG90aW1lcyBbcCwgcl0iXSxbMCwxXSxbMSwyXSxbMywyXSxbMCwzXV0=
+\] is the identity on $p$, where the first map is the interal-hom identity. It preserves composition because the following diagram commutes % https://q.uiver.app/#q=WzAsNCxbMCwwLCJwIFxcb3RpbWVzIFtwLHFdIFxcb3RpbWVzIFtxLCByXSJdLFswLDEsInEgXFxvdGltZXMgW3Escl0iXSxbMSwxLCJyIl0sWzEsMCwicCBcXG90aW1lcyBbcCwgcl0iXSxbMCwxXSxbMSwyXSxbMywyXSxbMCwzXV0=
 \[\begin{tikzcd}
 	{p \otimes [p,q] \otimes [q, r]} & {p \otimes [p, r]} \\
 	{q \otimes [q,r]} & r

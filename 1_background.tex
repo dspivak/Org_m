@@ -1,6 +1,6 @@
 \chapter{Background} \label{sec:background}
 
-For background on $\poly$ see \cite{niu2022poly}. In \cref{sec.(co)free(co)monad} we briefly recall the free monad $\free_-$ and cofree comonad $\cofree_-$ constructions, as well as the module structure $\free_p\otimes\cofree_q\to\free_{p\otimes q}$ between them. In \cref{sec.orgsharp} we discuss the $\smcat^\sharp$-enriched category $\org^\sharp$ to which we will extend the free monad and cofree comonad constructions.
+For background on $\poly$, including the monoidal closed structure $(\otimes,[-,-])$, see \cite{niu2022poly}. In \cref{sec.(co)free(co)monad} we briefly recall the free monad $\free_-$ and cofree comonad $\cofree_-$ constructions, as well as the module structure $\free_p\otimes\cofree_q\to\free_{p\otimes q}$ between them. In \cref{sec.orgsharp} we discuss the $\smcat^\sharp$-enriched category $\org^\sharp$ to which we will extend the free monad and cofree comonad constructions.
 
 
 \section{The free monad monad and the cofree comonad comonad}\label{sec.(co)free(co)monad}
@@ -36,9 +36,9 @@ Given a polynomial $p$, the associated cofree comonad is $\cofree_p$ whose posit
     \adj{\catsharp}{U}{\cofree_-}{\poly}
 \]
 whose counit we denote $\ccoun$. The functor $\cofree$ is lax monoidal with respect to $\otimes$, so it has a productor and unitor of the following types:
-\[
+\begin{equation}\label{eqn.cofree_lax_monoidal}
 \cofree_p\otimes\cofree_q\to\cofree_{p\otimes q}\qqand\yon\to\cofree_\yon.
-\]
+\end{equation}
 
 \begin{example}
 The cofree comonad on a set $A$ is $\cofree_A=A\yon$. The cofree comonad on a representable $\yon^A$ is $\cofree_{\yon^A}=\yon^{\List(A)}$. Finally, the cofree comonad on $A\yon$ is $\cofree_{A\yon}=(A\yon)^\nn$. It has as positions all streams in $A$, and a direction is a natural number: the direction $n$ corresponds to the first $n$ tokens of the stream.
@@ -60,12 +60,12 @@ The main result of \cite[Theorem 3.4]{libkind2024pattern} was to prove that $\fr
 
 \section{The $\smcat^\sharp$-enriched category $\org^\sharp$}\label{sec.orgsharp}
 
-In this paper we define $\org^\sharp$ to be the $\smcat^\sharp$-enriched category whose objects are polynomials and whose morphisms are defined by $\org^\sharp(p, q) \coloneqq \cofree_{[p,q]}$. 
+In this paper we define $\org^\sharp$ to be the $\smcat^\sharp$-enriched category whose objects are polynomials and whose morphisms are defined by $\org^\sharp(p, q) \coloneqq \cofree_{[p,q]}$, the cofree comonad on the internal hom $[p,q]$. 
 Composition is defined by 
 \[
     \cofree_{[p,q]} \otimes \cofree_{[q,r]} \to \cofree_{[p, q] \otimes [q, r]} \to \cofree_{[p, r]}
 \]
-where the first map is the productor of $\cofree$ and the second uses functoriality of $\cofree$ and internal-hom composition.
+where the first map is the productor \eqref{eqn.cofree_lax_monoidal} of $\cofree$ and the second uses functoriality of $\cofree$ and internal-hom composition.
 
 For the identity on a polynomial $p$, we use the fact that $\yon$ has a unique comonoid structure, and take the image of the polynomial identity on $p$ under the isomorphisms
 \[
@@ -75,7 +75,7 @@ For the identity on a polynomial $p$, we use the fact that $\yon$ has a unique c
 Recall that for any orthogonal factorization system $(\cat{L},\cat{R})$ on a category $\cat{C}$, there is a functor $(\cat{R}/-)\colon\cat{C}\to\smcat$ sending $c$ to the slice category $\cat{R}/c$ of maps $d\To{\rho}c$ and sending $f\colon c\to c'$ to the functor $\rho\mapsto\rho'$ where $\rho'$ is the right-factor of the composite $\rho\then f=\ell\then\rho'$. If $\cat{C}$ has a monoidal structure $\otimes$ that lifts to a monoidal structure on $\cat{L}$ and $\cat{R}$, then $(\cat{R}/-)$ is lax monoidal
 \[
 \big((d\To{\rho}c), (d'\To{\rho'}c')\big)\mapsto (d\otimes d'\To{\rho\otimes\rho'}c\otimes c').\]
-Recall also \cite[Proposition 5.52]{niu2022poly} that there is a (vertical, cartesian) orthogonal factorization system on $\smcat^\sharp$ and that cartesian retrofunctors over $\cat{C}$ can be identified with discrete opfibrations over $\cat{C}$, or equivalently to functors $\cat{C}\to\smset$. We thus have a lax monoidal functor
+Recall also \cite[Proposition 5.52]{niu2022poly} that there is a (vertical, cartesian) orthogonal factorization system on $\smcat^\sharp$ and that cartesian retrofunctors over $\cat{C}$ can be identified with discrete opfibrations over $\cat{C}$, or equivalently to functors $\cat{C}\to\smset$. By the previous paragraph, we have a lax monoidal functor
 \[
 %(\smcat^{\sharp\tn{cart}}/-)
 \smset^-\colon(\smcat^\sharp,\yon,\otimes)\too(\smcat,1,\times)
