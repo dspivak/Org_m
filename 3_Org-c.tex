@@ -1,9 +1,9 @@
 \chapter{The behavior of delegation}\label{sec:orgc}
 
-The operad $\org_\free$ defines patterns of dynamic delegation. This interpretation begs the question of how delegation patterns translate into behaviors of taskmasters and their subordinates. In other words, how do each of the examples in \cref{ex:stream-m} turn the behaviors of Alice, Bob, and Carmen into a behavior of their taskmaster? We begin to answer this question by defining an operad $\org^\cofree$ that gives the semantics for the relationship between behaviors of subordinates and behaviors of their taskmaster.
+The operad $(\org_\free)\op$ defines patterns of dynamic delegation. This interpretation begs the question of how delegation patterns translate into behaviors of manager and their subordinates. In other words, how do each of the examples in \cref{ex:stream-m} turn the behaviors of Alice, Bob, and Carmen into a behavior of their manager? We begin to answer this question by defining an operad $\org^\cofree$ that gives the semantics for the relationship between behaviors of subordinates and behaviors of their manager.
 
 
-\section{$\cofree$ is a comonad on $\org^\sharp$}
+\section{Extension of $\cofree$ to a comonad on $\org^\sharp$}
 
 We will define a $\smcat^\sharp$-enriched functor $\cofree \colon \org^\sharp \to \org^\sharp$ and show that it is a comonad.
 
@@ -12,7 +12,7 @@ On objects $\cofree$ takes a polynomial $p$ to the cofree comonad $\cofree_p$. O
     \cofree_p \otimes \cofree_{[p,q]} \xrightarrow{\lax} \cofree_{p \otimes [p,q]} \xrightarrow{\cofree_\eval} \cofree_q
 \] under the composite
 \[
-    \smcat^\sharp(\cofree_p \otimes \cofree_{[p,q]}, \cofree_q) \to  \poly(\cofree_p \otimes \cofree_{[p,q]}, \cofree_q) \iso \poly(\cofree_{[p,q]}, [\cofree_p, \cofree_q]) \iso \smcat^\sharp(\cofree_{[p,q]}, \cofree_{[\cofree_p, \cofree_q]}).
+    \smcat^\sharp(\cofree_p \otimes \cofree_{[p,q]}, \cofree_q) \To{U}  \poly(\cofree_p \otimes \cofree_{[p,q]}, \cofree_q) \iso \poly(\cofree_{[p,q]}, [\cofree_p, \cofree_q]) \iso \smcat^\sharp(\cofree_{[p,q]}, \cofree_{[\cofree_p, \cofree_q]}).
 \]
 This map $\cofree \colon \org^\# \to \org^\#$ preserves identity and composition for the same reasons that $\free \colon \org^\# \to \org^\#$ does. 
 

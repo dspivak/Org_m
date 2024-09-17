@@ -32,9 +32,9 @@ In particular, $\free_0=\yon$. The free monad on $A\yon$ is $\free_{A\yon}=\List
 
 Given a polynomial $p$, the associated cofree comonad is $\cofree_p$ whose positions are $p$-shaped behavior trees and whose directions are finite paths up the tree. 
 \cite[Theorem 3.2]{libkind2024pattern} defines an adjunction 
-\[
+\begin{equation}\label{eqn.cofree_adjunction}
     \adj{\catsharp}{U}{\cofree_-}{\poly}
-\]
+\end{equation}
 whose counit we denote $\ccoun$. The functor $\cofree$ is lax monoidal with respect to $\otimes$, so it has a productor and unitor of the following types:
 \begin{equation}\label{eqn.cofree_lax_monoidal}
 \cofree_p\otimes\cofree_q\to\cofree_{p\otimes q}\qqand\yon\to\cofree_\yon.
@@ -80,8 +80,7 @@ Recall also \cite[Proposition 5.52]{niu2022poly} that there is a (vertical, cart
 %(\smcat^{\sharp\tn{cart}}/-)
 \smset^-\colon(\smcat^\sharp,\yon,\otimes)\too(\smcat,1,\times)
 \]
-
-This gives a change of enrichment, which sends $\org^\sharp$ to the monoidal 2-category whose objects are polynomials under $\otimes$ and for which $\hom(p,q)=\smset^{\cofree_{[p,q]}}$. This is equivalent to the category-enriched operad $\org$ defined in \cite[Definition 2.19]{spivak2021learnersv1}.
+This in turn provides a change of enrichment, which sends $\org^\sharp$ to the monoidal 2-category whose objects are polynomials under $\otimes$ and for which $\hom(p,q)=\smset^{\cofree_{[p,q]}}$. This is equivalent to the category-enriched operad $\org$ defined in \cite[Definition 2.19]{spivak2021learnersv1}.
 
 \begin{remark}
     What is the relationship between $\poly$ and $\org^\sharp$? Since $(\poly, \otimes, \yon)$ has internal homs, $\poly$ can be viewed as a $(\poly, \otimes, \yon)$-enriched category. Via the lax monoidal functor of enrichment categories $\cofree\colon (\poly, \otimes, \yon) \to (\smcat^\sharp, \otimes, \yon)$, we obtain the $\smcat^\sharp$-enriched category $\org^\sharp$.
