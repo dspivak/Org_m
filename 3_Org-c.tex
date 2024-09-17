@@ -58,7 +58,7 @@ This map $\cofree \colon \org^\# \to \org^\#$ preserves identity and composition
 
   The left-hand square commutes by definition of the compositor. The right-hand square commutes by naturality of the counit.
 
-    For a polynomial $p$, define the comultiplication at $p$ to be the image of the unit $\cun_{\cofree_p} \colon \cofree_p \to \cofree_{\cofree_p}$ under the isomorphisms
+    Define the comultiplication at a polynomial $p$ to be the image of the comultiplication $\comul_{p} \colon \cofree_p \to \cofree_{\cofree_p}$ under the isomorphisms
     \[
         \poly(\cofree_p, \cofree_{\cofree_p}) \iso \poly(\yon, [\cofree_p, \cofree_{\cofree_p}]) \iso \cofree(\yon, \cofree_{[\cofree_p, \cofree_{\cofree_p}]}).
     \]
@@ -83,7 +83,7 @@ This map $\cofree \colon \org^\# \to \org^\#$ preserves identity and composition
 \[\begin{tikzcd}[sep=huge]
 	{\cofree_p \otimes \cofree_{[\cofree_p, \cofree_q]}} & {\cofree_{\cofree_p}\otimes \cofree_{[\cofree_p, \cofree_q]}} & {\cofree_{\cofree_p \otimes [\cofree_p, \cofree_q]} } & {\cofree_{\cofree_q}} \\
 	&& {\cofree_p \otimes [\cofree_p, \cofree_q]} & {\cofree_q}
-	\arrow["{\cun_{\cofree_p} \otimes \cofree_{[\cofree_p, \cofree_q]}}", from=1-1, to=1-2]
+	\arrow["{\comul_{p} \otimes \cofree_{[\cofree_p, \cofree_q]}}", from=1-1, to=1-2]
 	\arrow["{\cofree_p \otimes \ccoun_{[\cofree_p, \cofree_q]}}"', bend right=15pt, from=1-1, to=2-3]
 	\arrow["\lax", from=1-2, to=1-3]
 	\arrow["{\ccoun_{\cofree_p} \otimes \ccoun_{[\cofree_p, \cofree_q]}}"{description}, from=1-2, to=2-3]
@@ -95,7 +95,7 @@ This map $\cofree \colon \org^\# \to \org^\#$ preserves identity and composition
 
   The left-hand triangle commutes by the zig-zag law of the adjunction. The middle triangle commutes by definition of the compositor. And the right-hand square commutes by naturality of the co-unit.
 
-  These maps satisfy the counit law because of the zig-zag laws of the adjunction. Co-multiplication satisfies co-associativity by naturality of the unit. 
+  These maps satisfy the counit law because of the zig-zag laws of the adjunction. Co-multiplication satisfies co-associativity by naturality. 
 
     
 \end{proof}
@@ -119,14 +119,11 @@ As in \cref{sec:operad-orgm}, we will define a $\smcat^\sharp$-enriched operad $
     \[
         \poly(\cofree_p, p) \iso \poly(\yon, [\cofree_p, p]) \iso \smcat^\sharp(\yon, \cofree_{[\cofree_p, p]}).
     \]
-    Composition $\circ_i$ is given by the image of the polynomial map
+    Composition $\circ_i$ is given by the image of the composite polynomial map
     \begin{align*}
         &\left(\bigotimes_{i = 1, i \neq k}^n \cofree_{q_i} \right) \otimes \left(\bigotimes_{i = 1}^m \cofree_{p_i}\right) \otimes \cofree_{[\cofree_{p_1} \otimes \cdots \otimes \cofree_{p_m}, q_k]} \otimes \cofree_{[\cofree_{q_1} \otimes \cdots \otimes \cofree_{q_n}, r]}\\
-        &\xrightarrow{\cun_{\cofree_{p_i}}} \left(\bigotimes_{i = 1, i \neq k}^n \cofree_{q_i} \right) \otimes \left(\bigotimes_{i = 1}^m \cofree_{\cofree_{p_i}}\right) \otimes \cofree_{[\cofree_{p_1} \otimes \cdots \otimes \cofree_{p_m}, q_k]} \otimes \cofree_{[\cofree_{q_1} \otimes \cdots \otimes \cofree_{q_n}, r]}\\
-        &\xrightarrow{\lax} \left(\bigotimes_{i = 1}^n \cofree_{q_i} \right)  \otimes \cofree_{[\cofree_{q_1} \otimes \cdots \otimes \cofree_{q_n}, r]}\\
-        &\xrightarrow{\cun_{\cofree_{q_i}}}  \left(\bigotimes_{i = 1}^n \cofree_{\cofree_{q_i}} \right)  \otimes \cofree_{[\cofree_{q_1} \otimes \cdots \otimes \cofree_{q_n}, r]}\\
-        &\xrightarrow{\lax} \cofree_r\\
-        & \xrightarrow{\ccoun_r}  r.
+        &\xrightarrow{\comul_{p_i}} \left(\bigotimes_{i = 1, i \neq k}^n \cofree_{q_i} \right) \otimes \left(\bigotimes_{i = 1}^m \cofree_{\cofree_{p_i}}\right) \otimes \cofree_{[\cofree_{p_1} \otimes \cdots \otimes \cofree_{p_m}, q_k]} \otimes \cofree_{[\cofree_{q_1} \otimes \cdots \otimes \cofree_{q_n}, r]}\\
+        &\xrightarrow{\parbox{.5cm}{\scriptsize$\lax$,\\$\eval$}} \left(\bigotimes_{i = 1}^n \cofree_{q_i} \right)  \otimes \cofree_{[\cofree_{q_1} \otimes \cdots \otimes \cofree_{q_n}, r]}\xrightarrow{\comul_{q_i}}  \left(\bigotimes_{i = 1}^n \cofree_{\cofree_{q_i}} \right)  \otimes \cofree_{[\cofree_{q_1} \otimes \cdots \otimes \cofree_{q_n}, r]}\xrightarrow{\parbox{.5cm}{\scriptsize$\lax$,\\$\eval$}} \cofree_r\xrightarrow{\ccoun_r}  r.
     \end{align*}
     in
     \[
@@ -140,5 +137,5 @@ As in \cref{sec:operad-orgm}, we will define a $\smcat^\sharp$-enriched operad $
 \end{definition}
 
 \begin{example}
-    A coalgebra in $\org^\cofree(A_1\yon, \cdots , A_n\yon; B\yon)$ on positions takes a state and a stream of symbols in $A_i$ for each $i = 1, \cdots, n$ and produces a symbol in $B$. On directions, it updates the state and returns a prefix in each of the $A_i$ streams. As we will see in \cref{sec:matter-pattern}, we interpret these prefixes as the symbols in each $A_i$ which were used in the production of the $B$ symbol. Furthermore, we interpret the $A_i$ streams as behaviors of subordinates. These subordinates simply output a symbol in $A_i$ when they are invoked, and each subordinate may be invoked any finite number of times in order to produce a symbol in $B$.
+    A morphism in $\org^\cofree(A_1\yon, \cdots , A_n\yon; B\yon)$ is a coalgebra $S\yon^S\to[\cofree_{A_1\yon}\otimes\cdots\otimes\cofree_{A_n\yon},B\yon]$. Given a state $s:S$, it takes a stream of symbols in $A_i$ for each $i = 1, \ldots, n$ and produces a symbol in $B$. On directions, it updates the state and returns a prefix in each of the $A_i$ streams. As we will see in \cref{sec:matter-pattern}, we interpret these prefixes as the symbols in each $A_i$ which were used in the production of the $B$ symbol. Furthermore, we interpret the $A_i$ streams as behaviors of subordinates. These subordinates simply output a symbol in $A_i$ when they are invoked, and each subordinate may be invoked any finite number of times in order to produce a symbol in $B$.
 \end{example}
