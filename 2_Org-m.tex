@@ -41,7 +41,7 @@ The top horizontal map is given by internal-hom composition.
         \poly(p, \free_p) \iso \poly(\yon, [p, \free_p]) \iso \smcat^\sharp(\yon, \cofree_{[p, \free_p]}).
     \]
 
-    To show that the identity is natural, we must show that for all polynomials $p$ and $q$, the following diagram of cofunctors commutes. 
+    To show that the identity is natural, we must show that for all polynomials $p$ and $q$, the following diagram of retrofunctors commutes. 
     % https://q.uiver.app/#q=WzAsNixbMCwwLCJcXGNvZnJlZV97W3AscV19Il0sWzEsMF0sWzIsMCwiXFxjb2ZyZWVfe1twLHFdfSBcXG90aW1lcyBcXGNvZnJlZV97W3EsIFxcZnJlZV9xXX0iXSxbMCwxLCJcXGNvZnJlZV97W1xcZnJlZV9wLCBcXGZyZWVfcV19Il0sWzEsMSwiXFxjb2ZyZWVfe1twLCBcXGZyZWVfcF19IFxcb3RpbWVzIFxcY29mcmVlX3tbXFxmcmVlX3AsIFxcZnJlZV9xXX0iXSxbMiwxLCJcXGNvZnJlZV97W3AsIFxcZnJlZV9xXX0iXSxbMCwyXSxbMCwzXSxbMyw0XSxbNCw1XSxbMiw1XV0=
     \[\begin{tikzcd}
     {\cofree_{[p,q]}} & {} & {\cofree_{[p,q]} \otimes \cofree_{[q, \free_q]}} \\
@@ -53,7 +53,7 @@ The top horizontal map is given by internal-hom composition.
     \arrow[from=2-2, to=2-3]
     \end{tikzcd}\]
 
-    By the universal property of cofunctor maps into the cofree comonad $\cofree_{[p, \free_q]}$, it suffices to show that the following diagram commutes.
+    By the universal property of retrofunctor maps into the cofree comonad $\cofree_{[p, \free_q]}$, it suffices to show that the following diagram commutes.
     % https://q.uiver.app/#q=WzAsNixbMCwwLCJwIFxcb3RpbWVzIFxcY29mcmVlX3tbcCxxXX0iXSxbMCwxLCJcXGZyZWVfcCBcXG90aW1lcyBcXGNvZnJlZV97W3AscV19Il0sWzEsMCwicCBcXG90aW1lcyBbcCwgcV0iXSxbMSwxLCJcXGZyZWVfe3AgXFxvdGltZXMgW3AscV19Il0sWzIsMSwiXFxmcmVlX3EiXSxbMiwwLCJxIl0sWzAsMiwicCBcXG90aW1lcyBcXGNjb3VuX3tbcCxxXX0iXSxbMiw1LCJcXGV2YWwiXSxbNSw0LCJcXG11bl9xIl0sWzIsMywiXFxtdW5fe3AgXFxvdGltZXMgW3AscV19Il0sWzMsNCwiXFxmcmVlX1xcZXZhbCIsMl0sWzEsMywiXFxtb2RzdHJ1Y3Rfe3AsIFtwLHFdfSIsMl0sWzAsMSwiXFxtdW5fcCBcXG90aW1lcyBcXGNvZnJlZV97W3AscV19IiwyXV0=
     \[\begin{tikzcd}[column sep=huge, row sep = large]
 	{p \otimes \cofree_{[p,q]}} & {p \otimes [p, q]} & q \\
@@ -72,7 +72,7 @@ The top horizontal map is given by internal-hom composition.
     \[
         \poly(\free_{\free_p}, \free_p) \iso \poly(\yon, [\free_{\free_p}, \free_p]) \iso \smcat^\sharp(\yon, \cofree_{[\free_{\free_p}, \free_p]}).
     \] 
-    To show that the multiplication is natural we must show that for all polynomial $p$ and $q$, the following diagram of cofunctors commutes. 
+    To show that the multiplication is natural we must show that for all polynomial $p$ and $q$, the following diagram of retrofunctors commutes. 
 
     % https://q.uiver.app/#q=WzAsNyxbMSwwLCJcXGNvZnJlZV97W1xcZnJlZV9wLFxcZnJlZV9xXX0iXSxbMiwwLCJcXGNvZnJlZV97W1xcZnJlZV97XFxmcmVlX3B9LCBcXGZyZWVfe1xcZnJlZV9xfV19Il0sWzMsMCwiXFxjb2ZyZWVfe1tcXGZyZWVfe1xcZnJlZV9wfSwgXFxmcmVlX3tcXGZyZWVfcX1dfSBcXG90aW1lcyBcXGNvZnJlZV97W1xcZnJlZV97XFxmcmVlX3F9LCBcXGZyZWVfcV19Il0sWzIsMSwiXFxjb2ZyZWVfe1tcXGZyZWVfe1xcZnJlZV9wfSwgXFxmcmVlX3BdfVxcb3RpbWVzIFxcY29mcmVlX3tbXFxmcmVlX3AsIFxcZnJlZV9xXX0iXSxbMywxLCJcXGNvZnJlZV97W1xcZnJlZV97XFxmcmVlX3B9LCBcXGZyZWVfcV19Il0sWzAsMCwiXFxjb2ZyZWVfe1twLHFdfSJdLFswLDEsIlxcY29mcmVlX3tbXFxmcmVlX3AsIFxcZnJlZV9xXX0iXSxbMCwxXSxbMSwyXSxbMiw0XSxbMyw0XSxbNiwzXSxbNSw2XSxbNSwwXV0=
       \[\begin{tikzcd}
@@ -121,11 +121,37 @@ The top horizontal map is given by internal-hom composition.
 
 We begin by showing that $\org^\sharp$ has a symmetric monoidal structure $(\vee, 0)$ and that $\free \colon \org^\sharp \to \org^\sharp$ is lax monoidal with respect to $\vee$. The associated Kleisli category $\org^\#_\free$ is monoidal and hence has an underlying operad which we refer to as $\org^\#_\free$ as well.
 
-There is a symmetric monoidal structure $\vee$ on $\poly$ whose unit is $0$ and which is defined by 
+Before discussing the monoidal structure, we already have a $(\catsharp,\yon,\otimes)$-enriched category whose objects are polynomials and for which
+\begin{equation}
+	\ul{\Hom}(p,q)\coloneqq\cofree_{[p,\free_q]}.
+\end{equation}
+The retrofunctor $\ul{\Hom}(p,q)\otimes\ul{\Hom}(q,r)\to\ul{\Hom}(p,r)$ is equivalently a polynomial map $p\otimes\cofree_{[p,\free_q]}\otimes\cofree_{[q,\free_r]}\to\free_r$, which is obtained as follows
+\begin{equation}
+  p\otimes\cofree_{[p,\free_q]}\otimes\cofree_{[q,\free_r]}\To{\text{counit}}
+  p\otimes[p,\free_q]\otimes\cofree_{[p,\free_q]}\To{\text{eval}}
+  \free_q\otimes\cofree_{[q,\free_r]}\To{\Xi}
+  \free_{q\otimes\free_{[q,\free_r]}}\To{\text{eval}}
+  \free_{\free_r}\to\free_r.
+\end{equation}
+
+\begin{example}\label{ex.sequence_counter}
+Consider the $\catsharp$-enriched monoid spanned by the polynomial $\yon$, whose underlying category is
+\[
+\ul\Hom(\yon,\yon)=\cofree_{[\yon,\free_\yon]}=\cofree_{\nn\yon}=\nn^\nn\yon^\nn.
+\]
+This is the free category on the graph whose set of vertices is $\nn^\nn$, the set of natural number sequences (streams), and for which an edge is given by taking the tail. 
+
+The monoidal product $\nn^\nn\yon^\nn\otimes\nn^\nn\yon^\nn\to\nn^\nn\yon^\nn$ is a retrofunctor, which we denote $\star$. Even as a monoid operation $\star\colon\nn^\nn\times\nn^\nn\to\nn$ on the set of natural number sequences, it appears to be novel. The unit is $(1,1,\ldots)$ and for sequences $A,B\colon\nn\to\nn$ the monoidal product is given as follows. First, for any $n\in\nn$, let $a_n\coloneqq\sum_{i=0}^nA_n$, so $a_0=A_0$, $a_1=A_0+A_1$, etc., and for convenience, define $a_{-1}\coloneqq 0$; so $a_n$ is defined for $n:\nn\cup\{-1\}$. Then for any $n\in\nn$, define
+\[
+(A\star B)_n\coloneqq\sum_{i=a_{n-1}}^{a_n-1}B_i
+\]
+So for example, $(0,1,2,3,4,\ldots)\star(0,1,2,3,4,\ldots)=(0,0,3,12,30,60,\ldots)$.
+\end{example}
+
+We now turn to the monoidal structure on $\org_\free$. It begins with the symmetric monoidal structure $\vee$ on $\poly$ whose unit is $0$ and whose product is defined by 
 \begin{equation}\label{eqn.vee}
     p \vee q \coloneqq p + (p \otimes q) + q.
 \end{equation}
-
 
 
 \begin{lemma}

@@ -275,11 +275,11 @@ Let $A$ be an alphabet. A position of $\lott \tri A$ is equivalent to a choice o
 \end{align*}
 This map is equivalent to a polynomial map $\cofree_{2\yon} \to A\yon$. On positions it maps a stream of $0$s and $1$s to the symbol of $A$ whose code uniquely begins the stream. On directions, it selects the leading bits that are part of the code. 
 
-By iteratively decoding, this polynomial map is a cofunctor $\cofree_{2\yon} \to \cofree_{A\yon}$. The positions of $\cofree_{2\yon}$ are bit streams and for each position it has $\nn$ directions which represent the number of initial bits produced/consumed. Likewise, the positions of $\cofree_{A\yon}$ are streams of symbols in $A$ and for each position it has $\nn$ directions which represent the number of initial symbols produced/consumed. 
+By iteratively decoding, this polynomial map is a retrofunctor $\cofree_{2\yon} \to \cofree_{A\yon}$. The positions of $\cofree_{2\yon}$ are bit streams and for each position it has $\nn$ directions which represent the number of initial bits produced/consumed. Likewise, the positions of $\cofree_{A\yon}$ are streams of symbols in $A$ and for each position it has $\nn$ directions which represent the number of initial symbols produced/consumed. 
 
-On positions the induced cofunctor $\cofree_{2\yon} \to \cofree_{A\yon}$ decodes a bit stream into a stream of symbols in $A$. On directions, it maps $n$ symbols produced to the number of initial bits that encode the $n$ symbols.
+On positions the induced retrofunctor $\cofree_{2\yon} \to \cofree_{A\yon}$ decodes a bit stream into a stream of symbols in $A$. On directions, it maps $n$ symbols produced to the number of initial bits that encode the $n$ symbols.
 
-For example consider the position of $\lott \tri \{A, B, C, D, E\}$ given by the lottery on $5$ tickets with probabilities $(0.3, 0.02, 0.45, 0.15, 0.08)$ and where each of the 5 tickets is mapped to $A$, $B$, $C$, $D$, and $E$ respectively. This data defines a cofunctor $\cofree_{2\yon} \to \cofree_{\{A, B, C, D, E\}\yon}$. An example of the behavior of this cofunctor is give in Figure~\ref{fig:huff-stream}.
+For example consider the position of $\lott \tri \{A, B, C, D, E\}$ given by the lottery on $5$ tickets with probabilities $(0.3, 0.02, 0.45, 0.15, 0.08)$ and where each of the 5 tickets is mapped to $A$, $B$, $C$, $D$, and $E$ respectively. This data defines a retrofunctor $\cofree_{2\yon} \to \cofree_{\{A, B, C, D, E\}\yon}$. An example of the behavior of this retrofunctor is give in Figure~\ref{fig:huff-stream}.
 
 
 \begin{figure}

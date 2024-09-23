@@ -86,3 +86,23 @@ This in turn provides a change of enrichment, which sends $\org^\sharp$ to the m
     What is the relationship between $\poly$ and $\org^\sharp$? Since $(\poly, \otimes, \yon)$ has internal homs, $\poly$ can be viewed as a $(\poly, \otimes, \yon)$-enriched category. Via the lax monoidal functor of enrichment categories $\cofree\colon (\poly, \otimes, \yon) \to (\smcat^\sharp, \otimes, \yon)$, we obtain the $\smcat^\sharp$-enriched category $\org^\sharp$.
 \end{remark}
 
+We will not need the following proposition, but we record it here both as an interesting note and to settle the various notions for our readers.
+\begin{proposition}
+Both $(\org^\sharp,\yon,\otimes)$ and $(\org,\yon,\otimes)$ are monoidal closed.
+\end{proposition}
+\begin{proof}
+For any objects $p,q:\ob(\poly)=\ob(\org^\sharp)=\ob(\org)$, the associated hom-objects for $\org^\sharp$ and $\org$ are
+\[
+  \org^\sharp(p,q)\coloneqq\cofree_{[p,q]}
+  \qqand
+	\org(p,q)\coloneqq\smset^{\cofree_{[p,q]}}=[p,q]\coalg.
+\]
+In either case, the monoidal closure is given by the internal hom $[-,-]$ because we have natural isomorphisms (in $\catsharp$ and $\Cat{CAT}$ respectively) of the form:
+\[
+	\cofree_{[p\otimes p',q]}\cong\cofree_{[p,[p',q]]}
+	\qqand
+	[p\otimes p',q]\coalg\cong[p,[p',q]]\coalg.
+	\qedhere
+\]
+\end{proof}
+
