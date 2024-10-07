@@ -119,7 +119,7 @@ The top horizontal map is given by internal-hom composition.
 
 \section{The operad $\org^\sharp_\free$}\label{sec:operad-orgm}
 
-We begin by showing that $\org^\sharp$ has a symmetric monoidal structure $(\vee, 0)$ and that $\free \colon \org^\sharp \to \org^\sharp$ is lax monoidal with respect to $\vee$. The associated Kleisli category $\org^\#_\free$ is monoidal and hence has an underlying operad which we refer to as $\org^\#_\free$ as well.
+We begin by showing that $\org^\sharp$ has a symmetric monoidal structure $(\vee, 0)$ and that $\free \colon \org^\sharp \to \org^\sharp$ is lax monoidal with respect to $\vee$. The associated Kleisli category $\org^\#_\free$ is monoidal and hence has an underlying operad which we also refer to as $\org^\#_\free$.
 
 Before discussing the monoidal structure, we already have a $(\catsharp,\yon,\otimes)$-enriched category whose objects are polynomials and for which
 \begin{equation}
@@ -127,7 +127,7 @@ Before discussing the monoidal structure, we already have a $(\catsharp,\yon,\ot
 \end{equation}
 The retrofunctor $\ul{\Hom}(p,q)\otimes\ul{\Hom}(q,r)\to\ul{\Hom}(p,r)$ is equivalently a polynomial map $p\otimes\cofree_{[p,\free_q]}\otimes\cofree_{[q,\free_r]}\to\free_r$, which is obtained as follows
 \begin{equation}
-  p\otimes\cofree_{[p,\free_q]}\otimes\cofree_{[q,\free_r]}\To{\text{counit}}
+  p\otimes\cofree_{[p,\free_q]}\otimes\cofree_{[q,\free_r]}\To{\ccoun_{[p, \free_q]}}
   p\otimes[p,\free_q]\otimes\cofree_{[p,\free_q]}\To{\text{eval}}
   \free_q\otimes\cofree_{[q,\free_r]}\To{\Xi}
   \free_{q\otimes\free_{[q,\free_r]}}\To{\text{eval}}
