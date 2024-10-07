@@ -29,10 +29,10 @@ Importantly, the polynomial map in \cref{eq:free-p1-vee-p2} satisfies an associa
 \begin{lemma}\label{lem:free_p1_vee_p2_associative}
     For polynomials $p_1$, $p_2$, $q_1$, and $q_2$ and for $\tri$-monoids $s$ and $t$, the following diagram commutes.
 
-    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXGZyZWVfe3FfMSBcXHZlZSBxXzJ9IFxcb3RpbWVzIFxcY29mcmVlX3tbcV8xLCBzXX1cXG90aW1lcyBcXGNvZnJlZV97W3FfMiwgXFxmcmVlX3twXzEgXFx2ZWUgcF8yfV19IFxcb3RpbWVzIFxcY29mcmVlX3tbcF8xLCB0XzFdfSBcXG90aW1lcyBcXGNvZnJlZV97W3BfMiwgdF8yXX0iXSxbMSwwLCJcXGZyZWVfe3FfMSBcXHZlZSBxXzJ9IFxcb3RpbWVzIFxcY29mcmVlX3tbcV8xLCBzXX0gXFxvdGltZXMgXFxjb2ZyZWVfe1txXzIsIHRfMSBcXG90aW1lcyB0XzJdfSJdLFsxLDEsInMgXFxvdGltZXMgdF8xIFxcb3RpbWVzIHRfMiJdLFswLDEsInMgXFxvdGltZXMgXFxmcmVlX3twXzEgXFx2ZWUgcF8yfSBcXG90aW1lcyBcXGNvZnJlZV97W3BfMSwgdF8xXX0gXFxvdGltZXMgXFxjb2ZyZWVfe1twXzIsIHRfMl19Il0sWzAsMV0sWzEsMl0sWzMsMl0sWzAsM11d
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXGZyZWVfe3FfMSBcXHZlZSBxXzJ9IFxcb3RpbWVzIFxcY29mcmVlX3tbcV8xLCBzXX1cXG90aW1lcyBcXGNvZnJlZV97W3FfMiwgXFxmcmVlX3twXzEgXFx2ZWUgcF8yfV19IFxcb3RpbWVzIFxcY29mcmVlX3tbcF8xLCB0XX0gXFxvdGltZXMgXFxjb2ZyZWVfe1twXzIsIHRdfSJdLFsxLDAsIlxcZnJlZV97cV8xIFxcdmVlIHFfMn0gXFxvdGltZXMgXFxjb2ZyZWVfe1txXzEsIHNdfSBcXG90aW1lcyBcXGNvZnJlZV97W3FfMiwgdF19Il0sWzEsMSwicyBcXG90aW1lcyB0Il0sWzAsMSwicyBcXG90aW1lcyBcXGZyZWVfe3BfMSBcXHZlZSBwXzJ9IFxcb3RpbWVzIFxcY29mcmVlX3tbcF8xLCB0XX0gXFxvdGltZXMgXFxjb2ZyZWVfe1twXzIsIHRdfSJdLFswLDFdLFsxLDJdLFszLDJdLFswLDNdXQ==
 \[\begin{tikzcd}
-	{\free_{q_1 \vee q_2} \otimes \cofree_{[q_1, s]}\otimes \cofree_{[q_2, \free_{p_1 \vee p_2}]} \otimes \cofree_{[p_1, t]} \otimes \cofree_{[p_2, t]}} & {\free_{q_1 \vee q_2} \otimes \cofree_{[q_1, s]} \otimes \cofree_{[q_2, t \otimes t]}} \\
-	{s \otimes \free_{p_1 \vee p_2} \otimes \cofree_{[p_1, t]} \otimes \cofree_{[p_2, t]}} & {s \otimes t \otimes t}
+	{\free_{q_1 \vee q_2} \otimes \cofree_{[q_1, s]}\otimes \cofree_{[q_2, \free_{p_1 \vee p_2}]} \otimes \cofree_{[p_1, t]} \otimes \cofree_{[p_2, t]}} & {\free_{q_1 \vee q_2} \otimes \cofree_{[q_1, s]} \otimes \cofree_{[q_2, t]}} \\
+	{s \otimes \free_{p_1 \vee p_2} \otimes \cofree_{[p_1, t]} \otimes \cofree_{[p_2, t]}} & {s \otimes t}
 	\arrow[from=1-1, to=1-2]
 	\arrow[from=1-1, to=2-1]
 	\arrow[from=1-2, to=2-2]
