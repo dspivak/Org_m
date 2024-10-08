@@ -135,7 +135,7 @@ The retrofunctor $\ul{\Hom}(p,q)\otimes\ul{\Hom}(q,r)\to\ul{\Hom}(p,r)$ is equiv
 \end{equation}
 
 \begin{example}\label{ex.sequence_counter}
-Consider the $\catsharp$-enriched monoid spanned by the polynomial $\yon$, whose underlying category is
+The $\catsharp$-enriched monoid spanned by the polynomial $\yon$ can be thought of as the theory of step-counting. It has a single object, $\yon$, whose category of endomorphisms is
 \[
 \ul\Hom(\yon,\yon)=\cofree_{[\yon,\free_\yon]}=\cofree_{\nn\yon}=\nn^\nn\yon^\nn.
 \]
@@ -145,7 +145,7 @@ The monoidal product $\nn^\nn\yon^\nn\otimes\nn^\nn\yon^\nn\to\nn^\nn\yon^\nn$ i
 \[
 (A\star B)_n\coloneqq\sum_{i=a_{n-1}}^{a_n-1}B_i
 \]
-So for example, $(0,1,2,3,4,\ldots)\star(0,1,2,3,4,\ldots)=(0,0,3,12,30,60,\ldots)$.
+So for example, $(0,1,2,3,4,\ldots)\star(0,1,2,3,4,\ldots)=(0,0,3,12,30,60,\ldots)$. The each step (position) in the first list indicates how many steps to perform in the second, and this is an associative operation.
 \end{example}
 
 We now turn to the monoidal structure on $\org_\free$. It begins with the symmetric monoidal structure $\vee$ on $\poly$ whose unit is $0$ and whose product is defined by 
@@ -254,7 +254,7 @@ The associator, left and right unitors, triangle identity, and pentagon identity
     Associativity and unitality follow directly.
 \end{proof}
 
-\begin{definition}
+\begin{definition}\label{def.orgsharp}
     Let $\org^\sharp_\free$ be the $\smcat^\sharp$-enriched operad underlying the Kleisli category $\org^\sharp_\free$. The objects of $\org^\sharp_\free$ are polynomials and the morphisms are defined by 
     \[
         \org^\sharp_\free(p_1 , \ldots, p_m; q) = \cofree_{[p_1 \vee \cdots \vee p_m, \free_q]}.
