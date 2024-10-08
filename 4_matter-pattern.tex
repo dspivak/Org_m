@@ -19,7 +19,7 @@ Via the $\free$ adjunction, the map in \cref{eq:p1-vee-p2} induces  a polynomial
 \begin{equation}\label{eq:free-p1-vee-p2}
     \free_{p_1 \vee p_2} \otimes \cofree_{[p_1, t]} \otimes \cofree_{[p_2,t]} \to t .
 \end{equation}
-For any polynomial $q$, \cref{eq:free-p1-vee-p2} in turn induces a cofunctor
+For any polynomial $q$, \cref{eq:free-p1-vee-p2} in turn induces a retrofunctor
 \begin{equation}\label{eq:cofree_q_free_p1_vee_p2}
     \cofree_{[q, \free_{p_1 \vee p_2}]} \otimes \cofree_{[p_1, t]} \otimes \cofree_{[p_2,t]} \to \cofree_{[q,t]}
 \end{equation}
@@ -61,7 +61,7 @@ Importantly, the polynomial map in \cref{eq:free-p1-vee-p2} satisfies an associa
 	\arrow[from=3-2, to=4-2]
 	\arrow[from=4-1, to=4-2]
 \end{tikzcd}\]
-It is obvious that the top square commutes. The middle square commutes because the map in \cref{eq:cofree_q_free_p1_vee_p2} is a map of cofunctors and hence preserves the counit. The bottom square commutes because the definition of \cref{eq:free-p1-vee-p2} implies that  $\free_{p_1 \vee p_2} \to [ \cofree_{[p_1, t]} \otimes \cofree_{[p_2, t]}, t ]$ is a map of $\tri$-monoids and hence preserves the unit.
+It is obvious that the top square commutes. The middle square commutes because the map in \cref{eq:cofree_q_free_p1_vee_p2} is a map of retrofunctors and hence preserves the counit. The bottom square commutes because the definition of \cref{eq:free-p1-vee-p2} implies that  $\free_{p_1 \vee p_2} \to [ \cofree_{[p_1, t]} \otimes \cofree_{[p_2, t]}, t ]$ is a map of $\tri$-monoids and hence preserves the unit.
 
 For the inclusion $q_2 \to \free_{q_1 \vee q_2}$ and $q_1 \otimes q_2 \to \free_{q_1 \vee q_2}$, it suffices to show that the following diagram commutes. 
 % https://q.uiver.app/#q=WzAsNixbMCwwLCJxXzIgXFxvdGltZXMgXFxjb2ZyZWVfe1txXzIsIFxcZnJlZV97cF8xIFxcdmVlIHBfMn1dfSBcXG90aW1lcyBcXGNvZnJlZV97W3BfMSwgdF19IFxcb3RpbWVzIFxcY29mcmVlX3tbcF8yLCB0XX0iXSxbMSwwLCJxXzIgXFxvdGltZXMgXFxjb2ZyZWVfe1txXzIsIHRdfSJdLFswLDEsInFfMiBcXG90aW1lcyBbcV8yLCBcXGZyZWVfe3BfMSBcXHZlZSBwXzJ9XSBcXG90aW1lcyBcXGNvZnJlZV97W3BfMSwgdF19IFxcb3RpbWVzIFxcY29mcmVlX3tbcF8yLCB0XX0iXSxbMCwyLCJcXGZyZWVfe3BfMSBcXHZlZSBwXzJ9XFxvdGltZXMgXFxjb2ZyZWVfe1twXzEsIHRdfSBcXG90aW1lcyBcXGNvZnJlZV97W3BfMiwgdF19Il0sWzEsMSwicV8yIFxcb3RpbWVzIFtxXzIsIHRdIl0sWzEsMiwidCJdLFswLDJdLFsyLDNdLFszLDVdLFs0LDVdLFsxLDRdLFswLDFdXQ==
@@ -85,7 +85,7 @@ The map in \cref{eq:free-p1-vee-p2} is the key ingredient to defining maps
     \free_{p_1 \vee \cdots \vee p_n} \otimes \cofree_{[p_1, t]} \otimes \cdots\otimes \cofree_{[p_n, t]} \to t
 \end{equation}
 by induction.
-The base case  $\free_\yon \to t$ is the counit $\mcoun_\yon$ followed by the unit $\yon \to t$ of $t$. For the induction step, the map in \cref{eq:free-p1-vee-pn} induces a retrofunctor \snote{Why is this a retrofunctor?}
+The base case  $\free_\yon \to t$ is the counit $\mcoun_\yon$ followed by the unit $\yon \to t$ of $t$. For the induction step, the map in \cref{eq:free-p1-vee-pn} induces a retrofunctor 
 \[
     \cofree_{[p_1, t]} \otimes \cdots \otimes \cofree_{[p_n, t]} \to \cofree_{[p_1 \vee \cdots \vee p_n, t]}
 \] via the unit $\mun_{p_1 \vee \cdots \vee p_n}\colon p_1 \vee \cdots \vee p_n \to \free_{p_1 \vee \cdots \vee p_n}$.
