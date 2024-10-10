@@ -131,14 +131,14 @@ Composing this map with the map in \cref{eq:free-p1-vee-p2} concludes the induct
 
     To show that this functor preserves composition, by symmetry, it suffices to show that for $n \geq 1$ the following diagram of retrofunctors commutes.
 
-    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXGNvZnJlZV97XFxsZWZ0W3IgLCBcXGZyZWVfe1xcYmlndmVlX3tqID0gMX1ebiBxX2p9XFxyaWdodF19IFxcb3RpbWVzIFxcY29mcmVlX3tcXGxlZnRbcV9uICwgXFxmcmVlX3tcXGJpZ3ZlZV97aSA9IDF9Xm0gcF9pfVxccmlnaHRdfSJdLFsxLDAsIlxcY29mcmVlX3tcXGxlZnRbciAsIFxcZnJlZV97XFxsZWZ0KFxcYmlndmVlX3tqID0gMX1ee24tMX0gcV9qXFxyaWdodCkgXFx2ZWUgXFxsZWZ0KFxcYmlndmVlX3tpID0gMX1ebSBwX2lcXHJpZ2h0KX1cXHJpZ2h0XX0iXSxbMCwxLCJcXGNvZnJlZV97XFxsZWZ0W1xcYmlnb3RpbWVzX3tqID0gMX1ebiBcXGNvZnJlZV97W3FfaiwgdF19LCBbciwgdF1cXHJpZ2h0XX0gXFxvdGltZXMgXFxjb2ZyZWVfe1xcbGVmdFtcXGJpZ290aW1lc197aSA9IDF9Xm0gXFxjb2ZyZWVfe1twX2ksIHRdfSwgW3FfbiwgdF1cXHJpZ2h0XX0iXSxbMSwxLCJcXGNvZnJlZV97XFxsZWZ0W1xcbGVmdChcXGJpZ290aW1lc197aiA9IDF9XntuLTF9IFtxX2osdF1cXHJpZ2h0KSBcXG90aW1lcyBcXGxlZnQoXFxiaWdvdGltZXMgX3tpID0gMX1ebSBbcF9pLCB0XVxccmlnaHQpLCBbciAsdF1cXHJpZ2h0XX0iXSxbMCwxLCIiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJiYXJyZWQifX19XSxbMiwzLCIiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJiYXJyZWQifX19XSxbMSwzLCIiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJiYXJyZWQifX19XSxbMCwyLCIiLDEseyJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJiYXJyZWQifX19XV0=
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXGNvZnJlZV97XFxsZWZ0W3IgLCBcXGZyZWVfe1xcYmlndmVlX3tqID0gMX1ebiBxX2p9XFxyaWdodF19IFxcb3RpbWVzIFxcY29mcmVlX3tcXGxlZnRbcV9uICwgXFxmcmVlX3tcXGJpZ3ZlZV97aSA9IDF9Xm0gcF9pfVxccmlnaHRdfSJdLFsxLDAsIlxcY29mcmVlX3tcXGxlZnRbciAsIFxcZnJlZV97XFxsZWZ0KFxcYmlndmVlX3tqID0gMX1ee24tMX0gcV9qXFxyaWdodCkgXFx2ZWUgXFxsZWZ0KFxcYmlndmVlX3tpID0gMX1ebSBwX2lcXHJpZ2h0KX1cXHJpZ2h0XX0iXSxbMCwxLCJcXGNvZnJlZV97XFxsZWZ0W1xcYmlnb3RpbWVzX3tqID0gMX1ebiBcXGNvZnJlZV97W3FfaiwgdF19LCBbciwgdF1cXHJpZ2h0XX0gXFxvdGltZXMgXFxjb2ZyZWVfe1xcbGVmdFtcXGJpZ290aW1lc197aSA9IDF9Xm0gXFxjb2ZyZWVfe1twX2ksIHRdfSwgW3FfbiwgdF1cXHJpZ2h0XX0iXSxbMSwxLCJcXGNvZnJlZV97XFxsZWZ0W1xcbGVmdChcXGJpZ290aW1lc197aiA9IDF9XntuLTF9IFtxX2osdF1cXHJpZ2h0KSBcXG90aW1lcyBcXGxlZnQoXFxiaWdvdGltZXMgX3tpID0gMX1ebSBbcF9pLCB0XVxccmlnaHQpLCBbciAsdF1cXHJpZ2h0XX0iXSxbMCwxXSxbMiwzXSxbMSwzXSxbMCwyXV0=
 \[\begin{tikzcd}
 	{\cofree_{\left[r , \free_{\bigvee_{j = 1}^n q_j}\right]} \otimes \cofree_{\left[q_n , \free_{\bigvee_{i = 1}^m p_i}\right]}} & {\cofree_{\left[r , \free_{\left(\bigvee_{j = 1}^{n-1} q_j\right) \vee \left(\bigvee_{i = 1}^m p_i\right)}\right]}} \\
 	{\cofree_{\left[\bigotimes_{j = 1}^n \cofree_{[q_j, t]}, [r, t]\right]} \otimes \cofree_{\left[\bigotimes_{i = 1}^m \cofree_{[p_i, t]}, [q_n, t]\right]}} & {\cofree_{\left[\left(\bigotimes_{j = 1}^{n-1} [q_j,t]\right) \otimes \left(\bigotimes _{i = 1}^m [p_i, t]\right), [r ,t]\right]}}
-	\arrow["\shortmid"{marking}, from=1-1, to=1-2]
-	\arrow["\shortmid"{marking}, from=1-1, to=2-1]
-	\arrow["\shortmid"{marking}, from=1-2, to=2-2]
-	\arrow["\shortmid"{marking}, from=2-1, to=2-2]
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
 \end{tikzcd}\]
 
     For $m = 0$, it is immediate. For $m \geq 1$ consider the diagram on the following page. It is immediate that the top square commutes. The middle square commutes by definition of the upper horizontal map. The bottom square commutes by \cref{lem:free_p1_vee_p2_associative}.
@@ -216,14 +216,13 @@ Huffman coding is a technique for data compression in which more frequent symbol
         symbol & A & B &C &D &E \\ \hline
         probability of occurrence & 0.30 & 0.02 & 0.45 & 0.15 & 0.08 \\ \hline
     \end{tabular}
-    \label{tab:symbols}
 \end{table}
 
 
 \begin{figure}
     \centering
     \include{figures/huffman-standard-example}
-    \caption{A tree that defines the Huffman code for the data given in Table~\ref{tab:symbols}. The basic strategy of the Huffman code is to produce a binary tree by iteratively combining the two groups of symbols with lowest probability. For each symbol, the path from the root to that symbol's leaf defines a binary encoding of the symbol. In this example, the codes are $C$: 0, $A$: 10, $D$: 110, $E$: 1110, and $B$: 1111. Note that the most frequent symbol ($C$) has the shortest code while the least frequent symbols ($B$ and $E$) have the longest codes.}
+    \caption{A tree that defines the Huffman code for the data given in the table above. The basic strategy of the Huffman code is to produce a binary tree by iteratively combining the two groups of symbols with lowest probability. For each symbol, the path from the root to that symbol's leaf defines a binary encoding of the symbol. In this example, the codes are $C$: 0, $A$: 10, $D$: 110, $E$: 1110, and $B$: 1111. Note that the most frequent symbol ($C$) has the shortest code while the least frequent symbols ($B$ and $E$) have the longest codes.}
     \label{fig:huffman-standard}
 \end{figure}
 
@@ -233,7 +232,7 @@ Huffman coding corresponds to a polynomial functor \[
 
 For the base case, $\huff_1 \colon \yon \to \free_{\yon^2}$ is the inclusion of $\yon$ into $\free_{\yon^2}$. For the inductive step, suppose we have defined $\huff_{N}$. Consider the cartesian map \[
     \sum_{\Delta_{N+1}} \yon^{N+1} \to \sum_{\Delta_N} \yon^N \tri (\yon + \yon^2)
-\] defined as follows. On positions we map a distribution on $N+1$ tickets to a distribution on $N$ tickets by combining the two tickets with lowest probability. Each of the $N$ tickets maps to $\yon^2$ if it combines two tickets in the original distribution and to $\yon$ otherwise. On directions, it maps the two directions of $\yon^2$ to the two tickets that were combined. For the remaining tickets in $N$, it maps the single the direction of $\yon$ to the original ticket in $N+1$.\footnote{
+\] defined as follows.\footnote{
     To give an unambiguous definition of this map, requires several design choices which we enumerate here by defining the map explicitly. On positions, let $P$ be a distribution on $N + 1$ tickets. Let $i_1 \leq i_2 \in 1, \cdots , N$ be the pair of tickets that minimizes $P(i_1) + P(i_2)$, $i_1$, and $i_1 + i_2$. This pair is unique. Then define $P'$ to be a distribution on $N$ tickets defined by \[
         P'(i) = \begin{cases}
             P(i_1) + P(i_2) & i = i_1\\
@@ -241,7 +240,7 @@ For the base case, $\huff_1 \colon \yon \to \free_{\yon^2}$ is the inclusion of 
             P(i-1) & i \geq i_2.
         \end{cases}
     \] Finally, to complete the map on positions, we define a map $N \to (\yon + \yon^2)(1)$ which takes $i$ to the $\yon^2$ position if $i = i_1$ and the $\yon$ position otherwise. On directions, it is defined by $(i_1, k) \mapsto i_k$ for $k = 1,2$, $(i, *) \mapsto i$ for $i < i_2, i \neq i_1$, and $(i, *) \mapsto i + 1$ for $i \geq i_2$.
-}
+} On positions we map a distribution on $N+1$ tickets to a distribution on $N$ tickets by combining the two tickets with lowest probability. Each of the $N$ tickets maps to $\yon^2$ if it combines two tickets in the original distribution and to $\yon$ otherwise. On directions, it maps the two directions of $\yon^2$ to the two tickets that were combined. For the remaining tickets in $N$, it maps the single the direction of $\yon$ to the original ticket in $N+1$.
 Figure~\ref{fig:huffN} is an example of this map for $N = 4$ on the position $(0.30, 0.02, 0.45, 0.15, 0.08)$.
 
 
