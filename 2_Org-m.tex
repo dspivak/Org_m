@@ -121,7 +121,17 @@ The argument of this section works for any monad $M\colon\poly\to\poly$ equipped
 \[
 	M(p)\otimes\cofree_q\to M(p\otimes q)
 \]
-satisfying the action laws. That is, any such monad lifts to a monad $M\colon\org^\sharp\to\org^\sharp$. For example, if $(t,\eta,\mu)$ is any polynomial monad, such as the list monad, then $p\mapsto p\tri t$ and $p\mapsto t\tri p$ are monads on $\poly$ that can be given $\cofree$-module structures, and hence lift to monads on $\org^\sharp$.
+satisfying the action laws for $p\mapsto\cofree_p$ as a $\otimes$-lax monoidal functor. That is, any such monad lifts to a monad $M\colon\org^\sharp\to\org^\sharp$.
+
+For example, if $(t,\eta,\mu)$ is any polynomial monad, such as the list monad, then $p\mapsto p\tri t$ and $p\mapsto t\tri p$ are monads on $\poly$ that can be given $\cofree$-module structures, and hence lift to monads on $\org^\sharp$. In fact, such monads distribute over the free monad, so that both $\free_{-\tri t}$ and $\free_{t\tri-}$ are monads on $\poly$, and they again can be equipped with a $\cofree_-$-module structure. Hence for any polynomial monad $t$ we have monads
+\[
+	(p\mapsto\free_{p\tri t})\colon
+	\org^\sharp\to\org^\sharp
+	\qqand
+	(p\mapsto\free_{t\tri p})\colon
+	\org^\sharp\to\org^\sharp.
+	\qedhere
+\]
 \end{remark}
 
 
@@ -129,7 +139,7 @@ satisfying the action laws. That is, any such monad lifts to a monad $M\colon\or
 
 We begin by showing that $\org^\sharp$ has a symmetric monoidal structure $(\vee, 0)$ and that $\free \colon \org^\sharp \to \org^\sharp$ is lax monoidal with respect to $\vee$. The associated Kleisli category $\org^\#_\free$ is monoidal and hence has an underlying operad which we also refer to as $\org^\#_\free$.
 
-Before discussing the monoidal structure, we know from the previous section that $\free$ is a  $(\catsharp,\yon,\otimes)$-enriched monad on $\org^\sharp$, so its Kleisli category has polynomials as objects and hom-objects of the form
+Before discussing the monoidal structure, we know from the previous section that $(p\mapsto\free_p)\colon\org^\sharp\to\org^\sharp$ is a  $(\catsharp,\yon,\otimes)$-enriched monad, so its Kleisli category has polynomials as objects and hom-objects of the form
 \begin{equation}
 	\ul{\Hom}(p,q)\coloneqq\cofree_{[p,\free_q]}.
 \end{equation}
