@@ -116,12 +116,20 @@ The top horizontal map is given by internal-hom composition.
     Therefore, this map of enriching functors sends $\org^\sharp$ to $\poly$ and sends the monad $\free \colon \org^\sharp \to \org^\sharp$ to the monad $U \circ \free \colon \poly \to \poly$.
 \end{remark}
 
+\begin{remark}
+The argument of this section works for any monad $M\colon\poly\to\poly$ equipped with a $\cofree_-$-module structure \cite{nlab:module_over_a_monoidal_functor}, i.e.\ a natural map
+\[
+	M(p)\otimes\cofree_q\to M(p\otimes q)
+\]
+satisfying the action laws. That is, any such monad lifts to a monad $M\colon\org^\sharp\to\org^\sharp$. For example, if $(t,\eta,\mu)$ is any polynomial monad, such as the list monad, then $p\mapsto p\tri t$ and $p\mapsto t\tri p$ are monads on $\poly$ that can be given $\cofree$-module structures, and hence lift to monads on $\org^\sharp$.
+\end{remark}
+
 
 \section{The operad $\org^\sharp_\free$}\label{sec:operad-orgm}
 
 We begin by showing that $\org^\sharp$ has a symmetric monoidal structure $(\vee, 0)$ and that $\free \colon \org^\sharp \to \org^\sharp$ is lax monoidal with respect to $\vee$. The associated Kleisli category $\org^\#_\free$ is monoidal and hence has an underlying operad which we also refer to as $\org^\#_\free$.
 
-Before discussing the monoidal structure, we already have a $(\catsharp,\yon,\otimes)$-enriched category whose objects are polynomials and for which
+Before discussing the monoidal structure, we know from the previous section that $\free$ is a  $(\catsharp,\yon,\otimes)$-enriched monad on $\org^\sharp$, so its Kleisli category has polynomials as objects and hom-objects of the form
 \begin{equation}
 	\ul{\Hom}(p,q)\coloneqq\cofree_{[p,\free_q]}.
 \end{equation}
