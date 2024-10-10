@@ -19,10 +19,13 @@
 \usepackage{xcolor}
 \usepackage{tikz-qtree}
 \usepackage{subcaption}
+\usepackage{quiver}
 
 
+\usepackage[backend=bibtex, backref=true, maxbibnames = 10, style = alphabetic]{biblatex}
+\usepackage[bookmarks=true, colorlinks=true, linkcolor=blue!50!black,
+citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperref}
 
-\usepackage[bookmarks=true, colorlinks=true, linkcolor=blue!50!black, citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperref}
 \usepackage[capitalize]{cleveref}
 
 \usepackage{tikz}
@@ -50,17 +53,12 @@
   \crefalias{chapter}{section}
 
 
-% biblatex %
-
-% hyperref %
-  \hypersetup{final}
-
 % enumitem %
   \setlist{nosep}
   \setlistdepth{6}
 
 
-\include{style}
+\input{style}
 
 \newcommand{\dnote}[1]{{\quad \color{blue}$\lozenge$\;David says:}~#1\;{\color{blue}$\lozenge$}\quad}
 \newcommand{\snote}[1]{{\quad \color{red}$\lozenge$\;Sophie says:}~#1\;{\color{red}$\lozenge$}\quad}
@@ -92,9 +90,9 @@
 
 \usepackage{forest}
 
-\usepackage[backend=biber, backref=true, maxbibnames = 10, style = alphabetic]{biblatex}
+\usepackage[utf8]{inputenc} %allows non-ascii in bib file
 
-\addbibresource{Library20240724.bib} 
+\addbibresource{references.bib} 
 
 
 %--------------- Document ---------------%
