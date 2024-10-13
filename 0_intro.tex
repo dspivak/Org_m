@@ -6,7 +6,7 @@ An agent $A$ is given a \emph{task}, and their job is to deliver an \emph{outcom
 
 This same story can take place at any lower (or higher) level in the same way. In other words, each subordinate agent $B$ may also be executing a plan that invokes $B$'s own subordinates, or instead $A$ itself might be a subordinate who was invoked by the plan of a higher-level agent.
 
-We can move from this natural language description of agents and subagents to a mathematical one, using the framework of polynomial functors (also known as \emph{containers} \cite{abbott2005containers,abbot2003categoriesthesis,ahman2014when}). While polynomial functors are defined as ``coproducts of representables $\smset\to\smset$'', we will think of them as \emph{task types} or task-solution interfaces:
+We can move from this natural language description of agents and subagents to a mathematical one, using the framework of polynomial functors (also known as \emph{containers} \cite{abbott2005containers,abbot2003categoriesthesis,ahman2014when}). While polynomial functors are defined as ``coproducts of representables $\smset\to\smset$'', we will think of them as \emph{task families} or task-solution interfaces:
 \[
 \sum_{T:\text{task}}\yon^{\text{Outcome}[T]}
 \]
@@ -33,7 +33,7 @@ We will see that Huffman coding, an efficient data compression technique, is ano
 
 We thus obtain a language, which can be seen as an accounting system for agents that can each recursively call subagents to perform tasks, as well as for how agents can \emph{learn} from the resulting outcomes. Mathematically, we structure this as a generalization of \emph{dynamic monoidal category}, in the sense of \cite{shapiro2022dynamic}, of which the gradient descent and backpropagation pattern in deep learning is also an example. That paper discussed various examples of categorical structures (categories, monoidal categories, multicategories, etc.) enriched in $\org$, a variant of which was introduced in \cite[Def 2.19]{spivak2021learnersv1}. 
 
-In this paper, we show that the free monad monad $\free_-\colon\poly\to\poly$ extends to a monad on $\org$, one which is furthermore lax monoidal with respect to $\vee$. The Kleisli $\smcat$-enriched category $\org_\free$ serves as a base of enrichment for a more flexible kind of dynamic categorical structures, ones where the subordinate dynamics can occur at \emph{faster timescales} than the higher-level dynamics does. The above natural language description of an agent $A$, assuming it has task type $p$ and that its subordinates have task types $q_1,\ldots,q_k$, shows up in  \cref{def.orgsharp} as the following formal object:
+In this paper, we show that the free monad monad $\free_-\colon\poly\to\poly$ extends to a monad on $\org$, one which is furthermore lax monoidal with respect to $\vee$. The Kleisli $\smcat$-enriched category $\org_\free$ serves as a base of enrichment for a more flexible kind of dynamic categorical structures, ones where the subordinate dynamics can occur at \emph{faster timescales} than the higher-level dynamics does. The above natural language description of an agent $A$, assuming it has task family $p$ and that its subordinates have task families $q_1,\ldots,q_k$, shows up in  \cref{def.orgsharp} as the following formal object:
 \begin{equation}\label{eqn.homset}
 \org^\sharp_\free(p;q_1,\ldots,q_k)\coloneqq\cofree_{[p,\free_{q_1\vee\cdots\vee q_k}]},
 \end{equation}
