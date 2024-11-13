@@ -1,0 +1,21 @@
+\[
+\begin{tikzpicture}[trees, thick, level distance=0.5cm,
+  level 1/.style={sibling distance=10mm}]
+
+
+    \node (b) {}
+        child {
+            child {node (b1) {}}
+                child {
+                    child {
+                        child {node (b2) {}}
+                        child {node (b3) {}}
+                    }
+                    child {node (b4) {}}
+                }
+        }
+        child {node (b5) {}}
+    ;
+
+\end{tikzpicture}
+\]

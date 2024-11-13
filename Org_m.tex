@@ -1,0 +1,1418 @@
+\documentclass[11pt, one side, article]{memoir}
+
+
+\settrims{0pt}{0pt} % page and stock same size
+\settypeblocksize{*}{34.5pc}{*} % {height}{width}{ratio}
+\setlrmargins{*}{*}{1} % {spine}{edge}{ratio}
+\setulmarginsandblock{.98in}{.98in}{*} % height of typeblock computed
+\setheadfoot{\onelineskip}{2\onelineskip} % {headheight}{footskip}
+\setheaderspaces{*}{1.5\onelineskip}{*} % {headdrop}{headsep}{ratio}
+\checkandfixthelayout
+
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{rotating}
+
+\usepackage[inline]{enumitem}
+\usepackage{ifthen}
+\usepackage[utf8]{inputenc} %allows non-ascii in bib file
+\usepackage{xcolor}
+\usepackage{tikz-qtree}
+\usepackage{subcaption}
+\usepackage{quiver}
+
+
+\usepackage[backend=biber, backref=true, maxbibnames = 10, style = alphabetic]{biblatex}
+\usepackage[bookmarks=true, colorlinks=true, linkcolor=blue!50!black,
+citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperref}
+
+\usepackage[capitalize]{cleveref}
+
+\usepackage{tikz}
+
+\usepackage{amssymb}
+\usepackage{newpxtext}
+\usepackage[varg,bigdelims]{newpxmath}
+\usepackage{mathrsfs}
+\usepackage{dutchcal}
+\usepackage{mathalfa}
+\usepackage{fontawesome}
+\usepackage{ebproof}
+\usepackage{stmaryrd}
+\usepackage{ebproof}
+\usepackage{graphicx}
+
+% xcolor %
+	\newcommand{\myred}[1]{{\color{red!60!black}#1}}
+	\newcommand{\myyellow}[1]{{\color{yellow!60!black}#1}}
+	\newcommand{\mygreen}[1]{{\color{green!40!black}#1}}
+
+% cleveref %
+  \newcommand{\creflastconjunction}{, and\nobreakspace} % serial comma
+  \crefformat{enumi}{\card#2#1#3}
+  \crefalias{chapter}{section}
+
+
+% enumitem %
+  \setlist{nosep}
+  \setlistdepth{6}
+
+
+\newcommand{\dnote}[1]{{\quad \color{blue}$\lozenge$\;David says:}~#1\;{\color{blue}$\lozenge$}\quad}
+\newcommand{\snote}[1]{{\quad \color{red}$\lozenge$\;Sophie says:}~#1\;{\color{red}$\lozenge$}\quad}
+\newcommand{\defined}[1]{\textbf{#1}}
+
+
+
+\newcommand{\thanksAFOSR}[1]{This material is based upon work supported by the Air Force Office of Scientific Research under award numbers #1}
+
+% ---- Changeable document parameters ---- %
+
+\linespread{1.1}
+\allowdisplaybreaks
+\setsecnumdepth{section}
+\settocdepth{section}
+\setlength{\parindent}{15pt}
+\setcounter{tocdepth}{1}
+
+
+% tikz %
+
+
+
+  \usetikzlibrary{ 
+  	cd,
+  	math,
+  	decorations.markings,
+		decorations.pathreplacing,
+  	positioning,
+  	arrows.meta,
+  	shapes,
+		shadows,
+		shadings,
+  	calc,
+  	fit,
+  	quotes,
+  	intersections,
+    circuits,
+    circuits.ee.IEC
+  }
+  
+  \tikzset{
+biml/.tip={Glyph[glyph math command=triangleleft, glyph length=.95ex]},
+bimr/.tip={Glyph[glyph math command=triangleright, glyph length=.95ex]},
+}
+
+\tikzset{
+	tick/.style={postaction={
+  	decorate,
+    decoration={markings, mark=at position 0.5 with
+    	{\draw[-] (0,.4ex) -- (0,-.4ex);}}}
+  }
+} 
+\tikzset{
+	slash/.style={postaction={
+  	decorate,
+    decoration={markings, mark=at position 0.5 with
+    	{\draw[-] (.3ex,.3ex) -- (-.3ex,-.3ex);}}}
+  }
+} 
+
+\tikzset{trees/.style={
+	inner sep=0, 
+	minimum width=0, 
+	minimum height=0,
+	level distance=.75cm, 
+	sibling distance=.5cm,
+%	every child/.style={fill},
+	edge from parent/.style={shorten <= 2pt, draw, ->},
+	grow'=up,
+	decoration={markings, mark=at position 0.75 with \arrow{stealth}}
+	}
+}
+
+\newcommand{\upp}{\begin{tikzcd}[row sep=6pt]~\\~\ar[u, bend left=50pt, looseness=1.3, start anchor=east, end anchor=east]\end{tikzcd}}
+
+\newcommand{\bito}[1][]{
+	\begin{tikzcd}[ampersand replacement=\&, cramped]\ar[r, biml-bimr, "#1"]\&~\end{tikzcd}  
+}
+\newcommand{\bifrom}[1][]{
+	\begin{tikzcd}[ampersand replacement=\&, cramped]\ar[r, bimr-biml, "{#1}"]\&~\end{tikzcd}  
+}
+\newcommand{\bifromlong}[2][]{
+	\begin{tikzcd}[ampersand replacement=\&, column sep=#2, cramped]\ar[r, bimr-biml, "#1"]\&~\end{tikzcd}  
+}
+
+% Adjunctions
+\newcommand{\adj}[5][30pt]{%[size] Cat L, Left, Right, Cat R.
+\begin{tikzcd}[ampersand replacement=\&, column sep=#1]
+  #2\ar[r, shift left=5pt, "#3"]
+  \ar[r, phantom, "\scriptstyle\Rightarrow"]\&
+  #5\ar[l, shift left=5pt, "#4"]
+\end{tikzcd}
+}
+
+\newcommand{\adjr}[5][30pt]{%[size] Cat R, Right, Left, Cat L.
+\begin{tikzcd}[ampersand replacement=\&, column sep=#1]
+  #2\ar[r, shift left=5pt, "#3"]\&
+  #5\ar[l, shift left=5pt, "#4"]
+  \ar[l, phantom, "\scriptstyle\Leftarrow"]
+\end{tikzcd}
+}
+
+\newcommand{\xtickar}[1]{\begin{tikzcd}[baseline=-0.5ex,cramped,sep=small,ampersand 
+replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
+\newcommand{\xslashar}[1]{\begin{tikzcd}[baseline=-0.5ex,cramped,sep=small,ampersand 
+replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
+
+
+
+  
+  % amsthm %
+\theoremstyle{definition}
+\newtheorem{definitionx}{Definition}[chapter]
+\newtheorem{examplex}[definitionx]{Example}
+\newtheorem{remarkx}[definitionx]{Remark}
+\newtheorem{notation}[definitionx]{Notation}
+
+
+\theoremstyle{plain}
+
+\newtheorem{theorem}[definitionx]{Theorem}
+\newtheorem{proposition}[definitionx]{Proposition}
+\newtheorem{corollary}[definitionx]{Corollary}
+\newtheorem{lemma}[definitionx]{Lemma}
+\newtheorem{warning}[definitionx]{Warning}
+\newtheorem*{theorem*}{Theorem}
+\newtheorem*{proposition*}{Proposition}
+\newtheorem*{corollary*}{Corollary}
+\newtheorem*{lemma*}{Lemma}
+\newtheorem*{warning*}{Warning}
+%\theoremstyle{definition}
+%\newtheorem{definition}[theorem]{Definition}
+%\newtheorem{construction}[theorem]{Construction}
+
+\newenvironment{example}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\lozenge$}\examplex}
+  {\popQED\endexamplex}
+  
+ \newenvironment{remark}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\lozenge$}\remarkx}
+  {\popQED\endremarkx}
+  
+  \newenvironment{definition}
+  {\pushQED{\qed}\renewcommand{\qedsymbol}{$\lozenge$}\definitionx}
+  {\popQED\enddefinitionx} 
+
+    
+%-------- Single symbols --------%
+	
+\DeclareSymbolFont{stmry}{U}{stmry}{m}{n}
+\DeclareMathSymbol\fatsemi\mathop{stmry}{"23}
+
+\DeclareFontFamily{U}{mathx}{\hyphenchar\font45}
+\DeclareFontShape{U}{mathx}{m}{n}{
+      <5> <6> <7> <8> <9> <10>
+      <10.95> <12> <14.4> <17.28> <20.74> <24.88>
+      mathx10
+      }{}
+\DeclareSymbolFont{mathx}{U}{mathx}{m}{n}
+\DeclareFontSubstitution{U}{mathx}{m}{n}
+\DeclareMathAccent{\widecheck}{0}{mathx}{"71}
+
+\ExplSyntaxOn
+\NewDocumentEnvironment{sequation}{O{\fontsize{15pt}{15pt}\selectfont
+}b}
+ {
+  \yufip_sequation:nnn {equation}{#1}{#2}
+ }{}
+\NewDocumentEnvironment{sequation*}{O{\fontsize{16pt}{16pt}\selectfont
+}b}
+ {
+  \yufip_sequation:nnn {equation*}{#1}{#2}
+ }{}
+\cs_new_protected:Nn \yufip_sequation:nnn
+ {
+  \begin{#1}
+  \mbox{#2$\displaystyle#3$}
+  \end{#1}
+ }
+\ExplSyntaxOff
+
+%-------- Renewed commands --------%
+
+\renewcommand{\ss}{\subseteq}
+
+%-------- Other Macros --------%
+
+
+\DeclarePairedDelimiter{\present}{\langle}{\rangle}
+\DeclarePairedDelimiter{\copair}{[}{]}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\corners}{\ulcorner}{\urcorner}
+\DeclarePairedDelimiter{\ihom}{[}{]}
+
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Mor}{Mor}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\cod}{cod}
+\DeclareMathOperator{\idy}{idy}
+\DeclareMathOperator{\comp}{com}
+\DeclareMathOperator*{\colim}{colim}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ob}{Ob}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\el}{El}
+\DeclareMathOperator{\votimes}{\varotimes}
+
+\newcommand{\iHom}{\ul{\Hom}}
+
+
+
+\newcommand{\const}[1]{\texttt{#1}}%a constant, or named element of a set
+\newcommand{\Set}[1]{\mathsf{#1}}%a named set
+\newcommand{\ord}[1]{\mathsf{#1}}%an ordinal
+\newcommand{\cat}[1]{\mathcal{#1}}%a generic category
+\newcommand{\Cat}[1]{\mathbf{#1}}%a named category
+\newcommand{\fun}[1]{\mathrm{#1}}%a function
+\newcommand{\Fun}[1]{\mathsf{#1}}%a named functor
+
+
+
+
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\then}{\mathbin{\fatsemi}}
+
+\newcommand{\cocolon}{:\!}
+
+
+\newcommand{\iso}{\cong}
+\newcommand{\too}{\longrightarrow}
+\newcommand{\tto}{\rightrightarrows}
+\newcommand{\To}[2][]{\xrightarrow[#1]{\tn{$#2$}}}
+\renewcommand{\Mapsto}[1]{\xmapsto{#1}}
+\newcommand{\Tto}[3][13pt]{\begin{tikzcd}[sep=#1, cramped, ampersand replacement=\&, text height=1ex, text depth=.3ex]\ar[r, shift left=2pt, "#2"]\ar[r, shift right=2pt, "#3"']\&{}\end{tikzcd}}
+\newcommand{\Too}[1]{\xrightarrow{\;\;#1\;\;}}
+\newcommand{\from}{\leftarrow}
+\newcommand{\ffrom}{\leftleftarrows}
+\newcommand{\From}[1]{\xleftarrow{#1}}
+\newcommand{\Fromm}[1]{\xleftarrow{\;\;#1\;\;}}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\inj}{\rightarrowtail}
+\newcommand{\wavyto}{\rightsquigarrow}
+\newcommand{\lollipop}{\multimap}
+\newcommand{\imp}{\Rightarrow}
+\renewcommand{\iff}{\Leftrightarrow}
+\newcommand{\down}{\mathbin{\downarrow}}
+\newcommand{\fromto}{\leftrightarrows}
+\newcommand{\tickar}{\xtickar{}}
+\newcommand{\slashar}{\xslashar{}}
+\newcommand{\card}{\,^{\#}}
+
+
+\newcommand{\inv}{^{-1}}
+\newcommand{\op}{^\tn{op}}
+
+\newcommand{\tn}[1]{\textnormal{#1}}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\ul}[1]{\underline{#1}}
+\newcommand{\wt}[1]{\widetilde{#1}}
+\newcommand{\wh}[1]{\widehat{#1}}
+\newcommand{\wc}[1]{\widecheck{#1}}
+\newcommand{\ubar}[1]{\underaccent{\bar}{#1}}
+
+\newcommand{\lin}[1]{\hspace{1pt}\ol{\hspace{-1pt}#1\hspace{-1pt}}\hspace{1pt}}
+
+
+\newcommand{\bb}{\mathbb{B}}
+\newcommand{\cc}{\mathbb{C}}
+\newcommand{\nn}{\mathbb{N}}
+\newcommand{\pp}{\mathbb{P}}
+\newcommand{\qq}{\mathbb{Q}}
+\newcommand{\zz}{\mathbb{Z}}
+\newcommand{\rr}{\mathbb{R}}
+
+
+\newcommand{\finset}{\Cat{Fin}}
+\newcommand{\smset}{\Cat{Set}}
+\newcommand{\smcat}{\Cat{Cat}}
+\newcommand{\catsharp}{\Cat{Cat}^{\sharp}}
+\newcommand{\ppolyfun}{\mathbb{P}\Cat{olyFun}}
+\newcommand{\en}{\Cat{End}}
+\newcommand{\org}{\Cat{Org}}
+
+\newcommand{\List}{\Fun{list}}
+\newcommand{\lott}{\Fun{lott}}
+\newcommand{\set}{\tn{-}\Cat{Set}}
+
+
+
+
+\newcommand{\yon}{{\mathcal{y}}}
+\newcommand{\poly}{\Cat{Poly}}
+\newcommand{\Span}{\Cat{Span}}
+\newcommand{\rect}{\Set{Rect}}
+\newcommand{\polycart}{\poly^{\tn{cart}}}
+\newcommand{\ppoly}{\mathbb{P}\Cat{oly}}
+\newcommand{\0}{\textsf{0}}
+\newcommand{\1}{\tn{\textsf{1}}}
+\newcommand{\tri}{\mathbin{\triangleleft}}
+\newcommand{\triright}{\mathbin{\triangleright}}
+\newcommand{\tripow}[1]{^{\tri #1}}
+\newcommand{\indep}{\Fun{Indep}}
+\newcommand{\duoid}{\Fun{Duoid}}
+\newcommand{\jump}{\pi}
+\newcommand{\jumpmap}{\lin{\jump}}
+\newcommand{\founds}{\Yleft}
+\newcommand{\cofree}{\mathfrak{c}}
+\newcommand{\free}{\mathfrak{m}}
+\newcommand{\uu}{\List}
+
+% lenses
+\newcommand{\biglens}[2]{
+     \begin{bmatrix}{\vphantom{f_f^f}#2} \\ {\vphantom{f_f^f}#1} \end{bmatrix}
+}
+\newcommand{\littlelens}[2]{
+     \begin{bsmallmatrix}{\vphantom{f}#2} \\ {\vphantom{f}#1} \end{bsmallmatrix}
+}
+\newcommand{\lens}[2]{
+  \relax\if@display
+     \biglens{#1}{#2}
+  \else
+     \littlelens{#1}{#2}
+  \fi
+}
+
+\newcommand{\indexcoclscale}[1]{\scalebox{.7}{#1}}
+\newcommand{\cocl}[1]{
+	\scriptsize\overset{\,\indexcoclscale{$#1$}}{\frown}\normalsize
+}
+\newcommand{\hyper}[1]{
+	\begin{tikzpicture}[y=.5cm, font=\scriptsize, baseline=(base)]
+		\node[rotate=-15] (ar) {$\nearrow$};
+		\coordinate[below=3pt] (base) at (ar);
+		\node[above right=-2pt and 1pt of ar.west] (f) {\indexcoclscale{$#1$}};
+	\end{tikzpicture}
+}
+
+\newcommand{\othis}[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=1pt] (char) {\tiny #1};}}
+\newcommand{\bang}{\,\mathbin{!}\,}
+\newcommand{\obang}{\mathbin{\othis{!}}}
+
+\newcommand{\hh}[2][]{#1 \tn{#2} #1}
+\newcommand{\qqand}{\hh[\qquad]{and}}
+\newcommand{\qand}{\hh[\quad]{and}}
+\renewcommand{\iff}[1][\;\;]{#1\Leftrightarrow#1}
+\newcommand{\ifff}[1][\;\;]{#1\xLeftrightarrow{\quad}#1}
+\newcommand{\hi}[4][]{#1 #2 \tn{\textit{#4}} #3}
+\newcommand{\where}[1][,]{\hi[#1]{\qquad}{\quad}{where}}
+\newcommand{\qimplies}{\hh[\quad]{$\implies$}}
+\newcommand{\qqor}{\hh[\qquad]{or}}
+
+\newcommand{\coto}{\nrightarrow}
+\newcommand{\cofun}{{\raisebox{2pt}{\resizebox{2.5pt}{2.5pt}{$\setminus$}}}}
+
+\newcommand{\coalg}{\tn{-}\Cat{Coalg}}
+\newcommand{\ext}{\fun{Ext}}
+
+\newcommand{\bic}[2]{{}_{#1}\Cat{Comod}_{#2}}
+
+% matter-pattern
+\newcommand{\modpoly}{\Cat{Mod}_\poly}
+\newcommand{\comodpoly}{\Cat{Comod}_\poly}
+\newcommand{\mun}{\zeta}
+\newcommand{\mcoun}{\theta}
+\newcommand{\ccoun}{\epsilon}
+\newcommand{\comul}{\delta}
+
+\newcommand{\modstruct}{\Xi}
+\newcommand{\hoc}[1]{_{(#1)}}
+
+
+\newcommand{\eval}{\textrm{eval}}
+\newcommand{\lax}{\textrm{lax}}
+
+
+
+\newcommand{\alice}{\textcolor{cyan}{\mathsf{alice}}}
+\newcommand{\bob}{\textcolor{magenta}{\mathsf{bob}}}
+\newcommand{\carmen}{\textcolor{teal}{\mathsf{carmen}}}
+\newcommand{\aone}{\textcolor{cyan}{1}}
+\newcommand{\azero}{\textcolor{cyan}{0}}
+\newcommand{\bone}{\textcolor{magenta}{1}}
+\newcommand{\bzero}{\textcolor{magenta}{0}}
+\newcommand{\cone}{\textcolor{teal}{1}}
+\newcommand{\czero}{\textcolor{teal}{0}}
+
+\usepackage{forest}
+
+\usepackage[utf8]{inputenc} %allows non-ascii in bib file
+
+\addbibresource{references.bib} 
+
+
+%--------------- Document ---------------%
+\begin{document}
+
+\title{Dynamic task delegation for hierarchical agents}
+% \title{Dynamic delegation for hierarchical agency}
+
+\author{
+	Sophie Libkind\and
+	David I. Spivak
+}
+
+%\date{Last updated: \today}
+
+\maketitle
+
+\begin{abstract}
+This is the fourth installment in a series of papers offering models of hierarchical structure for dynamical systems, using the language of polynomial functors. In the first iteration  \cite{niu2022poly}, the operad underlying the symmetric monoidal category $(\poly, \otimes, \yon)$ can be viewed as defining the behavior of hierarchical delegation. In particular, a morphism $\poly(p_1 \otimes \cdots \otimes p_m, q)$ turns the outputs of subordinates with interfaces $p_i$ into the output of an agent with interface $q$ and turns a task given to the agent into a task for each of the subordinates. The work of \cite{shapiro2022dynamic} makes this story \emph{dynamic}. In other words, the way that subordinate outputs become agent outputs and agent tasks become subordinate tasks can change over time rather than remaining fixed. Most recently \cite{libkind2024pattern}  extends the story of hierarchical delegation in two different ways. First, it allows one to specify the hierarchical delegation programmatically (which we refer to as \emph{pattern}) rather than via behaviors (which we refer to as \emph{matter}).  Second, it allows for the time scales of the subordinates and agents to differ. An agent may rely on several outputs of its subordinates in order to produce a single output of its own.
+
+In this article, we extend the story yet again. First, we extend the framework so that subordinates may be invoked asynchronously depending on the outcomes of other subordinates. We prove that the free (co)monad (co)monad $\free$ and $\cofree$ extend to a (co)monad on $\org$. From the perspective of programs/pattern, this extension implies the existence of a $\smcat$-enriched operad $\org_\free$, and from the perspective of behavior/matter, it implies the existence of a $\smcat$-enriched operad $\org^\cofree$.  Second, we crispen the relationship between the programmatic and behavioral perspectives via a functor $[-, t] \colon \org_\free\op \to \org^\cofree$ for any polynomial monad $t$.
+
+\end{abstract}
+
+\chapter{Introduction}\label{sec:intro}
+
+We begin with a natural language description of this paper's main mathematical character, which we will here call an \emph{agent}, which one can imagine as an \emph{evolving planner}. The corresponding mathematical object is found below in \eqref{eqn.homset}.
+
+An agent $A$ is given a \emph{task}, and their job is to deliver an \emph{outcome}. They begin by making a plan: invoke a bunch of $A$'s subordinate agents and hand each of them a task of their own, have the subordinates' resulting outcomes determine a different of bunch of $A$'s subordinate agents to hand different tasks to, and so on, until finally after some finite amount of steps, the process terminates and $A$ obtains an outcome. Agent $A$ can learn from whatever is delivered from its subordinates, so that the next time it is given the same task or a similar one, it can make a different plan. 
+
+This same story can take place at any lower (or higher) level in the same way. In other words, each subordinate agent $B$ may also be executing a plan that invokes $B$'s own subordinates, or instead $A$ itself might be a subordinate who was invoked by the plan of a higher-level agent.
+
+We can move from this natural language description of agents and subagents to a mathematical one, using the framework of polynomial functors (also known as \emph{containers} \cite{abbott2005containers,abbot2003categoriesthesis,ahman2014when}). While polynomial functors are defined as ``coproducts of representables $\smset\to\smset$'', we will think of them as \emph{portfolios} or task-solution interfaces:
+\[
+\sum_{T:\text{task}}\yon^{\text{Outcome}[T]}
+\]
+We intuitively think of tasks like ``purchase an airline ticket to Oakland'', for which an outcome is a certain ticket (or a failure to find one). But one can formalize the notion of task as a type $T$ (e.g.\ $T$=``a prime number $n\geq10^{(10^{10})}$ such that $n+2$ is also prime''), and formalize its outcomes as the terms of that type.%
+\footnote{In other words, the set of outcomes might be \emph{intensional} rather than \emph{extensional}: you know what kind of outcome you want, but not how many---if any at all---such outcomes actually exist.} The polynomial $p=\sum_{i:I}\yon^{p[i]}$ is an interface for agents that can be given any task $i$ from a set $I$ and in that case can deliver outcomes from the set $p[i]$.
+
+A morphism $\varphi\colon p\to q$ of polynomials can be represented cleanly in dependent type theory: given another polynomial $q=\sum_{j:J}\yon^{q[j]}$, a natural transformation $\varphi$ between them has type
+\[
+\poly(p,q)\coloneqq\prod_{i:I}\sum_{j:J}\prod_{e:q[j]}\sum_{d:p[i]}1.
+\]
+We can understand any such element $\varphi:\poly(p,q)$ as a \emph{task delegation}, which is a two-step process: 
+\begin{enumerate}
+\item For every task $i$ that $p$ can perform, it \emph{assign} a task $j$ that $q$ can perform.
+\item For every outcome $b:q[j]$ that $q$ can deliver, it \emph{returns} an outcome that $p$ can deliver.
+\end{enumerate}
+
+In this paper, we consider a more general sort of task delegation by invoking two additional notions: a monoidal structure $\vee$ (which we pronounce as ``or'') and the free monad construction $\free_-$. The monoidal structure allows for the possibility of multiple agents acting simultaneously, and the free monad allows for the possibility of a multi-step process to take place before an outcome is returned. In general, we will see that a task in $\free_p$ is a well-founded tree---or flowchart---of tasks from $p$. 
+
+For example, consider the polynomial $\yon^\nn$; it has only one task, for which an outcome is any natural number. A map $\yon^\nn\to\free_{\yon^\nn\vee\yon^\nn}$ delegates the task to two subagents of the same sort. Such a map might assign to the unique task the two-step process that first asks each subagent for a natural number, then asks whoever had the bigger number (or the first subagent if the numbers were equal) to choose a second number, and finally returns the sum to the original agent. 
+
+In Example~\ref{ex:stream-m}, we will define a map $\yon ^2 \to \free_{{\color{cyan}\yon^2} \vee {\color{magenta}\yon^2} \vee \color{teal}{\yon^2}}$ that delegates the task of selecting a bit to three subagents by asking the first two subagents for a bit. If they agree then return that bit. Otherwise, invoke the third subagent as a tie-breaker. This pattern of task delegation corresponds to the following position of $\free_{{\color{cyan}\yon^2} \vee {\color{magenta}\yon^2} \vee \color{teal}{\yon^2}}$. Note that below we use colors to depict the outcomes of the different subagents. 
+\input{figures/carmen-tie-breaks}
+We will see that Huffman coding, an efficient data compression technique, is another example.
+
+We thus obtain a language, which can be seen as an accounting system for agents that can each recursively call subagents to perform tasks, as well as for how agents can \emph{learn} from the resulting outcomes. Mathematically, we structure this as a generalization of \emph{dynamic monoidal category}, in the sense of \cite{shapiro2022dynamic}, of which the gradient descent and backpropagation pattern in deep learning is also an example. That paper discussed various examples of categorical structures (categories, monoidal categories, multicategories, etc.) enriched in $\org$, a variant of which was introduced in \cite[Def 2.19]{spivak2021learnersv1}. 
+
+In this paper, we show that the free monad monad $\free_-\colon\poly\to\poly$ extends to a monad on $\org$, one which is furthermore lax monoidal with respect to $\vee$. The Kleisli $\smcat$-enriched category $\org_\free$ serves as a base of enrichment for a more flexible kind of dynamic categorical structures, ones where the subordinate dynamics can occur at \emph{faster timescales} than the higher-level dynamics does. The above natural language description of an agent $A$, assuming it has portfolio $p$ and that its subordinates have portfolios $q_1,\ldots,q_k$, shows up in  \cref{def.orgsharp} as the following formal object:
+\begin{equation}\label{eqn.homset}
+\org^\sharp_\free(p;q_1,\ldots,q_k)\coloneqq\cofree_{[p,\free_{q_1\vee\cdots\vee q_k}]},
+\end{equation}
+The monoidal product $\vee$ lets any ``bunch'' of agents be chosen at each time step. The free monad $\free$ brings in the planning aspect, a flow-chart for how subordinate outcomes select new subordinate tasks. The internal hom $[-,-]$ lets tasks pass forward and outcomes pass backwards. And the cofree comonad $\cofree$ lets this whole process evolve through time. 
+
+As a very special case, we give the example of the monoid $\org_\free(\yon,\yon)$, where there is only one subordinate and neither the agent nor the subordinate can vary their task or outcome. In this case, the plan or flow-chart just becomes a number of steps to perform and the evolution is blind, just a stream of plans. Thus an element of this monoid is a natural number sequence $s\colon\nn\to\nn$ and the multiplication $s\star t$ is what appears to be a novel method for combining two such sequences, where $s$ provides the ``time-scale'' for summing in $t$; see \cref{ex.sequence_counter}.
+
+We go two steps further. First we describe a $\smcat$-enriched operad \cite{Leinster:2004a} that we denote $\org^\cofree$, corresponding to the cofree comonad comonad $\cofree_-\colon\poly\to\poly$. And second, we provide a $\smcat$-enriched functor $[-,t]\colon\org_\free\op\to\org^\cofree$ for any polynomial monad $t$, which ``converts patterns to the matter they run on'', in the sense of \cite{libkind2024pattern}; see also \cite{Katsumata2020interaction}. For example, taking $t=\yon$, a hierarchical agent which adds numbers returned by its subordinates  would be sent to a machine that takes streams of numbers (the behaviors of the subordinates)  to the stream of their sum (the behavior of the agent). Taking $t=\lott$ to be the monad corresponding to finite-sample-space random variables, the same is true except that an element of randomness is introduced to the behaviors of the subordinates and agent. All this will be made explicit in the text below.
+
+
+\section*{Plan of the paper}
+
+In \cref{sec:background} we introduce the $\smcat^\sharp$-enriched category $\org^\sharp$ as well as the adjunctions which define the free monad monad $\free$ and the cofree comonad comonad $\cofree$. 
+In \cref{sec:orgm}, we define the $\smcat$-enriched operad $\org_\free$ and in \cref{sec:orgc} we define the $\smcat$-enriched operad $\org^\cofree$. 
+Finally, in \cref{sec:matter-pattern} we define a $\smcat$-enriched operad functor $[-, t] \colon \org_\free\op \to \org^\cofree$ for any polynomial monad $t$ and give several applications.
+
+\section*{Acknowledgments}
+We appreciate helpful conversations with C.B. Aberl\'e, who suggested our stream-processing example, \cref{ex:stream-m2}.
+
+\thanksAFOSR{FA9550-23-1-0376}.
+\chapter{Background} \label{sec:background}
+
+For background on $\poly$, including the monoidal closed structure $(\otimes,[-,-])$, see \cite{niu2022poly}. In \cref{sec.(co)free(co)monad} we briefly recall the free monad $\free_-$ and cofree comonad $\cofree_-$ constructions, as well as the module structure $\free_p\otimes\cofree_q\to\free_{p\otimes q}$ between them. In \cref{sec.orgsharp} we discuss the $\smcat^\sharp$-enriched category $\org^\sharp$ to which we will extend the free monad and cofree comonad constructions.
+
+
+\section{The free monad monad and the cofree comonad comonad}\label{sec.(co)free(co)monad}
+
+Two key players in our story are the free monad monad $\free$ and the cofree comonad comonad $\cofree$. The general construction of the free monad monad was introduced in \cite{kelly1980unified} (see also \cite{nlab:transfinite_construction_of_free_algebras}) and an intuitive explanation was given in \cite{libkind2024pattern}; we describe their key features below. A \defined{polynomial monad} (referred to here as monad) is a $\tri$-monoid. The category of polynomial monads is denoted $\modpoly$. A \defined{ polynomial comonad} (referred to here as comonad) is a $\tri$-comonoid. There is an equivalence
+\[
+    \Cat{Comod}_\poly\cong\smcat^\sharp
+\]
+between the category of polynomial comonads and the category $\smcat^\sharp$ consisting of categories and retrofunctors (sometimes called cofunctors; see \cite{aguiar1997internal,clarke2022introduction,nlab:retrofunctor}) between them.
+
+Given a polynomial $p$, the associated free monad is the polynomial $\free_p$ whose positions are $p$-shaped decision trees and whose directions are the leaves of the tree. For example, the following is a position of $\free_{\yon^2}$ with $5$ directions. 
+
+\input{figures/mp-example}
+
+The free monad is defined in \cite{libkind2024pattern} via transfinite induction where we define polynomials $p\hoc{\alpha}$ for ordinals $\alpha$ and cartesian inclusions $\iota\hoc\alpha\colon p\hoc{\alpha} \to p\hoc{\alpha +1}$. It is given in the base case by $p\hoc{0} \coloneqq \yon$, for successor ordinals by $p\hoc{\alpha + 1} \coloneqq \yon + p \tri p\hoc{\alpha}$, and for limit ordinals $\alpha$ by $p\hoc{\alpha} \coloneqq \colim_{\alpha' < \alpha} p \hoc{\alpha'}$. 
+
+
+\cite[Theorem 2.10]{libkind2024pattern} defines an adjunction
+\[
+    \adj{\poly}{\free_-}{U}{\modpoly}
+\]
+whose unit we denote $\mun$ and whose counit we denote $\mcoun$.
+
+\begin{example}
+The free monad on a set $A$ is the $A$-exceptions monad
+\[\free_A=\yon+A.\]
+In particular, $\free_0=\yon$. The free monad on $A\yon$ is $\free_{A\yon}=\List(A)\yon$, e.g.\ $\free_\yon=\nn\yon$.
+\end{example}
+
+Given a polynomial $p$, the associated cofree comonad is $\cofree_p$ whose positions are $p$-shaped behavior trees and whose directions are finite paths up the tree. 
+\cite[Theorem 3.2]{libkind2024pattern} defines an adjunction 
+\begin{equation}\label{eqn.cofree_adjunction}
+    \adj{\catsharp}{U}{\cofree_-}{\poly}
+\end{equation}
+whose counit we denote $\ccoun$. The functor $\cofree$ is lax monoidal with respect to $\otimes$, so it has a productor and unitor of the following types:
+\begin{equation}\label{eqn.cofree_lax_monoidal}
+\cofree_p\otimes\cofree_q\to\cofree_{p\otimes q}\qqand\yon\to\cofree_\yon.
+\end{equation}
+
+\begin{example}
+The cofree comonad on a set $A$ is $\cofree_A=A\yon$. The cofree comonad on a representable $\yon^A$ is $\cofree_{\yon^A}=\yon^{\List(A)}$. Finally, the cofree comonad on $A\yon$ is $\cofree_{A\yon}=(A\yon)^\nn$. It has as positions all streams in $A$, and a direction is a natural number: the direction $n$ corresponds to the first $n$ tokens of the stream.
+
+\end{example}
+
+The main result of \cite[Theorem 3.4]{libkind2024pattern} was to prove that $\free_-$ is a left module over $U \circ  \cofree \colon \poly \to \poly$ whose action is defined by the natural transformation 
+\[
+    \modstruct_{p,q}\colon \free_p \otimes \cofree_q \to \free_{p \otimes q}
+\] which is defined as the image of the composite
+\[
+    p \otimes \cofree_q \xrightarrow{p \otimes \ccoun_q} p \otimes q \xrightarrow{\mun_{p \otimes q}} \free_{p \otimes q}
+\] under the isomorphisms
+\[
+    \poly(p \otimes \cofree_q, \free_{p\otimes q})  \iso \modpoly(\free_p, [\cofree_q, \free_{p\otimes q}]) \to \poly(\free_p \otimes \cofree_q, \free_{p \otimes q}).
+\] We call $\modstruct$ the \defined{interaction law}.
+
+
+
+\section{The $\smcat^\sharp$-enriched category $\org^\sharp$}\label{sec.orgsharp}
+
+In this paper we define $\org^\sharp$ to be the $\smcat^\sharp$-enriched category whose objects are polynomials and whose morphisms are defined by $\org^\sharp(p, q) \coloneqq \cofree_{[p,q]}$, the cofree comonad on the internal hom $[p,q]$. 
+Composition is defined by 
+\[
+    \cofree_{[p,q]} \otimes \cofree_{[q,r]} \to \cofree_{[p, q] \otimes [q, r]} \to \cofree_{[p, r]}
+\]
+where the first map is the productor \eqref{eqn.cofree_lax_monoidal} of $\cofree$ and the second uses functoriality of $\cofree$ and internal-hom composition.
+
+For the identity on a polynomial $p$, we use the fact that $\yon$ has a unique comonoid structure, and take the image of the polynomial identity on $p$ under the isomorphisms
+\[
+    \poly(p, p) \iso \poly(\yon , [p, p]) \iso \smcat^\#(\yon, \cofree_{[p,p]}).
+\]
+
+Recall that for any orthogonal factorization system $(\cat{L},\cat{R})$ on a category $\cat{C}$, there is a functor $(\cat{R}/-)\colon\cat{C}\to\smcat$ sending $c$ to the slice category $\cat{R}/c$ of maps $d\To{\rho}c$ and sending $f\colon c\to c'$ to the functor $\rho\mapsto\rho'$ where $\rho'$ is the right-factor of the composite $\rho\then f=\ell\then\rho'$. If $\cat{C}$ has a monoidal structure $\otimes$ that lifts to a monoidal structure on $\cat{L}$ and $\cat{R}$, then $(\cat{R}/-)$ is lax monoidal
+\[
+\big((d\To{\rho}c), (d'\To{\rho'}c')\big)\mapsto (d\otimes d'\To{\rho\otimes\rho'}c\otimes c').\]
+Recall also \cite[Proposition 5.52]{niu2022poly} that there is a (vertical, cartesian) orthogonal factorization system on $\smcat^\sharp$ and that cartesian retrofunctors over $\cat{C}$ can be identified with discrete opfibrations over $\cat{C}$, or equivalently to functors $\cat{C}\to\smset$. By the previous paragraph, we have a lax monoidal functor
+\[
+%(\smcat^{\sharp\tn{cart}}/-)
+\smset^-\colon(\smcat^\sharp,\yon,\otimes)\too(\smcat,1,\times)
+\]
+This in turn provides a change of enrichment, which sends $\org^\sharp$ to the monoidal 2-category whose objects are polynomials under $\otimes$ and for which $\hom(p,q)=\smset^{\cofree_{[p,q]}}$. This is equivalent to the category-enriched operad $\org$ defined in \cite[Definition 2.19]{spivak2021learnersv1}.
+
+\begin{remark}
+    What is the relationship between $\poly$ and $\org^\sharp$? Since $(\poly, \otimes, \yon)$ has internal homs, $\poly$ can be viewed as a $(\poly, \otimes, \yon)$-enriched category. Via the lax monoidal functor of enrichment categories $\cofree\colon (\poly, \otimes, \yon) \to (\smcat^\sharp, \otimes, \yon)$, we obtain the $\smcat^\sharp$-enriched category $\org^\sharp$.
+\end{remark}
+
+We will not need the following proposition, but we record it here both as an interesting note and to settle the various notions for our readers.
+\begin{proposition}
+Both $(\org^\sharp,\yon,\otimes)$ and $(\org,\yon,\otimes)$ are monoidal closed.
+\end{proposition}
+\begin{proof}
+For any objects $p,q:\ob(\poly)=\ob(\org^\sharp)=\ob(\org)$, the associated hom-objects for $\org^\sharp$ and $\org$ are
+\[
+  \org^\sharp(p,q)\coloneqq\cofree_{[p,q]}
+  \qqand
+	\org(p,q)\coloneqq\smset^{\cofree_{[p,q]}}=[p,q]\coalg.
+\]
+In either case, the monoidal closure is given by the internal hom $[-,-]$ because we have natural isomorphisms (in $\catsharp$ and $\Cat{CAT}$ respectively) of the form:
+\[
+	\cofree_{[p\otimes p',q]}\cong\cofree_{[p,[p',q]]}
+	\qqand
+	[p\otimes p',q]\coalg\cong[p,[p',q]]\coalg.
+	\qedhere
+\]
+\end{proof}
+
+
+
+\chapter{An operad of pattern delegation}\label{sec:orgm}
+
+In this section we will promote the free monad monad $\free$ on $\poly$ to a monad on $\org^\#$ and show that it is lax monoidal with respect to the monoidal product $\vee$. Then the Kleisli construction defines an $\smcat^\#$-enriched operad $\org_\free^\#$.
+
+\section{Extension of $\free$ to a monad on $\org^\sharp$}
+
+We will define a $\smcat^\sharp$-enriched functor $\free \colon \org^\sharp \to \org^\sharp$ and show that it is a monad. 
+
+On objects $\free$ takes a polynomial $p$ to the free monad $\free_p$. On hom-objects, $\free \colon \cofree_{[p, q]} \to \cofree_{[\free_p, \free_q]}$ can be identified with the image of the composite, 
+\[
+    \free_p \otimes \cofree_{[p,q]} \xrightarrow{\modstruct_{p, [p, q]}} \free_{p \otimes [p, q]} \xrightarrow{\free_\eval} \free_q
+\] where the identification is given by the following isomorphism:
+\[
+    \poly(\free_p\otimes \cofree_{[p, q]}, \free_q) \iso \poly(\cofree_{[p,q]}, [\free_p, \free_q]) \iso \smcat^\sharp(\cofree_{[p,q]}, \cofree_{[\free_p, \free_q]}).
+\]
+Here, the first isomorphism is the $\otimes$-hom adjunction and the second isomorphism is induced by the cofree adjunction \eqref{eqn.cofree_adjunction}.
+
+We first check that $\free$ is functorial. It preserves identity because the composite
+\[
+    p \to p \otimes [p,p] \xrightarrow{\eval} p
+\] is the identity on $p$, where the first map is the interal-hom identity. It preserves composition because the following diagram commutes % https://q.uiver.app/#q=WzAsNCxbMCwwLCJwIFxcb3RpbWVzIFtwLHFdIFxcb3RpbWVzIFtxLCByXSJdLFswLDEsInEgXFxvdGltZXMgW3Escl0iXSxbMSwxLCJyIl0sWzEsMCwicCBcXG90aW1lcyBbcCwgcl0iXSxbMCwxXSxbMSwyXSxbMywyXSxbMCwzXV0=
+\[\begin{tikzcd}
+	{p \otimes [p,q] \otimes [q, r]} & {p \otimes [p, r]} \\
+	{q \otimes [q,r]} & r
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+\end{tikzcd}\]
+The top horizontal map is given by internal-hom composition.
+
+
+\begin{theorem}
+    The $\smcat^\sharp$-enriched functor $\free \colon \org^\sharp \to \org^\sharp$ is a monad. 
+\end{theorem}
+\begin{proof}
+    We need to define $\smcat^\sharp$-enriched natural transformations $\id_\poly \Rightarrow \free$ and $\free \circ \free \Rightarrow \free$ for the unit and multiplication.
+
+    For a polynomial $p$, the identity at $p$ is an element of $\smcat^\sharp(\yon, \cofree_{[p, \free_p]})$. We define it to be the image of $\mun_p \colon p \to \free_p$  under the isomorphims
+    \[
+        \poly(p, \free_p) \iso \poly(\yon, [p, \free_p]) \iso \smcat^\sharp(\yon, \cofree_{[p, \free_p]}).
+    \]
+
+    To show that the identity is natural, we must show that for all polynomials $p$ and $q$, the following diagram of retrofunctors commutes. 
+    % https://q.uiver.app/#q=WzAsNixbMCwwLCJcXGNvZnJlZV97W3AscV19Il0sWzEsMF0sWzIsMCwiXFxjb2ZyZWVfe1twLHFdfSBcXG90aW1lcyBcXGNvZnJlZV97W3EsIFxcZnJlZV9xXX0iXSxbMCwxLCJcXGNvZnJlZV97W1xcZnJlZV9wLCBcXGZyZWVfcV19Il0sWzEsMSwiXFxjb2ZyZWVfe1twLCBcXGZyZWVfcF19IFxcb3RpbWVzIFxcY29mcmVlX3tbXFxmcmVlX3AsIFxcZnJlZV9xXX0iXSxbMiwxLCJcXGNvZnJlZV97W3AsIFxcZnJlZV9xXX0iXSxbMCwyXSxbMCwzXSxbMyw0XSxbNCw1XSxbMiw1XV0=
+    \[\begin{tikzcd}
+    {\cofree_{[p,q]}} & {} & {\cofree_{[p,q]} \otimes \cofree_{[q, \free_q]}} \\
+    {\cofree_{[\free_p, \free_q]}} & {\cofree_{[p, \free_p]} \otimes \cofree_{[\free_p, \free_q]}} & {\cofree_{[p, \free_q]}}
+    \arrow[from=1-1, to=1-3]
+    \arrow[from=1-1, to=2-1]
+    \arrow[from=1-3, to=2-3]
+    \arrow[from=2-1, to=2-2]
+    \arrow[from=2-2, to=2-3]
+    \end{tikzcd}\]
+
+    By the universal property of retrofunctor maps into the cofree comonad $\cofree_{[p, \free_q]}$, it suffices to show that the following diagram commutes.
+    % https://q.uiver.app/#q=WzAsNixbMCwwLCJwIFxcb3RpbWVzIFxcY29mcmVlX3tbcCxxXX0iXSxbMCwxLCJcXGZyZWVfcCBcXG90aW1lcyBcXGNvZnJlZV97W3AscV19Il0sWzEsMCwicCBcXG90aW1lcyBbcCwgcV0iXSxbMSwxLCJcXGZyZWVfe3AgXFxvdGltZXMgW3AscV19Il0sWzIsMSwiXFxmcmVlX3EiXSxbMiwwLCJxIl0sWzAsMiwicCBcXG90aW1lcyBcXGNjb3VuX3tbcCxxXX0iXSxbMiw1LCJcXGV2YWwiXSxbNSw0LCJcXG11bl9xIl0sWzIsMywiXFxtdW5fe3AgXFxvdGltZXMgW3AscV19Il0sWzMsNCwiXFxmcmVlX1xcZXZhbCIsMl0sWzEsMywiXFxtb2RzdHJ1Y3Rfe3AsIFtwLHFdfSIsMl0sWzAsMSwiXFxtdW5fcCBcXG90aW1lcyBcXGNvZnJlZV97W3AscV19IiwyXV0=
+    \[\begin{tikzcd}[column sep=huge, row sep = large]
+	{p \otimes \cofree_{[p,q]}} & {p \otimes [p, q]} & q \\
+	{\free_p \otimes \cofree_{[p,q]}} & {\free_{p \otimes [p,q]}} & {\free_q}
+	\arrow["{p \otimes \ccoun_{[p,q]}}", from=1-1, to=1-2]
+	\arrow["{\mun_p \otimes \cofree_{[p,q]}}"', from=1-1, to=2-1]
+	\arrow["\eval", from=1-2, to=1-3]
+	\arrow["{\mun_{p \otimes [p,q]}}", from=1-2, to=2-2]
+	\arrow["{\mun_q}", from=1-3, to=2-3]
+	\arrow["{\modstruct_{p, [p,q]}}"', from=2-1, to=2-2]
+	\arrow["{\free_\eval}"', from=2-2, to=2-3]
+    \end{tikzcd}\]
+    The left-hand square commute by definition of the interaction law (see \cite[Section 3.2]{libkind2024pattern}) and the right-hand square commutes by naturality of of $\mun$.
+
+    For a polynomial $p$, define the multiplication at $p$ to be the image of the counit $\mcoun_{\free_p} \colon \free_{\free_p} \to \free_p$ under the isomorphisms
+    \[
+        \poly(\free_{\free_p}, \free_p) \iso \poly(\yon, [\free_{\free_p}, \free_p]) \iso \smcat^\sharp(\yon, \cofree_{[\free_{\free_p}, \free_p]}).
+    \] 
+    To show that the multiplication is natural we must show that for all polynomial $p$ and $q$, the following diagram of retrofunctors commutes. 
+
+    % https://q.uiver.app/#q=WzAsNyxbMSwwLCJcXGNvZnJlZV97W1xcZnJlZV9wLFxcZnJlZV9xXX0iXSxbMiwwLCJcXGNvZnJlZV97W1xcZnJlZV97XFxmcmVlX3B9LCBcXGZyZWVfe1xcZnJlZV9xfV19Il0sWzMsMCwiXFxjb2ZyZWVfe1tcXGZyZWVfe1xcZnJlZV9wfSwgXFxmcmVlX3tcXGZyZWVfcX1dfSBcXG90aW1lcyBcXGNvZnJlZV97W1xcZnJlZV97XFxmcmVlX3F9LCBcXGZyZWVfcV19Il0sWzIsMSwiXFxjb2ZyZWVfe1tcXGZyZWVfe1xcZnJlZV9wfSwgXFxmcmVlX3BdfVxcb3RpbWVzIFxcY29mcmVlX3tbXFxmcmVlX3AsIFxcZnJlZV9xXX0iXSxbMywxLCJcXGNvZnJlZV97W1xcZnJlZV97XFxmcmVlX3B9LCBcXGZyZWVfcV19Il0sWzAsMCwiXFxjb2ZyZWVfe1twLHFdfSJdLFswLDEsIlxcY29mcmVlX3tbXFxmcmVlX3AsIFxcZnJlZV9xXX0iXSxbMCwxXSxbMSwyXSxbMiw0XSxbMyw0XSxbNiwzXSxbNSw2XSxbNSwwXV0=
+      \[\begin{tikzcd}
+    {\cofree_{[p,q]}} & {\cofree_{[\free_p,\free_q]}} & {\cofree_{[\free_{\free_p}, \free_{\free_q}]}} & {\cofree_{[\free_{\free_p}, \free_{\free_q}]} \otimes \cofree_{[\free_{\free_q}, \free_q]}} \\
+    {\cofree_{[\free_p, \free_q]}} && {\cofree_{[\free_{\free_p}, \free_p]}\otimes \cofree_{[\free_p, \free_q]}} & {\cofree_{[\free_{\free_p}, \free_q]}}
+    \arrow[from=1-1, to=1-2]
+    \arrow[from=1-1, to=2-1]
+    \arrow[from=1-2, to=1-3]
+    \arrow[from=1-3, to=1-4]
+    \arrow[from=1-4, to=2-4]
+    \arrow[from=2-1, to=2-3]
+    \arrow[from=2-3, to=2-4]
+  \end{tikzcd}\]
+
+  Again by the universal property of the cofree comonad $\cofree_{[\free_{\free_p}, \free_q]}$ it suffices to show that the following diagram commutes.
+  % https://q.uiver.app/#q=WzAsNixbMCwwLCJcXGZyZWVfe1xcZnJlZV9wfSBcXG90aW1lcyBcXGNvZnJlZV97W1xcZnJlZV9wLCBcXGZyZWVfcV19Il0sWzAsMSwiXFxmcmVlX3AgXFxvdGltZXMgXFxjb2ZyZWVfe1tcXGZyZWVfcCwgXFxmcmVlX3FdfSJdLFsxLDEsIlxcZnJlZV9wIFxcb3RpbWVzIFtcXGZyZWVfcCwgXFxmcmVlX3FdIl0sWzEsMCwiXFxmcmVlX3tcXGZyZWVfcCBcXG90aW1lcyBbXFxmcmVlX3AsIFxcZnJlZV9xXX0iXSxbMiwxLCJcXGZyZWVfcSJdLFsyLDAsIlxcZnJlZV97XFxmcmVlX3F9Il0sWzAsMSwiXFxtY291bl97XFxmcmVlX3B9IFxcb3RpbWVzIFxcY29mcmVlX3tbXFxmcmVlX3AsIFxcZnJlZV9xXX0iLDJdLFsxLDIsIlxcZnJlZV9wIFxcb3RpbWVzIFxcY2NvdW5fe1tcXGZyZWVfcCwgXFxmcmVlX3FdfSIsMl0sWzAsMywiXFxtb2RzdHJ1Y3Rfe1xcZnJlZV9wLCBbXFxmcmVlX3AsIFxcZnJlZV9xXX0iXSxbMiwzLCJcXG11bl97XFxmcmVlX3AgXFxvdGltZXMgW1xcZnJlZV9wLCBcXGZyZWVfcV19Il0sWzMsNSwiXFxmcmVlX3tcXGV2YWx9Il0sWzUsNCwiXFxtY291bl97XFxmcmVlX3F9Il0sWzIsNCwiXFxldmFsIiwyXV0=
+\[\begin{tikzcd}[column sep=huge,row sep=25pt]
+	{\free_{\free_p} \otimes \cofree_{[\free_p, \free_q]}} & {\free_{\free_p \otimes [\free_p, \free_q]}} & {\free_{\free_q}} \\
+	{\free_p \otimes \cofree_{[\free_p, \free_q]}} & {\free_p \otimes [\free_p, \free_q]} & {\free_q}
+	\arrow["{\modstruct_{\free_p, [\free_p, \free_q]}}", from=1-1, to=1-2]
+	\arrow["{\mcoun_{\free_p} \otimes \cofree_{[\free_p, \free_q]}}"', from=1-1, to=2-1]
+	\arrow["{\free_{\eval}}", from=1-2, to=1-3]
+	\arrow["{\mcoun_{\free_q}}", from=1-3, to=2-3]
+	\arrow["{\free_p \otimes \ccoun_{[\free_p, \free_q]}}"', from=2-1, to=2-2]
+	\arrow["{\mun_{\free_p \otimes [\free_p, \free_q]}}", from=2-2, to=1-2]
+	\arrow["\eval"', from=2-2, to=2-3]
+\end{tikzcd}\]
+
+    The left-hand square commutes by definition of the interaction law $\modstruct$ and the right-hand square commutes by the zig-zag laws of the adjunction.
+
+    These maps satisfy the identity law because of the zig-zag laws of the adjunction. Multiplication satisfies associativity by naturality of the counit.
+\end{proof}
+
+\begin{remark}\label{rmk:free-lifts}
+    The composite $U \circ \free \colon \poly \to \poly$ is a monad. 
+    How is it related to our monad $\free \colon \org^\sharp \to \org^\sharp$? 
+    Consider the map of enriching functors $\smcat^\sharp(\yon , -) \colon \smcat^\sharp \to \smset$. Under $\smcat^\sharp(\yon , -)$, the morphisms $\cofree_{[p,q]}$ in $\org^\sharp$ map to 
+    \[
+        \smcat^\sharp(\yon, \cofree_{[p,q]}) \iso \poly(\yon, [p,q]) \iso \poly(p, q).
+    \]
+    Therefore, this map of enriching functors sends $\org^\sharp$ to $\poly$ and sends the monad $\free \colon \org^\sharp \to \org^\sharp$ to the monad $U \circ \free \colon \poly \to \poly$.
+\end{remark}
+
+\begin{remark}
+The argument of this section works for any monad $M\colon\poly\to\poly$ equipped with a $\cofree_-$-module structure \cite{nlab:module_over_a_monoidal_functor}, i.e.\ a natural map
+\[
+	M(p)\otimes\cofree_q\to M(p\otimes q)
+\]
+satisfying the action laws for $p\mapsto\cofree_p$ as a $\otimes$-lax monoidal functor. That is, any such monad lifts to a monad $M\colon\org^\sharp\to\org^\sharp$.
+
+For example, if $(t,\eta,\mu)$ is any polynomial monad, such as the list monad, then $p\mapsto p\tri t$ and $p\mapsto t\tri p$ are monads on $\poly$ that can be given $\cofree$-module structures, and hence lift to monads on $\org^\sharp$. In fact, such monads distribute over the free monad, so that both $\free_{-\tri t}$ and $\free_{t\tri-}$ are monads on $\poly$, and they again can be equipped with a $\cofree_-$-module structure. Hence for any polynomial monad $t$ we have monads
+\[
+	(p\mapsto\free_{p\tri t})\colon
+	\org^\sharp\to\org^\sharp
+	\qqand
+	(p\mapsto\free_{t\tri p})\colon
+	\org^\sharp\to\org^\sharp.
+	\qedhere
+\]
+\end{remark}
+
+
+\section{The operad $\org^\sharp_\free$}\label{sec:operad-orgm}
+
+We begin by showing that $\org^\sharp$ has a symmetric monoidal structure $(\vee, 0)$ and that $\free \colon \org^\sharp \to \org^\sharp$ is lax monoidal with respect to $\vee$. The associated Kleisli category $\org^\#_\free$ is monoidal and hence has an underlying operad which we also refer to as $\org^\#_\free$.
+
+Before discussing the monoidal structure, we know from the previous section that $(p\mapsto\free_p)\colon\org^\sharp\to\org^\sharp$ is a  $(\catsharp,\yon,\otimes)$-enriched monad, so its Kleisli category has polynomials as objects and hom-objects of the form
+\begin{equation}
+	\ul{\Hom}(p,q)\coloneqq\cofree_{[p,\free_q]}.
+\end{equation}
+The retrofunctor $\ul{\Hom}(p,q)\otimes\ul{\Hom}(q,r)\to\ul{\Hom}(p,r)$ is equivalently a polynomial map $p\otimes\cofree_{[p,\free_q]}\otimes\cofree_{[q,\free_r]}\to\free_r$, which is obtained as follows
+\begin{equation}
+  p\otimes\cofree_{[p,\free_q]}\otimes\cofree_{[q,\free_r]}\To{\ccoun_{[p, \free_q]}}
+  p\otimes[p,\free_q]\otimes\cofree_{[p,\free_q]}\To{\text{eval}}
+  \free_q\otimes\cofree_{[q,\free_r]}\To{\Xi}
+  \free_{q\otimes\free_{[q,\free_r]}}\To{\text{eval}}
+  \free_{\free_r}\to\free_r.
+\end{equation}
+
+\begin{example}\label{ex.sequence_counter}
+The $\catsharp$-enriched monoid spanned by the polynomial $\yon$ can be thought of as the theory of step-counting. It has a single object, $\yon$, whose category of endomorphisms is
+\[
+\ul\Hom(\yon,\yon)=\cofree_{[\yon,\free_\yon]}=\cofree_{\nn\yon}=\nn^\nn\yon^\nn.
+\]
+This is the free category on the graph whose set of vertices is $\nn^\nn$, the set of natural number sequences (streams), and for which an edge is given by taking the tail. 
+
+The monoidal product $\nn^\nn\yon^\nn\otimes\nn^\nn\yon^\nn\to\nn^\nn\yon^\nn$ is a retrofunctor, which we denote $\star$. Even as a monoid operation $\star\colon\nn^\nn\times\nn^\nn\to\nn$ on the set of natural number sequences, it appears to be novel. The unit is $(1,1,\ldots)$ and for sequences $A,B\colon\nn\to\nn$ the monoidal product is given as follows. First, for any $n\in\nn$, let $a_n\coloneqq\sum_{i=0}^nA_n$, so $a_0=A_0$, $a_1=A_0+A_1$, etc., and for convenience, define $a_{-1}\coloneqq 0$; so $a_n$ is defined for $n:\nn\cup\{-1\}$. Then for any $n\in\nn$, define
+\[
+(A\star B)_n\coloneqq\sum_{i=a_{n-1}}^{a_n-1}B_i
+\]
+So for example, $(0,1,2,3,4,\ldots)\star(0,1,2,3,4,\ldots)=(0,0,3,12,30,60,\ldots)$. The each step (position) in the first list indicates how many steps to perform in the second, and this is an associative operation.
+\end{example}
+
+We now turn to the monoidal structure on $\org_\free$. It begins with the symmetric monoidal structure $\vee$ on $\poly$ whose unit is $0$ and whose product is defined by 
+\begin{equation}\label{eqn.vee}
+    p \vee q \coloneqq p + (p \otimes q) + q.
+\end{equation}
+
+
+\begin{lemma}
+    The functor $U \circ \free \colon \poly \to \poly$ is lax monoidal with respect to $\vee$.
+\end{lemma}
+\begin{proof}
+    First we show by transfinite induction that there is a map $\free_p \to [ \free_{q}, \free_{p \vee q}]$. Recall the construction of $\free_p=\colim(\cdots \to p_{(\alpha)}\To{\iota_\alpha}p_{(\alpha+1)}\to\cdots)$ as in \cref{sec.(co)free(co)monad}. It suffices to show that for each ordinal $\alpha$ there is a map $p\hoc{\alpha} \otimes \free_q \to \free_{p \vee q}$ such that the following commutes for all ordinals $\alpha$, 
+    % https://q.uiver.app/#q=WzAsMyxbMCwwLCJwXFxob2N7XFxhbHBoYX1cXG90aW1lcyBcXGZyZWVfcSJdLFswLDEsInBcXGhvY3tcXGFscGhhKzF9IFxcb3RpbWVzIFxcZnJlZV9xIl0sWzEsMSwiXFxmcmVlX3twIFxcdmVlIHF9Il0sWzAsMSwiXFxpb3RhIFxcaG9je1xcYWxwaGF9IiwyXSxbMCwyXSxbMSwyXV0=
+\begin{equation}\label{eq:p_freeq_freepveeq}
+\begin{tikzcd}
+	{p\hoc{\alpha}\otimes \free_q} \\
+	{p\hoc{\alpha+1} \otimes \free_q} & {\free_{p \vee q}}
+	\arrow["{\iota \hoc{\alpha}}"', from=1-1, to=2-1]
+	\arrow[from=1-1, to=2-2]
+	\arrow[from=2-1, to=2-2]
+\end{tikzcd}    
+\end{equation}
+First we define the maps.
+    \begin{itemize}
+        \item Base case. We define the map $p\hoc{0} \otimes \free_q = \yon \otimes \free_q \to  \free_{p \vee q}$ to be induced by $\free$ applied to the inclusion $q \to p \vee q$.
+
+        \item For successor ordinals $\alpha +1$,
+        \begin{align*}
+            p\hoc{\alpha + 1} \otimes \free_q  & = (\yon + p \tri p\hoc{\alpha})\otimes \free_ q \\
+            & \to \free_q  + p \tri(p \hoc{\alpha} \otimes \free_q) \\
+            & \to \free_q + p \tri \free_{p \vee q}\\
+            & \to \free_{p \vee q} + (p \vee q) \tri \free_{p \vee q}\\
+            & \iso \free_{p \vee q}.
+        \end{align*}
+        follows by distributivity of $\otimes$, by duoidality, and by the induction hypothesis. 
+
+        That these maps are natural with respect to the inclusions $\iota\hoc{\alpha} \colon p\hoc{\alpha} \to p \hoc{\alpha + 1}$ is straightforward by induction.
+        
+        \item For limit ordinals $\alpha$, define 
+        $\left(\colim_{\alpha' < \alpha} p\hoc{\alpha'}\right) \otimes \free_q \to \free_{p \vee q}$  to be the universal map induced by the components $p\hoc{\alpha'} \otimes \free_q \to \free_{p \vee q}$ given by the induction hypothesis. 
+\end{itemize}
+        Lastly we must show that the diagram in \cref{eq:p_freeq_freepveeq} commutes. By definition of $\iota\hoc{\alpha}$ it suffices to show that for all $\alpha' < \alpha$, the following diagram commutes. 
+
+        % https://q.uiver.app/#q=WzAsNSxbMCwwLCIoXFx5b24gKyBwIFxcdHJpIHAgXFxob2N7XFxhbHBoYSd9KSBcXG90aW1lcyBcXGZyZWVfcSJdLFswLDEsIlxcbGVmdChcXHlvbiArIHAgXFx0cmkgIFxcbGVmdChcXGNvbGltX3tcXGFscGhhJyA8IFxcYWxwaGF9IHAgXFxob2N7XFxhbHBoYSd9IFxccmlnaHQpXFxyaWdodCkgXFxvdGltZXMgXFxmcmVlX3EiXSxbMSwxLCJcXGZyZWVfcSAgKyBwIFxcdHJpICgoXFxjb2xpbV97XFxhbHBoYScgPCBcXGFscGhhfSBwIFxcaG9je1xcYWxwaGEnfSApXFxvdGltZXMgXFxmcmVlX3EpIl0sWzEsMCwiXFxmcmVlX3EgKyBwIFxcdHJpIChwIFxcaG9je1xcYWxwaGEnfSBcXG90aW1lcyBcXGZyZWVfcSkiXSxbMiwxLCJcXGZyZWVfe3AgXFx2ZWUgcX0iXSxbMCwxXSxbMCwzXSxbMSwyXSxbMywyXSxbMiw0XSxbMyw0XV0=
+\[\begin{tikzcd}
+	{(\yon + p \tri p \hoc{\alpha'}) \otimes \free_q} & {\free_q + p \tri (p \hoc{\alpha'} \otimes \free_q)} \\
+	{\left(\yon + p \tri  \left(\colim_{\alpha' < \alpha} p \hoc{\alpha'} \right)\right) \otimes \free_q} & {\free_q  + p \tri ((\colim_{\alpha' < \alpha} p \hoc{\alpha'} )\otimes \free_q)} & {\free_{p \vee q}}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=1-2, to=2-3]
+	\arrow[from=2-1, to=2-2]
+	\arrow[from=2-2, to=2-3]
+\end{tikzcd}\]
+
+    The left-hand square commutes by naturality of duoidality and the distributive law. The right-hand triangle commutes by definition of $\left(\colim_{\alpha' < \alpha} p \hoc{\alpha'}\right) \otimes \free_q \to \free_{p \vee q}$.
+
+
+    We have now defined a map $\free_p \to [ \free_{q}, \free_{p \vee q}]$. The induced map $\free_p \otimes \free_q \to \free_{p \vee q}$ along with the maps $\free_p \to \free_{p \vee q}$ and $\free_q \to \free_{p \vee q}$ given by $\free$ applied to the inclusions $p \to p \vee q$ and $q \to p \vee q$, together define the compositor 
+    \[
+        \free_p \vee \free_q \to \free_{p \vee q}.
+    \]
+    The unitor is the unique map $\mun_0  \colon  0 \to \free_0$.
+
+    Associativity is straightforward by transfinite induction and  unitality is immediate. 
+\end{proof}
+
+
+We can extend the symmetric monoidal structure $\vee$ to $\org^\sharp$ as follows.
+The monoidal structure on objects is the same as that for $\poly$.
+We define the monoidal structure on morphisms in three components. First, there is a map 
+\[
+    p \otimes \cofree_{[p,q]} \otimes \cofree_{[p', q']} \to p \otimes \cofree_{[p,q]} \xrightarrow{p \otimes \ccoun_{[p,q]}} p \otimes [p,q] \to q \to q \vee q'.
+\] where the first map is induced by the $\tri$-comonoid counit $\cofree_{[p', q']}\to\yon$. Likewise there is a map $p' \otimes \cofree_{[p,q]} \otimes \cofree_{[p', q']} \to q \vee q'$. Lastly, there is a map 
+\[
+    p \otimes p' \otimes \cofree_{[p,q]} \otimes \cofree_{[p', q']} \xrightarrow{p \otimes p' \otimes \ccoun_{[p,q]} \otimes \ccoun_{[p', q']}} p \otimes p' \otimes [p,q] \otimes [p', q'] \to q \otimes q' \to q \vee q'.
+\] 
+By definition of $\vee$ as a coproduct \eqref{eqn.vee} and the distributivity of $\otimes$ over $+$, the above three maps induce a map
+\[
+    (p \vee p')\otimes \cofree_{[p,q]} \otimes \cofree_{[p', q']} \to q \vee q'.
+\]
+The action of the monoidal product on morphisms is the image of this map under the isomophisms,
+\begin{align*}
+    \poly((p \vee p')\otimes \cofree_{[p,q]}\otimes \cofree_{[p', q']}, q \vee q') &\iso \poly(\cofree_{[p,q]}\otimes \cofree_{[p', q']}, [p \vee p', q \vee q']) \\
+    &\iso \smcat^\sharp(\cofree_{[p,q]}\otimes \cofree_{[p', q']}, \cofree_{ [p \vee p', q \vee q']}).
+\end{align*}
+
+The associator, left and right unitors, triangle identity, and pentagon identity all follow directly from the fact that $(0,\vee)$ is a symmetric monoidal structure on $\poly$ \cite{spivak2022reference}.
+
+
+    
+
+\begin{theorem}
+    The $\smcat^\sharp$-enriched functor $\free \colon \org^\sharp \to \org^\sharp$ is lax monoidal with respect to the monoidal structure $\vee$.
+\end{theorem}
+\begin{proof}
+    The unitor is the image of the unitor (which is the unique element) of $\free \colon \poly \to \poly$ under the isomorphisms
+    \[
+        \poly(0, \free_0) \iso \poly(\yon , [0, \free_0]) \iso \smcat^\sharp(\yon, \cofree_{[0, \free_0]}).
+    \]
+    The compositor is the image of the compositor of $\free \colon \poly \to \poly$ under the isomorphisms
+    \[
+        \poly(\free_p \vee \free_q, \free_{p \vee q}) \iso \poly(\yon, [\free_p \vee \free_q, \free_{p \vee q}]) \iso \smcat^\sharp(\yon, \cofree_{[\free_p \vee \free_q, \free_{p \vee q}]}).
+    \]
+    Associativity and unitality follow directly.
+\end{proof}
+
+\begin{definition}\label{def.orgsharp}
+    Let $\org^\sharp_\free$ be the $\smcat^\sharp$-enriched operad underlying the Kleisli category $\org^\sharp_\free$. The objects of $\org^\sharp_\free$ are polynomials and the morphisms are defined by 
+    \[
+        \org^\sharp_\free(p_1 , \ldots, p_m; q) = \cofree_{[p_1 \vee \cdots \vee p_m, \free_q]}.
+    \]
+
+    Let $(\org^\sharp_\free)\op$ be the $\smcat^\sharp$-enriched operad underlying the opposite category $(\org^\sharp_\free)\op$. Its objects are polynomials and its morphisms are defined by 
+    \[
+        (\org^\sharp_\free)\op(q_1, \ldots, q_m; p) = \cofree_{[p, \free_{q_1 \vee \cdots \vee q_m}]}.
+    \]
+
+    Let $\org_\free$ and $\org_\free\op$ be the corresponding $\smcat$-enriched categories under the map of enriching categories $\smset^- \colon \smcat^\sharp \to \smcat$.
+\end{definition}
+
+
+
+
+In the $\smcat$-enriched category $\org_\free\op$, an object is a polynomial and a morphism in $\org_\free\op(p_1, \cdots, p_m; q)$ is a $[q, \free_{p_1 \vee \cdots \vee p_m}]$-coalgebra (and coalgebra morphisms are 2-cells). We can think of a coalgebra $S\yon^S\to[q, \free_{p_1 \vee \cdots \vee p_m}]$ as a dynamically changing strategy that completes $q$-shaped tasks by delegating to $p_i$-shaped subordinates. Given a position of $q$---which we think of as a $q$ task---the state of the coalgebra determines a decision tree made up of $p_i$ component tasks. At each fork of the decision tree one or more $p_i$ subordinates may be invoked. Each possible outcome either returns an outcome to the $q$ task and updates the state or it determines another set of $p_i$ tasks to be invoked. This can continue in an arbitrary number of iterations, but it is well-founded in the sense that it eventually terminates. 
+
+Once an outcome is determined, the whole system can learn from the sequence of events. That is, the above story was that of a single state or map $q\To{s}\free_{p_1 \vee \cdots \vee p_m}$, i.e.\ a single position $\yon\To{s}[q, \free_{p_1 \vee \cdots \vee p_m}]$. The actual $q$-task assigned and the actual sequence of outcomes constitutes a direction of $[q, \free_{p_1 \vee \cdots \vee p_m}]$ at $s$, which updates the state. This is what we meant by ``dynamically changing strategy".
+
+In the $\smcat$-enriched operad $\org$ defined in \cite{shapiro2022dynamic}, each subordinate must be consulted exactly once and the outcomes from each subordinate are aggregated into a single answer. The morphisms of $\org_\free\op$ are more general since subordinates may be consulted zero, one, or many times strategically as a result of previous subordinate answers. 
+
+\begin{example}\label{ex:stream-m}
+
+Consider the polynomials \textcolor{cyan}{$\alice = \yon^2$}, \textcolor{magenta}{$\bob = \yon^2$}, and \textcolor{teal}{$\carmen = \yon^2$}. These polynomials represent subordinates Alice, Bob, and Carmen who when consulted return one of two outcomes. 
+A coalgebra in $\org_\free\op(\alice, \bob, \carmen; \yon^2)$ will consult Alice, Bob, and Carmen in order to produce one of two outcomes. It is a dynamically changing pattern for taking the task of determining one of two outcomes and delegating it to subordinates Alice, Bob, and Carmen.
+
+To begin, consider the coalgebra with a single state that is defined by the polynomial map $\yon^2 \to \free_{\alice \vee \bob \vee \carmen}$ defined in \cref{fig:carmen-tie-breaks}. 
+
+\begin{figure}[h!]
+    \centering
+    \include{figures/carmen-tie-breaks}
+    \caption{A position of $\free_{\alice \vee \bob \vee \carmen}$. There is a delegation pattern $\yon^2 \to \free_{\alice \vee \bob \vee \carmen}$ that maps the single position of $\yon^2$ to this position $\free_{\alice \vee \bob \vee \carmen}$. It maps the directions from left to right to $0$, $0$, $1$, $0$, $1$, and $1$. }
+    \label{fig:carmen-tie-breaks}
+\end{figure}
+ In other words, Alice and Bob are both asked for a $0$ or $1$. If their outcomes agree then that value is returned. Otherwise, Carmen is the tie-breaker. 
+
+We can upgrade this coalgebra to have non-trivial dynamics. Consider a coalgebra with three states. The first state takes the single position of $\yon^2$ to the decision tree as above. The second state takes the single position of $\yon^2$ to a similar decision tree  that has Alice as the tie-breaker for Bob and Carmen. The third state takes the single position of $\yon^2$ to the decision tree where Bob is the tie-breaker for Alice and Carmen. On directions, if Carmen tie-breaks then the state updates so that Alice is the new tie-breaker. Once Alice tie-breaks, then the state updates so that Bob is the new tie-breaker. And so on.
+
+A more complicated dynamics, involving a much larger state set, would be to learn a preference over initial consultants versus tie-breakers based on the quality of the results. Here, the state is some record of historical events and their quality scores.
+
+Now imagining that the subordinates Alice, Bob, and Carmen also dynamically decide between $0$ and $1$ based on a decision tree of their own (sub-)subordinates, then composition in $\org_\free\op$ would defines a coalgebra which operates on these sub-subordinates. 
+
+
+\end{example}
+
+\chapter{The behavior of delegation}\label{sec:orgc}
+
+The operad $(\org_\free)\op$ defines patterns of dynamic delegation. This interpretation begs the question of how delegation patterns translate into behaviors of manager and their subordinates. In other words, how do each of the examples in \cref{ex:stream-m} turn the behaviors of Alice, Bob, and Carmen into a behavior of their manager? We begin to answer this question by defining an operad $\org^\cofree$ that gives the semantics for the relationship between behaviors of subordinates and behaviors of their manager.
+
+
+\section{Extension of $\cofree$ to a comonad on $\org^\sharp$}
+
+We will define a $\smcat^\sharp$-enriched functor $\cofree \colon \org^\sharp \to \org^\sharp$ and show that it is a comonad.
+
+On objects $\cofree$ takes a polynomial $p$ to the cofree comonad $\cofree_p$. On morphisms $\cofree \colon \cofree_{[p,q]} \to \cofree_{[\cofree_p, \cofree_q]}$ is the image of the composite
+\[
+    \cofree_p \otimes \cofree_{[p,q]} \xrightarrow{\lax} \cofree_{p \otimes [p,q]} \xrightarrow{\cofree_\eval} \cofree_q
+\] under the composite
+\[
+    \smcat^\sharp(\cofree_p \otimes \cofree_{[p,q]}, \cofree_q) \To{U}  \poly(\cofree_p \otimes \cofree_{[p,q]}, \cofree_q) \iso \poly(\cofree_{[p,q]}, [\cofree_p, \cofree_q]) \iso \smcat^\sharp(\cofree_{[p,q]}, \cofree_{[\cofree_p, \cofree_q]}).
+\]
+This map $\cofree \colon \org^\# \to \org^\#$ preserves identity and composition for the same reasons that $\free \colon \org^\# \to \org^\#$ does. 
+
+\begin{theorem}
+    The $\smcat^\sharp$-enriched functor $\cofree \colon \org^\sharp \to \org^\sharp$ is a comonad.
+\end{theorem}
+\begin{proof}
+    We need to define $\smcat^\sharp$-enriched natural transformations $\cofree \Rightarrow \id_\poly$ and $\cofree \Rightarrow \cofree \circ \cofree$ for the co-unit and comultiplication maps.
+
+    For the polynomial $p$, the counit at $p$ is an element of $\smcat^\sharp(\yon, \cofree_{[\cofree_p, p]})$. We define it to be the image of the counit $\ccoun_p \colon \cofree_p \to p$ under the isomorphisms
+    \[
+        \poly(\cofree_p, p) \iso \poly(\yon, [\cofree_p, p]) \iso \smcat^\sharp(\yon, \cofree_{[\cofree_p, p]}).
+    \]
+
+
+    To show that the counit is natural we must show that the following diagram commutes.
+
+  % https://q.uiver.app/#q=WzAsNixbMCwwLCJcXGNvZnJlZV97W3AscV19Il0sWzEsMF0sWzIsMCwiXFxjb2ZyZWVfe1tcXGNvZnJlZV9wLCBwXX0gXFxvdGltZXMgXFxjb2ZyZWVfe1twLHFdfSJdLFswLDEsIlxcY29mcmVlX3tbXFxjb2ZyZWVfcCwgXFxjb2ZyZWVfcV19Il0sWzEsMSwiXFxjb2ZyZWVfe1tcXGNvZnJlZV9wLCBcXGNvZnJlZV9xXX0gXFxvdGltZXMgXFxjb2ZyZWVfe1tcXGNvZnJlZV9xLCBxXX0iXSxbMiwxLCJcXGNvZnJlZV97W1xcY29mcmVlX3AsIHFdfSJdLFswLDNdLFswLDJdLFsyLDVdLFs0LDVdLFszLDRdXQ==
+  \[\begin{tikzcd}
+    {\cofree_{[p,q]}} & {} & {\cofree_{[\cofree_p, p]} \otimes \cofree_{[p,q]}} \\
+    {\cofree_{[\cofree_p, \cofree_q]}} & {\cofree_{[\cofree_p, \cofree_q]} \otimes \cofree_{[\cofree_q, q]}} & {\cofree_{[\cofree_p, q]}}
+    \arrow[from=1-1, to=1-3]
+    \arrow[from=1-1, to=2-1]
+    \arrow[from=1-3, to=2-3]
+    \arrow[from=2-1, to=2-2]
+    \arrow[from=2-2, to=2-3]
+  \end{tikzcd}\]
+
+  It suffices to show that the following diagram commutes.
+    
+    % https://q.uiver.app/#q=WzAsNixbMCwwLCJcXGNvZnJlZV9wIFxcb3RpbWVzIFxcY29mcmVlX3tbcCxxXX0iXSxbMSwwLCJcXGNvZnJlZV97cCBcXG90aW1lcyBbcCxxXX0iXSxbMiwwLCJcXGNvZnJlZV9xIl0sWzIsMSwicSJdLFsxLDEsInAgXFxvdGltZXMgW3AscV0iXSxbMCwxLCJwXFxvdGltZXMgW3AscV0iXSxbNSw0XSxbMCw1LCJcXGNjb3VuX3AgXFxvdGltZXMgXFxjY291bl97W3AscV19IiwyXSxbMCwxXSxbMSw0LCJcXGNjb3VuX3twIFxcb3RpbWVzIFtwLHFdfSJdLFsxLDJdLFsyLDMsIlxcY2NvdW5fcSJdLFs0LDNdXQ==
+    \[\begin{tikzcd}[column sep=huge]
+    	{\cofree_p \otimes \cofree_{[p,q]}} & {\cofree_{p \otimes [p,q]}} & {\cofree_q} \\
+    	{p\otimes [p,q]} & {p \otimes [p,q]} & q
+    	\arrow[from=1-1, to=1-2]
+    	\arrow["{\ccoun_p \otimes \ccoun_{[p,q]}}"', from=1-1, to=2-1]
+    	\arrow[from=1-2, to=1-3]
+    	\arrow["{\ccoun_{p \otimes [p,q]}}", from=1-2, to=2-2]
+    	\arrow["{\ccoun_q}", from=1-3, to=2-3]
+    	\arrow[from=2-1, to=2-2]
+    	\arrow[from=2-2, to=2-3]
+    \end{tikzcd}\]
+
+  The left-hand square commutes by definition of the compositor. The right-hand square commutes by naturality of the counit.
+
+    Define the comultiplication at a polynomial $p$ to be the image of the comultiplication $\comul_{p} \colon \cofree_p \to \cofree_{\cofree_p}$ under the isomorphisms
+    \[
+        \poly(\cofree_p, \cofree_{\cofree_p}) \iso \poly(\yon, [\cofree_p, \cofree_{\cofree_p}]) \iso \cofree(\yon, \cofree_{[\cofree_p, \cofree_{\cofree_p}]}).
+    \]
+    To show that comultiplication is natural we must show that the following diagram commutes. 
+
+    % https://q.uiver.app/#q=WzAsOCxbMCwwLCJcXGNvZnJlZV97W3AscV19Il0sWzEsMCwiXFxjb2ZyZWVfe1tcXGNvZnJlZV9wLCBcXGNvZnJlZV9xXX0iXSxbMiwwLCJcXGNvZnJlZV97W1xcY29mcmVlX3tcXGNvZnJlZV9wfSwgXFxjb2ZyZWVfe1xcY29mcmVlX3F9XX0iXSxbMywwLCJcXGNvZnJlZV97W1xcY29mcmVlX3AsIFxcY29mcmVlX3tcXGNvZnJlZV9wfV19IFxcb3RpbWVzIFxcY29mcmVlX3tbXFxjb2ZyZWVfe1xcY29mcmVlX3B9LCBcXGNvZnJlZV97XFxjb2ZyZWVfcX1dfSJdLFswLDEsIlxcY29mcmVlX3tbXFxjb2ZyZWVfcCwgXFxjb2ZyZWVfcV19Il0sWzIsMSwiXFxjb2ZyZWVfe1tcXGNvZnJlZV9wLCBcXGNvZnJlZV9xXX0gXFxvdGltZXMgXFxjb2ZyZWVfe1tcXGNvZnJlZV9xLCBcXGNvZnJlZV97XFxjb2ZyZWVfcX1dfSJdLFsxLDFdLFszLDEsIlxcY29mcmVlX3tbXFxjb2ZyZWVfcCwgXFxjb2ZyZWVfe1xcY29mcmVlX3F9XX0iXSxbMCw0XSxbNCw1XSxbMCwxXSxbMSwyXSxbMiwzXSxbNSw3XSxbMyw3XV0=
+  \[\begin{tikzcd}
+    {\cofree_{[p,q]}} & {\cofree_{[\cofree_p, \cofree_q]}} & {\cofree_{[\cofree_{\cofree_p}, \cofree_{\cofree_q}]}} & {\cofree_{[\cofree_p, \cofree_{\cofree_p}]} \otimes \cofree_{[\cofree_{\cofree_p}, \cofree_{\cofree_q}]}} \\
+    {\cofree_{[\cofree_p, \cofree_q]}} & {} & {\cofree_{[\cofree_p, \cofree_q]} \otimes \cofree_{[\cofree_q, \cofree_{\cofree_q}]}} & {\cofree_{[\cofree_p, \cofree_{\cofree_q}]}}
+    \arrow[from=1-1, to=1-2]
+    \arrow[from=1-1, to=2-1]
+    \arrow[from=1-2, to=1-3]
+    \arrow[from=1-3, to=1-4]
+    \arrow[from=1-4, to=2-4]
+    \arrow[from=2-1, to=2-3]
+    \arrow[from=2-3, to=2-4]
+  \end{tikzcd}\]
+
+  It suffices to show that the following diagram commutes. 
+
+  % https://q.uiver.app/#q=WzAsNixbMCwwLCJcXGNvZnJlZV9wIFxcb3RpbWVzIFxcY29mcmVlX3tbXFxjb2ZyZWVfcCwgXFxjb2ZyZWVfcV19Il0sWzEsMCwiXFxjb2ZyZWVfe1xcY29mcmVlX3B9XFxvdGltZXMgXFxjb2ZyZWVfe1tcXGNvZnJlZV9wLCBcXGNvZnJlZV9xXX0iXSxbMiwwLCJcXGNvZnJlZV97XFxjb2ZyZWVfcCBcXG90aW1lcyBbXFxjb2ZyZWVfcCwgXFxjb2ZyZWVfcV19ICJdLFszLDAsIlxcY29mcmVlX3tcXGNvZnJlZV9xfSJdLFszLDEsIlxcY29mcmVlX3EiXSxbMiwxLCJcXGNvZnJlZV9wIFxcb3RpbWVzIFtcXGNvZnJlZV9wLCBcXGNvZnJlZV9xXSJdLFs1LDQsIlxcZXZhbCIsMl0sWzIsNSwiXFxjY291bl97XFxjb2ZyZWVfcCBcXG90aW1lcyBbXFxjb2ZyZWVfcCwgXFxjb2ZyZWVfcV19Il0sWzIsMywiXFxjb2ZyZWVfe1xcZXZhbH0iXSxbMyw0LCJcXGNjb3VuX3tcXGNvZnJlZV9xfSJdLFsxLDIsIlxcbGF4Il0sWzEsNSwiXFxjY291bl97XFxjb2ZyZWVfcH0gXFxvdGltZXMgXFxjY291bl97W1xcY29mcmVlX3AsIFxcY29mcmVlX3FdfSIsMV0sWzAsNSwiXFxjb2ZyZWVfcCBcXG90aW1lcyBcXGNjb3VuX3tbXFxjb2ZyZWVfcCwgXFxjb2ZyZWVfcV19IiwyXSxbMCwxLCJcXGN1bl97XFxjb2ZyZWVfcH0gXFxvdGltZXMgXFxjb2ZyZWVfe1tcXGNvZnJlZV9wLCBcXGNvZnJlZV9xXX0iXV0=
+\[\begin{tikzcd}[sep=huge]
+	{\cofree_p \otimes \cofree_{[\cofree_p, \cofree_q]}} & {\cofree_{\cofree_p}\otimes \cofree_{[\cofree_p, \cofree_q]}} & {\cofree_{\cofree_p \otimes [\cofree_p, \cofree_q]} } & {\cofree_{\cofree_q}} \\
+	&& {\cofree_p \otimes [\cofree_p, \cofree_q]} & {\cofree_q}
+	\arrow["{\comul_{p} \otimes \cofree_{[\cofree_p, \cofree_q]}}", from=1-1, to=1-2]
+	\arrow["{\cofree_p \otimes \ccoun_{[\cofree_p, \cofree_q]}}"', bend right=15pt, from=1-1, to=2-3]
+	\arrow["\lax", from=1-2, to=1-3]
+	\arrow["{\ccoun_{\cofree_p} \otimes \ccoun_{[\cofree_p, \cofree_q]}}"{description}, from=1-2, to=2-3]
+	\arrow["{\cofree_{\eval}}", from=1-3, to=1-4]
+	\arrow["{\ccoun_{\cofree_p \otimes [\cofree_p, \cofree_q]}}", from=1-3, to=2-3]
+	\arrow["{\ccoun_{\cofree_q}}", from=1-4, to=2-4]
+	\arrow["\eval"', from=2-3, to=2-4]
+\end{tikzcd}\]
+
+  The left-hand triangle commutes by the zig-zag law of the adjunction. The middle triangle commutes by definition of the compositor. And the right-hand square commutes by naturality of the co-unit.
+
+  These maps satisfy the counit law because of the zig-zag laws of the adjunction. Co-multiplication satisfies co-associativity by naturality. 
+
+    
+\end{proof}
+
+\begin{remark}
+    As in \cref{rmk:free-lifts} the comonad $U \circ \cofree \colon \poly \to \poly$ is the image of $\smcat^\sharp$-enriched comonad $\cofree \colon \org^\sharp \to \org^\sharp$ under the map of the enriching functors $\smcat^\sharp(\yon, -) \colon \smcat^\sharp \to \smset$.
+\end{remark}
+
+\section{The operad $(\org^\sharp)^\cofree$}
+
+As in \cref{sec:operad-orgm}, we will define a $\smcat^\sharp$-enriched operad $(\org^\sharp)^\cofree$ whose 1-ary morphisms are the morphisms of the co-Kleisli category $(\org^\sharp)^\cofree$. However, unlike the operad $\org^\sharp_\free$, this operad will not underlie a symmetric monoidal structure on the co-Kleisli category. We choose this more bespoke definition, because it leads to a lovely correspondence with the $\smcat^\sharp$-enriched operad $\org^\sharp_\free$ that is at the heart of \cref{sec:matter-pattern}.
+
+\begin{theorem}
+    There is a $\smcat^\sharp$-enriched operad $(\org^\sharp)^\cofree$ whose objects are polynomials and whose morphisms are defined by 
+    \[
+        (\org^\sharp)^\cofree(p_1, \cdots , p_m; q) \coloneqq \cofree_{[\cofree_{p_1} \otimes \cdots \otimes \cofree_{p_m}, q]}.
+    \]
+\end{theorem}
+\begin{proof}
+    For a polynomial $p$, the identity on $p$ is given by the image of the counit $\ccoun_p \colon \cofree_p \to p$ under the isomorphisms
+    \[
+        \poly(\cofree_p, p) \iso \poly(\yon, [\cofree_p, p]) \iso \smcat^\sharp(\yon, \cofree_{[\cofree_p, p]}).
+    \]
+    Composition $\circ_i$ is given by the image of the composite polynomial map
+    \begin{align*}
+        &\left(\bigotimes_{i = 1, i \neq k}^n \cofree_{q_i} \right) \otimes \left(\bigotimes_{i = 1}^m \cofree_{p_i}\right) \otimes \cofree_{[\cofree_{p_1} \otimes \cdots \otimes \cofree_{p_m}, q_k]} \otimes \cofree_{[\cofree_{q_1} \otimes \cdots \otimes \cofree_{q_n}, r]}\\
+        &\xrightarrow{\comul_{p_i}} \left(\bigotimes_{i = 1, i \neq k}^n \cofree_{q_i} \right) \otimes \left(\bigotimes_{i = 1}^m \cofree_{\cofree_{p_i}}\right) \otimes \cofree_{[\cofree_{p_1} \otimes \cdots \otimes \cofree_{p_m}, q_k]} \otimes \cofree_{[\cofree_{q_1} \otimes \cdots \otimes \cofree_{q_n}, r]}\\
+        &\xrightarrow{\parbox{.5cm}{\scriptsize$\lax$,\\$\eval$}} \left(\bigotimes_{i = 1}^n \cofree_{q_i} \right)  \otimes \cofree_{[\cofree_{q_1} \otimes \cdots \otimes \cofree_{q_n}, r]}\xrightarrow{\comul_{q_i}}  \left(\bigotimes_{i = 1}^n \cofree_{\cofree_{q_i}} \right)  \otimes \cofree_{[\cofree_{q_1} \otimes \cdots \otimes \cofree_{q_n}, r]}\xrightarrow{\parbox{.5cm}{\scriptsize$\lax$,\\$\eval$}} \cofree_r\xrightarrow{\ccoun_r}  r.
+    \end{align*}
+    in
+    \[
+        \smcat^\sharp(\cofree_{[\cofree_{p_1} \otimes \cdots \otimes \cofree_{p_m}, q_k]} \otimes \cofree_{[\cofree_{q_1} \otimes \cdots \otimes \cofree_{q_n}, r]}, \cofree_{[\cofree_{q_1} \otimes \cdots \otimes \cofree_{q_{k - 1}} \otimes \cofree_{p_1} \otimes \cdots \otimes \cofree_{p_m} \otimes \cofree_{q _{k + 1}} \otimes \cdots \otimes \cofree_{q_n}, r]})
+    \]
+    The unit and associativity laws follow from parallel reasoning of the unit and associativity laws of the comonad $\cofree \colon \org^\sharp \to \org^\sharp$.
+\end{proof}
+
+\begin{definition}
+    Let $\org^\cofree$ be the $\smcat$-enriched category corresponding to $(\org^\sharp)^\cofree$ under the map of enriching categories $\smset^- \colon \smcat^\sharp \to \smcat$.
+\end{definition}
+
+\begin{example}
+    A morphism in $\org^\cofree(A_1\yon, \cdots , A_n\yon; B\yon)$ is a coalgebra $S\yon^S\to[\cofree_{A_1\yon}\otimes\cdots\otimes\cofree_{A_n\yon},B\yon]$. Given a state $s:S$, it takes a stream of symbols in $A_i$ for each $i = 1, \ldots, n$ and produces a symbol in $B$. On directions, it updates the state and returns a prefix in each of the $A_i$ streams. As we will see in \cref{sec:matter-pattern}, we interpret these prefixes as the symbols in each $A_i$ which were used in the production of the $B$ symbol. Furthermore, we interpret the $A_i$ streams as behaviors of subordinates. These subordinates simply output a symbol in $A_i$ when they are invoked, and each subordinate may be invoked any finite number of times in order to produce a symbol in $B$.
+\end{example}
+
+\chapter{From matter to pattern}\label{sec:matter-pattern}
+
+The main result of this work is the operad functor $(\org_\free^\sharp)\op \to (\org^\sharp)^\cofree$ defined in ~\cref{thm:matter-pattern} which \emph{turns patterns of delegation into matter (i.e. behaviors)}. In this Section we will prove ~\cref{thm:matter-pattern} and then make sense of this interpretation through examples.
+
+% Following ~\cite{libkind2024pattern} the positions of $\free_p$ are $p$-shaped decision trees which we interpret as patterns of shape $p$. The nodes of such a tree are positions of $p$ (which we interpret as $p$-questions) and branches are directions of $p$ (which we interpret as $p$-answers). Given such a decision tree, we want a way to \textit{run} it. In other words, we want a device that gives the necessary information to 
+
+Throughout let $t$ be a $\tri$-monoid.  There is a unique polynomial map
+\begin{equation}\label{eq:p1-vee-p2}
+    (p_1 \vee p_2) \otimes \cofree_{[p_1, t]} \otimes \cofree_{[p_2,t]} \to t
+\end{equation}
+whose components consist of 
+\[
+    p_1 \otimes p_2 \otimes \cofree_{[p_1, t]} \otimes \cofree_{[p_2,t]} \to p_1 \otimes p_2 \otimes [p_1, t] \otimes [p_2,t] \to t \otimes t  \to t 
+\]  and for $i = 1, 2$
+\[
+    p_i \otimes \cofree_{[p_1, t]} \otimes \cofree_{[p_2,t]} \to p_i \otimes \cofree_{[p_i, t]} \to p_i \otimes [p_i, t] \to t.
+\]
+Via the $\free$ adjunction, the map in \cref{eq:p1-vee-p2} induces  a polynomial map 
+\begin{equation}\label{eq:free-p1-vee-p2}
+    \free_{p_1 \vee p_2} \otimes \cofree_{[p_1, t]} \otimes \cofree_{[p_2,t]} \to t .
+\end{equation}
+For any polynomial $q$, \cref{eq:free-p1-vee-p2} in turn induces a retrofunctor
+\begin{equation}\label{eq:cofree_q_free_p1_vee_p2}
+    \cofree_{[q, \free_{p_1 \vee p_2}]} \otimes \cofree_{[p_1, t]} \otimes \cofree_{[p_2,t]} \to \cofree_{[q,t]}
+\end{equation}
+
+Importantly, the polynomial map in \cref{eq:free-p1-vee-p2} satisfies an associativity property which we summarize in \cref{lem:free_p1_vee_p2_associative}.
+
+\begin{lemma}\label{lem:free_p1_vee_p2_associative}
+    For polynomials $p_1$, $p_2$, $q_1$, and $q_2$ and for $\tri$-monoids $s$ and $t$, the following diagram commutes.
+
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXGZyZWVfe3FfMSBcXHZlZSBxXzJ9IFxcb3RpbWVzIFxcY29mcmVlX3tbcV8xLCBzXX1cXG90aW1lcyBcXGNvZnJlZV97W3FfMiwgXFxmcmVlX3twXzEgXFx2ZWUgcF8yfV19IFxcb3RpbWVzIFxcY29mcmVlX3tbcF8xLCB0XX0gXFxvdGltZXMgXFxjb2ZyZWVfe1twXzIsIHRdfSJdLFsxLDAsIlxcZnJlZV97cV8xIFxcdmVlIHFfMn0gXFxvdGltZXMgXFxjb2ZyZWVfe1txXzEsIHNdfSBcXG90aW1lcyBcXGNvZnJlZV97W3FfMiwgdF19Il0sWzEsMSwicyBcXG90aW1lcyB0Il0sWzAsMSwicyBcXG90aW1lcyBcXGZyZWVfe3BfMSBcXHZlZSBwXzJ9IFxcb3RpbWVzIFxcY29mcmVlX3tbcF8xLCB0XX0gXFxvdGltZXMgXFxjb2ZyZWVfe1twXzIsIHRdfSJdLFswLDFdLFsxLDJdLFszLDJdLFswLDNdXQ==
+\[\begin{tikzcd}
+	{\free_{q_1 \vee q_2} \otimes \cofree_{[q_1, s]}\otimes \cofree_{[q_2, \free_{p_1 \vee p_2}]} \otimes \cofree_{[p_1, t]} \otimes \cofree_{[p_2, t]}} & {\free_{q_1 \vee q_2} \otimes \cofree_{[q_1, s]} \otimes \cofree_{[q_2, t]}} \\
+	{s \otimes \free_{p_1 \vee p_2} \otimes \cofree_{[p_1, t]} \otimes \cofree_{[p_2, t]}} & {s \otimes t}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+\end{tikzcd}\]
+    The clockwise map is an application of \cref{eq:cofree_q_free_p1_vee_p2} followed by an application of \cref{eq:free-p1-vee-p2}. The counter-clockwise map is defined by two applications of \cref{eq:free-p1-vee-p2}. 
+\end{lemma}
+\begin{proof}
+    It suffices to show that the diagram commutes when precomposed with the inclusions $q_i \to \free_{q_1 \vee q_2}$ and $q_1 \otimes q_2 \to \free_{q_1 \vee q_2}$.
+
+    For the inclusion $q_1 \to \free_{q_1 \vee q_2}$ it suffices to show that the following diagram commutes.
+    % https://q.uiver.app/#q=WzAsOCxbMCwwLCJxXzEgXFxvdGltZXMgXFxjb2ZyZWVfe1txXzEsIHNdfVxcb3RpbWVzIFxcY29mcmVlX3tbcV8yLCBcXGZyZWVfe3BfMSBcXHZlZSBwXzJ9XX0gXFxvdGltZXMgXFxjb2ZyZWVfe1twXzEsIHRdfSBcXG90aW1lcyBcXGNvZnJlZV97W3BfMiwgdF19Il0sWzEsMCwicV8xIFxcb3RpbWVzIFxcY29mcmVlX3tbcV8xLCBzXX0gXFxvdGltZXMgXFxjb2ZyZWVfe1txXzIsIHRfMSBcXG90aW1lcyB0XzJdfSJdLFsxLDEsInFfMSBcXG90aW1lcyBbcV8xLCBzXSBcXG90aW1lcyBcXGNvZnJlZV97W3FfMiwgdF19Il0sWzAsMSwicV8xIFxcb3RpbWVzIFtxXzEsIHNdIFxcb3RpbWVzIFxcY29mcmVlX3tbcV8xLCBcXGZyZWVfe3BfMSBcXHZlZSBwXzJ9XX0gXFxvdGltZXMgXFxjb2ZyZWVfe1twXzEsIHRdfSBcXG90aW1lcyBcXGNvZnJlZV97W3BfMiwgdF19Il0sWzAsMiwicyBcXG90aW1lcyBcXGNvZnJlZV97W3BfMSwgdF19IFxcb3RpbWVzIFxcY29mcmVlX3tbcF8yLCB0XX0iXSxbMSwyLCJzIl0sWzAsMywicyBcXG90aW1lcyBcXGZyZWVfe3BfMSBcXHZlZSBwXzJ9IFxcb3RpbWVzIFxcY29mcmVlX3tbcF8xLCB0XX0gXFxvdGltZXMgXFxjb2ZyZWVfe1twXzIsIHRdfSJdLFsxLDMsInMgXFxvdGltZXMgdCJdLFswLDFdLFsxLDJdLFszLDJdLFswLDNdLFszLDRdLFsyLDVdLFs0LDVdLFs2LDddLFs0LDZdLFs1LDddXQ==
+\[\begin{tikzcd}
+	{q_1 \otimes \cofree_{[q_1, s]}\otimes \cofree_{[q_2, \free_{p_1 \vee p_2}]} \otimes \cofree_{[p_1, t]} \otimes \cofree_{[p_2, t]}} & {q_1 \otimes \cofree_{[q_1, s]} \otimes \cofree_{[q_2, t_1 \otimes t_2]}} \\
+	{q_1 \otimes [q_1, s] \otimes \cofree_{[q_1, \free_{p_1 \vee p_2}]} \otimes \cofree_{[p_1, t]} \otimes \cofree_{[p_2, t]}} & {q_1 \otimes [q_1, s] \otimes \cofree_{[q_2, t]}} \\
+	{s \otimes \cofree_{[p_1, t]} \otimes \cofree_{[p_2, t]}} & s \\
+	{s \otimes \free_{p_1 \vee p_2} \otimes \cofree_{[p_1, t]} \otimes \cofree_{[p_2, t]}} & {s \otimes t}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+	\arrow[from=2-1, to=3-1]
+	\arrow[from=2-2, to=3-2]
+	\arrow[from=3-1, to=3-2]
+	\arrow[from=3-1, to=4-1]
+	\arrow[from=3-2, to=4-2]
+	\arrow[from=4-1, to=4-2]
+\end{tikzcd}\]
+It is obvious that the top square commutes. The middle square commutes because the map in \cref{eq:cofree_q_free_p1_vee_p2} is a map of retrofunctors and hence preserves the counit. The bottom square commutes because the definition of \cref{eq:free-p1-vee-p2} implies that  $\free_{p_1 \vee p_2} \to [ \cofree_{[p_1, t]} \otimes \cofree_{[p_2, t]}, t ]$ is a map of $\tri$-monoids and hence preserves the unit.
+
+For the inclusion $q_2 \to \free_{q_1 \vee q_2}$ and $q_1 \otimes q_2 \to \free_{q_1 \vee q_2}$, it suffices to show that the following diagram commutes. 
+% https://q.uiver.app/#q=WzAsNixbMCwwLCJxXzIgXFxvdGltZXMgXFxjb2ZyZWVfe1txXzIsIFxcZnJlZV97cF8xIFxcdmVlIHBfMn1dfSBcXG90aW1lcyBcXGNvZnJlZV97W3BfMSwgdF19IFxcb3RpbWVzIFxcY29mcmVlX3tbcF8yLCB0XX0iXSxbMSwwLCJxXzIgXFxvdGltZXMgXFxjb2ZyZWVfe1txXzIsIHRdfSJdLFswLDEsInFfMiBcXG90aW1lcyBbcV8yLCBcXGZyZWVfe3BfMSBcXHZlZSBwXzJ9XSBcXG90aW1lcyBcXGNvZnJlZV97W3BfMSwgdF19IFxcb3RpbWVzIFxcY29mcmVlX3tbcF8yLCB0XX0iXSxbMCwyLCJcXGZyZWVfe3BfMSBcXHZlZSBwXzJ9XFxvdGltZXMgXFxjb2ZyZWVfe1twXzEsIHRdfSBcXG90aW1lcyBcXGNvZnJlZV97W3BfMiwgdF19Il0sWzEsMSwicV8yIFxcb3RpbWVzIFtxXzIsIHRdIl0sWzEsMiwidCJdLFswLDJdLFsyLDNdLFszLDVdLFs0LDVdLFsxLDRdLFswLDFdXQ==
+\[\begin{tikzcd}
+	{q_2 \otimes \cofree_{[q_2, \free_{p_1 \vee p_2}]} \otimes \cofree_{[p_1, t]} \otimes \cofree_{[p_2, t]}} & {q_2 \otimes \cofree_{[q_2, t]}} \\
+	{q_2 \otimes [q_2, \free_{p_1 \vee p_2}] \otimes \cofree_{[p_1, t]} \otimes \cofree_{[p_2, t]}} & {q_2 \otimes [q_2, t]} \\
+	{\free_{p_1 \vee p_2}\otimes \cofree_{[p_1, t]} \otimes \cofree_{[p_2, t]}} & t
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=3-1]
+	\arrow[from=2-2, to=3-2]
+	\arrow[from=3-1, to=3-2]
+\end{tikzcd}\]
+It is immediate from the definition of the map in \cref{eq:cofree_q_free_p1_vee_p2}.
+
+\end{proof}
+
+The map in \cref{eq:free-p1-vee-p2} is the key ingredient to defining maps
+\begin{equation}\label{eq:free-p1-vee-pn}
+    \free_{p_1 \vee \cdots \vee p_n} \otimes \cofree_{[p_1, t]} \otimes \cdots\otimes \cofree_{[p_n, t]} \to t
+\end{equation}
+by induction.
+The base case  $\free_\yon \to t$ is the counit $\mcoun_\yon$ followed by the unit $\yon \to t$ of $t$. For the induction step, the map in \cref{eq:free-p1-vee-pn} induces a retrofunctor 
+\[
+    \cofree_{[p_1, t]} \otimes \cdots \otimes \cofree_{[p_n, t]} \to \cofree_{[p_1 \vee \cdots \vee p_n, t]}
+\] via the unit $\mun_{p_1 \vee \cdots \vee p_n}\colon p_1 \vee \cdots \vee p_n \to \free_{p_1 \vee \cdots \vee p_n}$.
+Composing this map with the map in \cref{eq:free-p1-vee-p2} concludes the induction argument:
+\[
+    \free_{p_1 \vee \cdots \vee p_n \vee p_{n+1}} \otimes \cofree_{[p_1, t]} \otimes \cdots\otimes \cofree_{[p_n, t]} \otimes \cofree_{[p_{n+1} , t]} 
+    \to  \free_{p_1 \vee \cdots \vee p_n \vee p_{n+1}} \otimes \cofree_{[p_1 \vee \cdots \vee p_n, t]} \otimes \cofree_{[p_{n+1} , t]} 
+       \to  t .
+\] 
+
+
+
+
+\begin{theorem}\label{thm:matter-pattern}
+    For any $\tri$-monoid $t$, there is an operad functor 
+    \[
+    [-,t]\colon (\org_\free^\sharp)\op \to (\org^\sharp)^\cofree
+    \]
+    which on objects maps a polynomial $p$ to the polynomial $[p,t]$. On morphisms, it is the $\smcat^\sharp$ map
+    \[
+        \cofree_{[q, \free_{p_1 \vee \cdots \vee p_n}]} \to \cofree_{[\cofree_{[p_1,t]} \otimes \cdots \otimes \cofree_{[p_n, t]}, \cofree_{[q,t]}]}
+    \] that is the image under $\cofree \colon \poly \to \smcat^\#$ of the  polynomial map \[ [q, \free_{p_1 \vee \cdots \vee p_n}] \to [\cofree_{[p_1, t]} \otimes \cdots \otimes \cofree_{[p_n, t]} , [q, t]]\] induced by 
+    \[
+        q \otimes [q, \free_{p_1 \vee \cdots \vee p_n}] \otimes \cofree_{[p_1, t]} \otimes \cdots \otimes \cofree_{[p_n, t]}  \xrightarrow{\eval} \free_{p_1 \vee \cdots \vee p_n} \otimes \cofree_{[p_1, t]} \otimes \cdots \otimes \cofree_{[p_n, t]}  \to t.
+    \]
+   
+    
+\end{theorem}
+\begin{proof}
+    This functor preserves the identity because for all polynomials $p$, the definition of $\modstruct$ along with the zig-zag law of the $\free$ adjunction implies that the following diagram commutes. 
+
+    % https://q.uiver.app/#q=WzAsNixbMCwwLCJxIFxcb3RpbWVzIFxcY29mcmVlX3tbcSwgdF19Il0sWzAsMSwicSBcXG90aW1lcyBbcSwgdF0iXSxbMSwwLCJcXGZyZWVfcSBcXG90aW1lcyBcXGNvZnJlZV97W3EsdF19Il0sWzIsMCwiXFxmcmVlX3txIFxcb3RpbWVzIFtxLHRdfSJdLFszLDAsIlxcZnJlZV90Il0sWzMsMSwidCJdLFswLDEsInEgXFxvdGltZXMgXFxjY291bl97W3EsIHRdfSIsMl0sWzAsMiwiXFxtdW5fcSBcXG90aW1lcyBcXGNvZnJlZV97W3EsdF19Il0sWzEsNSwiXFxldmFsIiwyXSxbNCw1LCJcXG1jb3VuX3QiXSxbMiwzLCJcXG1vZHN0cnVjdF97cSwgW3EsdF19Il0sWzMsNCwiXFxmcmVlX1xcZXZhbCJdXQ==
+\[\begin{tikzcd}[column sep=huge]
+	{q \otimes \cofree_{[q, t]}} & {\free_q \otimes \cofree_{[q,t]}} & {\free_{q \otimes [q,t]}} & {\free_t} \\
+	{q \otimes [q, t]} &&& t
+	\arrow["{\mun_q \otimes \cofree_{[q,t]}}", from=1-1, to=1-2]
+	\arrow["{q \otimes \ccoun_{[q, t]}}"', from=1-1, to=2-1]
+	\arrow["{\modstruct_{q, [q,t]}}", from=1-2, to=1-3]
+	\arrow["{\free_\eval}", from=1-3, to=1-4]
+	\arrow["{\mcoun_t}", from=1-4, to=2-4]
+	\arrow["\eval"', from=2-1, to=2-4]
+\end{tikzcd}\]
+
+    To show that this functor preserves composition, by symmetry, it suffices to show that for $n \geq 1$ the following diagram of retrofunctors commutes.
+
+    % https://q.uiver.app/#q=WzAsNCxbMCwwLCJcXGNvZnJlZV97XFxsZWZ0W3IgLCBcXGZyZWVfe1xcYmlndmVlX3tqID0gMX1ebiBxX2p9XFxyaWdodF19IFxcb3RpbWVzIFxcY29mcmVlX3tcXGxlZnRbcV9uICwgXFxmcmVlX3tcXGJpZ3ZlZV97aSA9IDF9Xm0gcF9pfVxccmlnaHRdfSJdLFsxLDAsIlxcY29mcmVlX3tcXGxlZnRbciAsIFxcZnJlZV97XFxsZWZ0KFxcYmlndmVlX3tqID0gMX1ee24tMX0gcV9qXFxyaWdodCkgXFx2ZWUgXFxsZWZ0KFxcYmlndmVlX3tpID0gMX1ebSBwX2lcXHJpZ2h0KX1cXHJpZ2h0XX0iXSxbMCwxLCJcXGNvZnJlZV97XFxsZWZ0W1xcYmlnb3RpbWVzX3tqID0gMX1ebiBcXGNvZnJlZV97W3FfaiwgdF19LCBbciwgdF1cXHJpZ2h0XX0gXFxvdGltZXMgXFxjb2ZyZWVfe1xcbGVmdFtcXGJpZ290aW1lc197aSA9IDF9Xm0gXFxjb2ZyZWVfe1twX2ksIHRdfSwgW3FfbiwgdF1cXHJpZ2h0XX0iXSxbMSwxLCJcXGNvZnJlZV97XFxsZWZ0W1xcbGVmdChcXGJpZ290aW1lc197aiA9IDF9XntuLTF9IFtxX2osdF1cXHJpZ2h0KSBcXG90aW1lcyBcXGxlZnQoXFxiaWdvdGltZXMgX3tpID0gMX1ebSBbcF9pLCB0XVxccmlnaHQpLCBbciAsdF1cXHJpZ2h0XX0iXSxbMCwxXSxbMiwzXSxbMSwzXSxbMCwyXV0=
+\[\begin{tikzcd}
+	{\cofree_{\left[r , \free_{\bigvee_{j = 1}^n q_j}\right]} \otimes \cofree_{\left[q_n , \free_{\bigvee_{i = 1}^m p_i}\right]}} & {\cofree_{\left[r , \free_{\left(\bigvee_{j = 1}^{n-1} q_j\right) \vee \left(\bigvee_{i = 1}^m p_i\right)}\right]}} \\
+	{\cofree_{\left[\bigotimes_{j = 1}^n \cofree_{[q_j, t]}, [r, t]\right]} \otimes \cofree_{\left[\bigotimes_{i = 1}^m \cofree_{[p_i, t]}, [q_n, t]\right]}} & {\cofree_{\left[\left(\bigotimes_{j = 1}^{n-1} [q_j,t]\right) \otimes \left(\bigotimes _{i = 1}^m [p_i, t]\right), [r ,t]\right]}}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+\end{tikzcd}\]
+
+    For $m = 0$, it is immediate. For $m \geq 1$ consider the diagram on the following page. It is immediate that the top square commutes. The middle square commutes by definition of the upper horizontal map. The bottom square commutes by \cref{lem:free_p1_vee_p2_associative}.
+    \newpage
+    \begin{sideways}
+    % https://q.uiver.app/#q=WzAsOCxbMCwwLCJcXGZyZWVfe1xcYmlndmVlX3tqID0gMX1ebiBxX2p9IFxcb3RpbWVzIFxcbGVmdCggXFxiaWdvdGltZXNfe2ogPSAxfV57biAtIDF9IFxcY29mcmVlX3tbcV9qLCB0XX1cXHJpZ2h0KSBcXG90aW1lcyBcXGNvZnJlZV97W3FfbiwgXFxmcmVlX3tcXGJpZ3ZlZV97aSA9IDF9Xm0gcF9pfV19IFxcb3RpbWVzIFxcbGVmdChcXGJpZ290aW1lc197aSA9IDF9Xm0gXFxjb2ZyZWVfe1twX2ksIHRdfVxccmlnaHQpIl0sWzEsMCwiIHQgXFxvdGltZXMgIFxcZnJlZV97XFxiaWd2ZWVfe2kgPSAxfV5tIHBfaX0gXFxvdGltZXMgXFxsZWZ0KFxcYmlnb3RpbWVzX3tpID0gMX1ebSBcXGNvZnJlZV97W3BfaSwgdF19XFxyaWdodCkiXSxbMCwxLCJcXGZyZWVfe1xcYmlndmVlX3tqID0gMX1ebiBxX2p9IFxcb3RpbWVzIFxcbGVmdCggXFxiaWdvdGltZXNfe2ogPSAxfV57biAtIDF9IFxcY29mcmVlX3tbcV9qLCB0XX1cXHJpZ2h0KSBcXG90aW1lcyBcXGNvZnJlZV97W3FfbiwgXFxmcmVlX3tcXGJpZ3ZlZV97aSA9IDF9Xm0gcF9pfV19IFxcb3RpbWVzIFxcY29mcmVlX3tcXGxlZnRbXFxiaWd2ZWVfe2kgPSAxfV57bS0xfSBwX2ksICB0XFxyaWdodF19IFxcb3RpbWVzIFxcY29mcmVlX3tbcF9tLCB0XX0iXSxbMSwxLCJ0IFxcb3RpbWVzICBcXGZyZWVfe1xcYmlndmVlX3tpID0gMX1ebSBwX2l9IFxcb3RpbWVzIFxcY29mcmVlX3tcXGxlZnRbXFxiaWd2ZWVfe2kgPSAxfV57bS0xfSBwX2ksIHQgXFxyaWdodF19IFxcb3RpbWVzIFxcY29mcmVlX3tbcF9tLCB0XX0iXSxbMCwyLCJcXGZyZWVfe1xcYmlndmVlX3tqID0gMX1ebiBxX2p9IFxcb3RpbWVzIFxcY29mcmVlX3tcXGxlZnRbXFxiaWd2ZWVfe2ogPSAxfV57biAtMX0gcV9qLCB0XFxyaWdodF19IFxcb3RpbWVzIFxcY29mcmVlX3tbcV9uLCBcXGZyZWVfe1xcYmlndmVlX3tpID0gMX1ebSBwX2l9XX0gXFxvdGltZXMgXFxjb2ZyZWVfe1xcbGVmdFtcXGJpZ3ZlZV97aSA9IDF9XnttLTF9IHBfaSwgdCBcXHJpZ2h0XX0gXFxvdGltZXMgXFxjb2ZyZWVfe1twX20sIHRdfSJdLFsxLDIsIiB0IFxcb3RpbWVzICBcXGZyZWVfe1xcYmlndmVlX3tpID0gMX1ebSBwX2l9IFxcb3RpbWVzIFxcY29mcmVlX3tcXGxlZnRbXFxiaWd2ZWVfe2kgPSAxfV57bS0xfSBwX2ksIHRcXHJpZ2h0XX0gXFxvdGltZXMgXFxjb2ZyZWVfe1twX20sIHRdfSJdLFswLDMsInQgXFxvdGltZXMgIFxcZnJlZV97XFxiaWd2ZWVfe2kgPSAxfV5tIHBfaX0gXFxvdGltZXMgXFxjb2ZyZWVfe1xcbGVmdFtcXGJpZ3ZlZV97aSA9IDF9XnttLTF9IHBfaSwgdFxccmlnaHRdfSBcXG90aW1lcyBcXGNvZnJlZV97W3BfbSwgdF19Il0sWzEsMywidCBcXG90aW1lcyB0Il0sWzAsMV0sWzAsMl0sWzEsM10sWzIsM10sWzAsMl0sWzMsNSwiIiwxLHsibGV2ZWwiOjIsInN0eWxlIjp7ImhlYWQiOnsibmFtZSI6Im5vbmUifX19XSxbMiw0XSxbNCw1XSxbNSw3XSxbNiw3XSxbNCw2XV0=
+    \begin{tikzcd}[row sep=large]
+    	{\free_{\bigvee_{j = 1}^n q_j} \otimes \left( \bigotimes_{j = 1}^{n - 1} \cofree_{[q_j, t]}\right) \otimes \cofree_{[q_n, \free_{\bigvee_{i = 1}^m p_i}]} \otimes \left(\bigotimes_{i = 1}^m \cofree_{[p_i, t]}\right)} & { t \otimes  \free_{\bigvee_{i = 1}^m p_i} \otimes \left(\bigotimes_{i = 1}^m \cofree_{[p_i, t]}\right)} \\
+    	{\free_{\bigvee_{j = 1}^n q_j} \otimes \left( \bigotimes_{j = 1}^{n - 1} \cofree_{[q_j, t]}\right) \otimes \cofree_{[q_n, \free_{\bigvee_{i = 1}^m p_i}]} \otimes \cofree_{\left[\bigvee_{i = 1}^{m-1} p_i,  t\right]} \otimes \cofree_{[p_m, t]}} & {t \otimes  \free_{\bigvee_{i = 1}^m p_i} \otimes \cofree_{\left[\bigvee_{i = 1}^{m-1} p_i, t \right]} \otimes \cofree_{[p_m, t]}} \\
+    	{\free_{\bigvee_{j = 1}^n q_j} \otimes \cofree_{\left[\bigvee_{j = 1}^{n -1} q_j, t\right]} \otimes \cofree_{[q_n, \free_{\bigvee_{i = 1}^m p_i}]} \otimes \cofree_{\left[\bigvee_{i = 1}^{m-1} p_i, t \right]} \otimes \cofree_{[p_m, t]}} & { t \otimes  \free_{\bigvee_{i = 1}^m p_i} \otimes \cofree_{\left[\bigvee_{i = 1}^{m-1} p_i, t\right]} \otimes \cofree_{[p_m, t]}} \\
+    	{t \otimes  \free_{\bigvee_{i = 1}^m p_i} \otimes \cofree_{\left[\bigvee_{i = 1}^{m-1} p_i, t\right]} \otimes \cofree_{[p_m, t]}} & {t \otimes t}
+    	\arrow[from=1-1, to=1-2]
+    	\arrow[from=1-1, to=2-1]
+    	\arrow[from=1-1, to=2-1]
+    	\arrow[from=1-2, to=2-2]
+    	\arrow[from=2-1, to=2-2]
+    	\arrow[from=2-1, to=3-1]
+    	\arrow[Rightarrow, no head, from=2-2, to=3-2]
+    	\arrow[from=3-1, to=3-2]
+    	\arrow[from=3-1, to=4-1]
+    	\arrow[from=3-2, to=4-2]
+    	\arrow[from=4-1, to=4-2]
+    \end{tikzcd}
+\end{sideways}
+
+    
+\end{proof}
+
+
+Under the map of enriching categories $\smset^- \colon \smcat^\sharp \to \smcat$, 
+\cref{thm:matter-pattern} defines an $\smcat$-enriched operad functor $\org_\free\op \to \org^\cofree$ which turns a 
+$[q, \free_{p_1 \vee \cdots \vee p_m}]$-coalgebra into a 
+$[\cofree_{[p_1, t]} \otimes \cdots \otimes \cofree_{[p_m, t]}, [q, t]]$-coalgebra. 
+
+\begin{example}\label{ex:stream-m2}
+    Consider the $[\yon^2, \free_{\alice \vee \bob \vee \carmen}]$-coalgebras defined in \cref{ex:stream-m}. Under the $\smcat$-enriched operad functor $[-,t]\colon\org_\free\op \to \org^\cofree$, each one defines a $[\cofree_{[\alice, t] \otimes \cofree_{[\bob, t]} \otimes \cofree_{[\carmen, t]}}, [\yon^2, t])$-coalgebra which is equivalent to a polynomial map 
+    \begin{equation}\label{eq:matter}
+        S\yon^S \otimes \yon^2 \otimes \cofree_{[\alice, t]} \otimes \cofree_{[\bob, t]} \otimes \cofree_{[\carmen, t]} \to t.
+    \end{equation}
+        
+    In general $[\yon^A , \yon] \iso A\yon$. So for $t = \yon$, the positions of the polynomial $\cofree_{[\alice, t]} = \cofree_{2\yon}$ are streams of $0$s and $1$s. A particular choice of stream $\yon \to \cofree_{[\alice, t]}$ represents Alice's behavior, in other words which bits she will respond with when invoked. Likewise for $\cofree_{[\bob, t]}$  and $\cofree_{[\carmen, t]}$.  Given behaviors for Alice, Bob, and Carmen and a starting state in $S$, \cref{eq:matter} defines a stream $\yon \to \cofree_{[\yon^2, t]}$. A token of this stream is produced by applying the results of the Alice, Bob, and Carmen streams to the decision tree in $\free_{\alice \vee \bob \vee \carmen}$ defined by the state. For each token, zero or one (or in the case of more complicated decision trees, multiple) tokens of Alice, Bob, and Carmen's streams are consumed. \cref{fig:abc-stream} gives an example of the map from behaviors of Alice, Bob, and Carmen for the delegation pattern described in \cref{fig:carmen-tie-breaks}.
+
+    \begin{figure}
+        \begin{subfigure}[b]{0.32\textwidth}
+             \include{figures/abc-stream}
+             \caption{}
+         \end{subfigure}
+         \begin{subfigure}[b]{0.32\textwidth}
+             \include{figures/abc-stream2}
+             \caption{}
+         \end{subfigure}
+         \begin{subfigure}[b]{0.32\textwidth}
+             \include{figures/abc-stream3}
+             \caption{}
+         \end{subfigure}
+        \caption{The functor $[-, \yon ] \colon \org_\free\op \to \org^\cofree$ transforms the delegation pattern in \cref{fig:carmen-tie-breaks} in to a way of determining outcomes from behaviors of Alice, Bob, and Carmen. For example, given the shown streams of behavior, this delegation pattern  first produces a $0$ (see (a)) because Alice and Bob agreed. This outcome consumes the first token in Alice's stream and Bob's stream. It consumes none of the tokens in Carmen's stream, because Carmen was not invoked to tie-break. Next, it produces a $1$ (see (b)) by Carmen's tie-break. These first two outcomes consume  the first two tokens in Alice's stream and Bob's stream. It consumes the first token in Carmen's stream. Next, it produces a $0$ again (see (c)). These first three outcomes consume the first three tokens in Alice's stream and Bob's stream. It consumes the first token in Carmen's stream.}
+        \label{fig:abc-stream}
+    \end{figure}
+    
+
+    For more general $t$, these simple behavior streams are replaced with more complicated behaviors. For example, for $t = \lott$ Alice's behavior may be that of a biased coin whose bias may change over time. 
+\end{example}
+
+Distilling this example, a morphism $\org_\free\op(\yon^{A_1}, \cdots, \yon^{A_n}; \yon^B)$ is a  dynamic pattern that defines how to turn streams of tokens in $A_1, \cdots, A_n$ into a stream of tokens in $B$. Therefore we defined the category of \defined{stream processors} to be the full subcategory of $\org_\free\op$ spanned by monomials.
+
+\newcommand{\huff}{{\mathsf{huff}}}
+
+\begin{example}[Huffman coding]
+
+Huffman coding is a technique for data compression in which more frequent symbols get shorter codes, while less frequent ones get longer codes. Given a distribution on $N$ symbols, its Huffman code is a binary code for each symbol. ~\cref{fig:huffman-standard} exemplifies how to produce a Huffman code for a language with symbols and respective probabilities:
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|r|c|c|c|c|c|}\hline
+        symbol & A & B &C &D &E \\ \hline
+        probability of occurrence & 0.30 & 0.02 & 0.45 & 0.15 & 0.08 \\ \hline
+    \end{tabular}
+\end{table}
+
+
+\begin{figure}
+    \centering
+    \include{figures/huffman-standard-example}
+    \caption{A tree that defines the Huffman code for the data given in the table above. The basic strategy of the Huffman code is to produce a binary tree by iteratively combining the two groups of symbols with lowest probability. For each symbol, the path from the root to that symbol's leaf defines a binary encoding of the symbol. In this example, the codes are $C$: 0, $A$: 10, $D$: 110, $E$: 1110, and $B$: 1111. Note that the most frequent symbol ($C$) has the shortest code while the least frequent symbols ($B$ and $E$) have the longest codes.}
+    \label{fig:huffman-standard}
+\end{figure}
+
+Huffman coding corresponds to a polynomial functor \[
+    \huff \colon \lott \to \free_{\yon^2}
+\] which we define inductively as polynomial functors $\huff_N \colon \sum_{\Delta_N} \yon^N \to \free_{\yon^2}$ for $N \geq 1$. Note that the positions of $\free_{\yon^2}$ are binary trees whose directions are the leaves of the tree.
+
+For the base case, $\huff_1 \colon \yon \to \free_{\yon^2}$ is the inclusion of $\yon$ into $\free_{\yon^2}$. For the inductive step, suppose we have defined $\huff_{N}$. Consider the cartesian map \[
+    \sum_{\Delta_{N+1}} \yon^{N+1} \to \sum_{\Delta_N} \yon^N \tri (\yon + \yon^2)
+\] defined as follows.\footnote{
+    To give an unambiguous definition of this map, requires several design choices which we enumerate here by defining the map explicitly. On positions, let $P$ be a distribution on $N + 1$ tickets. Let $i_1 \leq i_2 \in 1, \cdots , N$ be the pair of tickets that minimizes $P(i_1) + P(i_2)$, $i_1$, and $i_1 + i_2$. This pair is unique. Then define $P'$ to be a distribution on $N$ tickets defined by \[
+        P'(i) = \begin{cases}
+            P(i_1) + P(i_2) & i = i_1\\
+            P(i) & i < i_2, i \neq i_1 \\
+            P(i-1) & i \geq i_2.
+        \end{cases}
+    \] Finally, to complete the map on positions, we define a map $N \to (\yon + \yon^2)(1)$ which takes $i$ to the $\yon^2$ position if $i = i_1$ and the $\yon$ position otherwise. On directions, it is defined by $(i_1, k) \mapsto i_k$ for $k = 1,2$, $(i, *) \mapsto i$ for $i < i_2, i \neq i_1$, and $(i, *) \mapsto i + 1$ for $i \geq i_2$.
+} On positions we map a distribution on $N+1$ tickets to a distribution on $N$ tickets by combining the two tickets with lowest probability. Each of the $N$ tickets maps to $\yon^2$ if it combines two tickets in the original distribution and to $\yon$ otherwise. On directions, it maps the two directions of $\yon^2$ to the two tickets that were combined. For the remaining tickets in $N$, it maps the single the direction of $\yon$ to the original ticket in $N+1$.
+Figure~\ref{fig:huffN} is an example of this map for $N = 4$ on the position $(0.30, 0.02, 0.45, 0.15, 0.08)$.
+
+
+\begin{figure}
+    \centering
+    \include{figures/huffN}
+    \caption{An example of the map $\sum_{\Delta_{N+1}} \yon^{N+1} \to \sum_{\Delta_N} \yon^N \tri (\yon + \yon^2)$ for $N = 4$ on the position $(0.3, 0.02, 0.45, 0.15, 0.08)$. The red arrows depict the map on positions and directions. }
+    \label{fig:huffN}
+\end{figure}
+
+
+Then we define $\huff_{N+1}$ to be the composite
+\[
+    \sum_{\Delta_{N+1}} \yon^{N+1} \to \sum_{\Delta_N}\yon^N \tri (\yon + \yon^2) \to \free_{\yon^2} \tri (\yon + \yon^2) \to \free_{\yon^2} \tri \free_{\yon^2} \to \free_{\yon^2}
+\] where the second to last map is given by the inclusion $\yon + \yon^2 \to \free_{\yon^2}$ and the final map is the $\tri$-monoidal structure on $\free_{\yon^2}$.
+Figure~\ref{fig:huff} gives an example of $\huff$ on the position $(0.3, 0.02, 0.45, 0.15, 0.08)$.
+
+\begin{figure}
+    \centering
+    \include{figures/huff}
+    \caption{The action of $\huff \colon \lott \to \free_{\yon^2}$ on the position $(0.3, 0.02, 0.45, 0.15, 0.08)$.}
+    \label{fig:huff}
+\end{figure}
+
+The map $\huff$ --- equivalent to a map $\yon \to [\lott, \free_{\yon^2}]$ --- defines the \emph{pattern} of the Huffman code for every lottery. The pattern-to-matter operation given by the functor in Theorem~\ref{thm:matter-pattern} turns this pattern into a dynamic decoder as follows. 
+
+Let $A$ be an alphabet. A position of $\lott \tri A$ is equivalent to a choice of lottery and for each ticket a symbol in $A$.  Together with the map $\huff$, these  define a map:
+\begin{align*}
+    \yon & \to (\lott \tri A\yon) \otimes [\lott, \free_{\yon^2}] & \\
+    & \to (\lott \tri A\yon) \otimes [\cofree_{2\yon}, [\lott, \yon]] & \\
+    & \to [\cofree_{2\yon}, \yon ] \tri A\yon & \text{duoidality and evaluation}\\
+    & \to [\cofree_{2\yon}, A\yon] & \text{duodality}
+\end{align*}
+This map is equivalent to a polynomial map $\cofree_{2\yon} \to A\yon$. On positions it maps a stream of $0$s and $1$s to the symbol of $A$ whose code uniquely begins the stream. On directions, it selects the leading bits that are part of the code. 
+
+By iteratively decoding, this polynomial map is a retrofunctor $\cofree_{2\yon} \to \cofree_{A\yon}$. The positions of $\cofree_{2\yon}$ are bit streams and for each position it has $\nn$ directions which represent the number of initial bits produced/consumed. Likewise, the positions of $\cofree_{A\yon}$ are streams of symbols in $A$ and for each position it has $\nn$ directions which represent the number of initial symbols produced/consumed. 
+
+On positions the induced retrofunctor $\cofree_{2\yon} \to \cofree_{A\yon}$ decodes a bit stream into a stream of symbols in $A$. On directions, it maps $n$ symbols produced to the number of initial bits that encode the $n$ symbols.
+
+For example consider the position of $\lott \tri \{A, B, C, D, E\}$ given by the lottery on $5$ tickets with probabilities $(0.3, 0.02, 0.45, 0.15, 0.08)$ and where each of the 5 tickets is mapped to $A$, $B$, $C$, $D$, and $E$ respectively. This data defines a retrofunctor $\cofree_{2\yon} \to \cofree_{\{A, B, C, D, E\}\yon}$. An example of the behavior of this retrofunctor is give in Figure~\ref{fig:huff-stream}.
+
+
+\begin{figure}
+    \include{figures/huffman-example}
+    \caption{On positions, a bit stream beginning with \texttt{00101100101000...} produces a stream of symbols beginning with \texttt{ACDACB...}. In the top line the $|$ depicts the action on directions. In particular, the direction corresponding to the prefix \texttt{A}, maps to the prefix \texttt{00}, since this is the Huffman encoding of the symbol $A$. It maps the direction corresponding to the prefix \texttt{AC} to the prefix \texttt{001}. And so forth.}
+    \label{fig:huff-stream}
+\end{figure}
+
+
+\end{example}
+
+
+\chapter{Future work}
+
+We can think of a couple directions for future work. 
+%The first 
+One
+is simply to implement these ideas in working software or to find it modeled in living systems. For example, this theory could have applications in organizational design, robotics, biology, neuroscience, AI, ecology, etc. 
+
+%The second is to relax a certain ``closed world'' orientation that the present paper has. That is, the systems presented here focus on tasks that are hierarchically delegated and solved by subsystems of subsystems, possibly with an end user making final choices. It seems important to relax this to model a world in which the source of responses or inputs is somehow more extemporaneous.
+
+The
+% third
+other
+is to consider behavior contracts for $\org_\free$, as in \cite{schultz2016dynamical,spivak2021learnersv1}. Each hom-category $\org_\free(p;q_1,\ldots,q_n)$ is a topos, and its internal language can be used to limit which dynamic hierarchical agents we want to consider. At a high level, this is mathematically straightforward using Kripke-Joyal semantics \cite[Chapter VI]{macLane1992sheaves}, however the sort of topos we're considering, toposes of polynomial coalgebras, are quite specific and thus have certain logical constructs that don't exists generically. Moreover, because we are interested in composing systems, we need to combine these logical constructs across several toposes, and an overarching logical framework would be useful.
+
+\printbibliography
+
+\end{document}

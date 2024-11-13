@@ -1,0 +1,26 @@
+\[
+\begin{tikzpicture}[trees,thick,
+   level distance=1cm,sibling distance=1.5cm, 
+   edge from parent path={(\tikzparentnode) -- (\tikzchildnode)}]
+\Tree [.$\quad$
+    \edge node[auto=left] {$(\azero, \bzero)$};  
+    [.$\quad$ ]
+    \edge node[auto=right] {$(\azero, \bone)$};
+    [.$\quad$
+      \edge node[auto=left] {$\czero$};
+      [.$\quad$ ] 
+      \edge node[auto=right] {$\cone$};
+      [.$\quad$ ] 
+    ] 
+    \edge node[auto=left] {$(\aone, \bzero)$};
+    [.$\quad$
+      \edge node[auto=left] {$\czero$};
+      [.$\quad$ ] 
+      \edge node[auto=right] {$\cone$};
+      [.$\quad$ ] 
+    ] 
+    \edge node[auto=right] {$(\aone, \bone)$};  
+    [.$\quad$ ]
+    ]
+\end{tikzpicture}
+\]

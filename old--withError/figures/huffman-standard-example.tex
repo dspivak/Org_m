@@ -1,0 +1,16 @@
+\begin{forest}
+    for tree={circle,draw, l sep=15pt, s sep=40pt, grow'=north}
+    [1.00
+        [0.55, edge label={node[midway,left] {0}}
+            [0.30, edge label={node[midway,left] {0}}, label=above:A]
+            [0.25, edge label={node[midway,right] {1}}
+                [0.1, edge label={node[midway,left] {0}}
+                    [0.02, edge label={node[midway,left] {0}}, label=above:B]
+                    [0.08, edge label={node[midway,right] {1}}, label=above:E]
+                ]
+                [0.15, edge label={node[midway,right] {1}}, label=above:D]
+            ]
+        ]
+        [0.45, edge label={node[midway,right] {1}}, label=above:C]
+    ]
+\end{forest}
