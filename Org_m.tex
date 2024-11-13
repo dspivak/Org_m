@@ -341,6 +341,8 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\ppolyfun}{\mathbb{P}\Cat{olyFun}}
 \newcommand{\en}{\Cat{End}}
 \newcommand{\org}{\Cat{Org}}
+\newcommand{\oorg}{\mathbb{O}\Cat{rg}}
+\newcommand{\orgsharp}{\org^\sharp}
 
 \newcommand{\List}{\Fun{list}}
 \newcommand{\lott}{\Fun{lott}}
@@ -471,7 +473,7 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \begin{abstract}
 This is the fourth installment in a series of papers offering models of hierarchical structure for dynamical systems, using the language of polynomial functors. In the first iteration  \cite{niu2022poly}, the operad underlying the symmetric monoidal category $(\poly, \otimes, \yon)$ can be viewed as defining the behavior of hierarchical delegation. In particular, a morphism $\poly(p_1 \otimes \cdots \otimes p_m, q)$ turns the outputs of subordinates with interfaces $p_i$ into the output of an agent with interface $q$ and turns a task given to the agent into a task for each of the subordinates. The work of \cite{shapiro2022dynamic} makes this story \emph{dynamic}. In other words, the way that subordinate outputs become agent outputs and agent tasks become subordinate tasks can change over time rather than remaining fixed. Most recently \cite{libkind2024pattern}  extends the story of hierarchical delegation in two different ways. First, it allows one to specify the hierarchical delegation programmatically (which we refer to as \emph{pattern}) rather than via behaviors (which we refer to as \emph{matter}).  Second, it allows for the time scales of the subordinates and agents to differ. An agent may rely on several outputs of its subordinates in order to produce a single output of its own.
 
-In this article, we extend the story yet again. First, we extend the framework so that subordinates may be invoked asynchronously depending on the outcomes of other subordinates. We prove that the free (co)monad (co)monad $\free$ and $\cofree$ extend to a (co)monad on $\org$. From the perspective of programs/pattern, this extension implies the existence of a $\smcat$-enriched operad $\org_\free$, and from the perspective of behavior/matter, it implies the existence of a $\smcat$-enriched operad $\org^\cofree$.  Second, we crispen the relationship between the programmatic and behavioral perspectives via a functor $[-, t] \colon \org_\free\op \to \org^\cofree$ for any polynomial monad $t$.
+In this article, we extend the story yet again. First, we extend the framework so that subordinates may be invoked asynchronously depending on the outcomes of other subordinates. We prove that the free (co)monad (co)monad $\free$ and $\cofree$ extend to a (co)monad on $\oorg$. From the perspective of programs/pattern, this extension implies the existence of a $\smcat$-enriched operad $\oorg_\free$, and from the perspective of behavior/matter, it implies the existence of a $\smcat$-enriched operad $\oorg^\cofree$.  Second, we crispen the relationship between the programmatic and behavioral perspectives via a functor $[-, t] \colon \oorg_\free\op \to \oorg^\cofree$ for any polynomial monad $t$.
 
 \end{abstract}
 
@@ -479,11 +481,11 @@ In this article, we extend the story yet again. First, we extend the framework s
 
 We begin with a natural language description of this paper's main mathematical character, which we will here call an \emph{agent}, which one can imagine as an \emph{evolving planner}. The corresponding mathematical object is found below in \eqref{eqn.homset}.
 
-An agent $A$ is given a \emph{task}, and their job is to deliver an \emph{outcome}. They begin by making a plan: invoke a bunch of $A$'s subordinate agents and hand each of them a task of their own, have the subordinates' resulting outcomes determine a different of bunch of $A$'s subordinate agents to hand different tasks to, and so on, until finally after some finite amount of steps, the process terminates and $A$ obtains an outcome. Agent $A$ can learn from whatever is delivered from its subordinates, so that the next time it is given the same task or a similar one, it can make a different plan. 
+An agent $A$ is given a \emph{task}, and their job is to deliver an \emph{outcome}. They begin by making a plan: invoke one of $A$'s subordinate agents and hand them a task of their own, based on the subordinate's outcome again invoke one of $A$'s subordinate agents and hand them a task of their own, and so on, until finally after some finite amount of steps, the process terminates and $A$ obtains an outcome. Agent $A$ can learn from whatever is delivered from its subordinates, so that the next time it is given the same task or a similar one, it can make a different plan. 
 
 This same story can take place at any lower (or higher) level in the same way. In other words, each subordinate agent $B$ may also be executing a plan that invokes $B$'s own subordinates, or instead $A$ itself might be a subordinate who was invoked by the plan of a higher-level agent.
 
-We can move from this natural language description of agents and subagents to a mathematical one, using the framework of polynomial functors (also known as \emph{containers} \cite{abbott2005containers,abbot2003categoriesthesis,ahman2014when}). While polynomial functors are defined as ``coproducts of representables $\smset\to\smset$'', we will think of them as \emph{portfolios} or task-solution interfaces:
+We can move from this natural language description of agents and subagents to a mathematical one, using the framework of polynomial functors (also known as \emph{containers} \cite{abbott2005containers,abbot2003categoriesthesis,ahman2014when}). While polynomial functors are defined as ``coproducts of representables $\smset\to\smset$'', we will think of them as \emph{portfolios} or task-outcome interfaces:
 \[
 \sum_{T:\text{task}}\yon^{\text{Outcome}[T]}
 \]
@@ -494,38 +496,43 @@ A morphism $\varphi\colon p\to q$ of polynomials can be represented cleanly in d
 \[
 \poly(p,q)\coloneqq\prod_{i:I}\sum_{j:J}\prod_{e:q[j]}\sum_{d:p[i]}1.
 \]
-We can understand any such element $\varphi:\poly(p,q)$ as a \emph{task delegation}, which is a two-step process: 
+We can understand any such element $\varphi:\poly(p,q)$ as a \emph{task delegation} from $p$'s portfolio to $q$'s portfolio. This map $\varphi$ consists of a two-step process: 
 \begin{enumerate}
-\item For every task $i$ that $p$ can perform, it \emph{assign} a task $j$ that $q$ can perform.
-\item For every outcome $b:q[j]$ that $q$ can deliver, it \emph{returns} an outcome that $p$ can deliver.
+\item for every $p$-task $i$, it \emph{assigns} a $q$-task $j$, and then
+\item for every $q$-outcome $e:q[j]$, it \emph{returns} a $p$-outcome $d:p[i]$.
 \end{enumerate}
 
-In this paper, we consider a more general sort of task delegation by invoking two additional notions: a monoidal structure $\vee$ (which we pronounce as ``or'') and the free monad construction $\free_-$. The monoidal structure allows for the possibility of multiple agents acting simultaneously, and the free monad allows for the possibility of a multi-step process to take place before an outcome is returned. In general, we will see that a task in $\free_p$ is a well-founded tree---or flowchart---of tasks from $p$. 
+In this paper, we consider a more general sort of task delegation by invoking two additional notions: the coproduct monoidal structure $+$ and the free monad construction $\free_-$. The monoidal structure allows for the possibility of multiple subordinate agents, and the free monad allows for the possibility of a multi-step process to take place before an outcome is returned. In general, we will see that a task in $\free_p$ is a well-founded tree---or flowchart---of tasks from $p$. 
 
-For example, consider the polynomial $\yon^\nn$; it has only one task, for which an outcome is any natural number. A map $\yon^\nn\to\free_{\yon^\nn\vee\yon^\nn}$ delegates the task to two subagents of the same sort. Such a map might assign to the unique task the two-step process that first asks each subagent for a natural number, then asks whoever had the bigger number (or the first subagent if the numbers were equal) to choose a second number, and finally returns the sum to the original agent. 
+For example, consider the polynomial $\yon^\nn$; it has only one task, for which an outcome is any natural number. A map $\yon^\nn\to\free_{\yon^\nn+\yon^\nn}$ delegates the task to two subagents of the same sort. Such a map might assign to the unique task the three-step process that first asks each subagent for a natural number, then asks whoever had the bigger number (or the first subagent if the numbers were equal) to choose a second number, and finally returns the sum to the original agent. 
 
+\dnote{Update:\\
 In Example~\ref{ex:stream-m}, we will define a map $\yon ^2 \to \free_{{\color{cyan}\yon^2} \vee {\color{magenta}\yon^2} \vee \color{teal}{\yon^2}}$ that delegates the task of selecting a bit to three subagents by asking the first two subagents for a bit. If they agree then return that bit. Otherwise, invoke the third subagent as a tie-breaker. This pattern of task delegation corresponds to the following position of $\free_{{\color{cyan}\yon^2} \vee {\color{magenta}\yon^2} \vee \color{teal}{\yon^2}}$. Note that below we use colors to depict the outcomes of the different subagents. 
 \input{figures/carmen-tie-breaks}
-We will see that Huffman coding, an efficient data compression technique, is another example.
+In \cref{ex.huffman} we will see that Huffman coding, an efficient data compression technique, is another example.
+}
 
-We thus obtain a language, which can be seen as an accounting system for agents that can each recursively call subagents to perform tasks, as well as for how agents can \emph{learn} from the resulting outcomes. Mathematically, we structure this as a generalization of \emph{dynamic monoidal category}, in the sense of \cite{shapiro2022dynamic}, of which the gradient descent and backpropagation pattern in deep learning is also an example. That paper discussed various examples of categorical structures (categories, monoidal categories, multicategories, etc.) enriched in $\org$, a variant of which was introduced in \cite[Def 2.19]{spivak2021learnersv1}. 
+We thus obtain a language, which can be seen as an accounting system for agents that can each recursively call subagents to perform tasks, as well as for how agents can \emph{learn} from the resulting outcomes. 
+\dnote{Reconsider:\\
+Mathematically, we structure this as a variant of the 2-category $\oorg$, introduced in \cite[Def 2.19]{spivak2021learnersv1}, which forms the enrichment base of what \cite{shapiro2022dynamic} refers to as \emph{dynamic categorical structures} (dynamic categories, dynamic monoidal categories, dynamic multicategories, etc.) That paper shows that gradient descent and backpropagation algorithm in deep learning is an example.
 
-In this paper, we show that the free monad monad $\free_-\colon\poly\to\poly$ extends to a monad on $\org$, one which is furthermore lax monoidal with respect to $\vee$. The Kleisli $\smcat$-enriched category $\org_\free$ serves as a base of enrichment for a more flexible kind of dynamic categorical structures, ones where the subordinate dynamics can occur at \emph{faster timescales} than the higher-level dynamics does. The above natural language description of an agent $A$, assuming it has portfolio $p$ and that its subordinates have portfolios $q_1,\ldots,q_k$, shows up in  \cref{def.orgsharp} as the following formal object:
+In this paper, we show that the free monad monad $\free_-\colon\poly\to\poly$ extends to a monad on $\oorg$. The Kleisli $\smcat$-enriched category $\oorg_\free$ inherits coproducts from $\poly$ and hence serves as a base of enrichment for a more flexible kind of dynamic categorical structures, ones where the subordinate dynamics can occur at \emph{faster timescales} than the higher-level dynamics does. The above natural language description of an agent $A$, assuming it has portfolio $p$ and that its subordinates have portfolios $q_1,\ldots,q_k$, shows up in  \cref{def.orgsharp} as the following formal object:
 \begin{equation}\label{eqn.homset}
-\org^\sharp_\free(p;q_1,\ldots,q_k)\coloneqq\cofree_{[p,\free_{q_1\vee\cdots\vee q_k}]},
+\orgsharp_\free(p;q_1,\ldots,q_k)\coloneqq\cofree_{[p,\free_{q_1\vee\cdots\vee q_k}]},
 \end{equation}
-The monoidal product $\vee$ lets any ``bunch'' of agents be chosen at each time step. The free monad $\free$ brings in the planning aspect, a flow-chart for how subordinate outcomes select new subordinate tasks. The internal hom $[-,-]$ lets tasks pass forward and outcomes pass backwards. And the cofree comonad $\cofree$ lets this whole process evolve through time. 
+The monoidal product $\vee$ lets any ``bunch'' of agents be chosen at each time step. The free monad $\free$ brings in the planning aspect, a flow-chart for how subordinate outcomes select new subordinate tasks. The internal hom $[-,-]$ lets tasks pass forward and outcomes pass backwards. And the cofree comonad $\cofree$ lets this whole process evolve through time.
+}
 
-As a very special case, we give the example of the monoid $\org_\free(\yon,\yon)$, where there is only one subordinate and neither the agent nor the subordinate can vary their task or outcome. In this case, the plan or flow-chart just becomes a number of steps to perform and the evolution is blind, just a stream of plans. Thus an element of this monoid is a natural number sequence $s\colon\nn\to\nn$ and the multiplication $s\star t$ is what appears to be a novel method for combining two such sequences, where $s$ provides the ``time-scale'' for summing in $t$; see \cref{ex.sequence_counter}.
+As a very special case, we give the example of the monoid $\oorg_\free(\yon,\yon)$, where there is only one subordinate and neither the agent nor the subordinate can vary their task or outcome. In this case, the plan or flow-chart just becomes a number of steps to perform and the evolution is blind, just a stream of plans. Thus an element of this monoid is a natural number sequence $s\colon\nn\to\nn$ and the multiplication $s\star t$ is what appears to be a novel method for combining two such sequences, where $s$ provides the ``time-scale'' for summing in $t$; see \cref{ex.sequence_counter}.
 
-We go two steps further. First we describe a $\smcat$-enriched operad \cite{Leinster:2004a} that we denote $\org^\cofree$, corresponding to the cofree comonad comonad $\cofree_-\colon\poly\to\poly$. And second, we provide a $\smcat$-enriched functor $[-,t]\colon\org_\free\op\to\org^\cofree$ for any polynomial monad $t$, which ``converts patterns to the matter they run on'', in the sense of \cite{libkind2024pattern}; see also \cite{Katsumata2020interaction}. For example, taking $t=\yon$, a hierarchical agent which adds numbers returned by its subordinates  would be sent to a machine that takes streams of numbers (the behaviors of the subordinates)  to the stream of their sum (the behavior of the agent). Taking $t=\lott$ to be the monad corresponding to finite-sample-space random variables, the same is true except that an element of randomness is introduced to the behaviors of the subordinates and agent. All this will be made explicit in the text below.
+We go two steps further. First we describe a $\smcat$-enriched operad \cite{Leinster:2004a} that we denote $\oorg^\cofree$, corresponding to the cofree comonad comonad $\cofree_-\colon\poly\to\poly$. And second, we provide a $\smcat$-enriched functor $[-,t]\colon\oorg_\free\op\to\oorg^\cofree$ for any polynomial monad $t$, which ``converts patterns to the matter they run on'', in the sense of \cite{libkind2024pattern}; see also \cite{Katsumata2020interaction}. For example, taking $t=\yon$, a hierarchical agent which adds numbers returned by its subordinates  would be sent to a machine that takes streams of numbers (the behaviors of the subordinates)  to the stream of their sum (the behavior of the agent). Taking $t=\lott$ to be the monad corresponding to finite-sample-space random variables, the same is true except that an element of randomness is introduced to the behaviors of the subordinates and agent. All this will be made explicit in the text below.
 
 
 \section*{Plan of the paper}
 
-In \cref{sec:background} we introduce the $\smcat^\sharp$-enriched category $\org^\sharp$ as well as the adjunctions which define the free monad monad $\free$ and the cofree comonad comonad $\cofree$. 
-In \cref{sec:orgm}, we define the $\smcat$-enriched operad $\org_\free$ and in \cref{sec:orgc} we define the $\smcat$-enriched operad $\org^\cofree$. 
-Finally, in \cref{sec:matter-pattern} we define a $\smcat$-enriched operad functor $[-, t] \colon \org_\free\op \to \org^\cofree$ for any polynomial monad $t$ and give several applications.
+In \cref{sec:background} we introduce the $\smcat^\sharp$-enriched category $\orgsharp$ as well as the adjunctions which define the free monad monad $\free$ and the cofree comonad comonad $\cofree$. 
+In \cref{sec:orgm}, we define the $\smcat$-enriched operad $\oorg_\free$ and in \cref{sec:orgc} we define the $\smcat$-enriched operad $\oorg^\cofree$. 
+Finally, in \cref{sec:matter-pattern} we define a $\smcat$-enriched operad functor $[-, t] \colon \oorg_\free\op \to \oorg^\cofree$ for any polynomial monad $t$ and give several applications.
 
 \section*{Acknowledgments}
 We appreciate helpful conversations with C.B. Aberl\'e, who suggested our stream-processing example, \cref{ex:stream-m2}.
@@ -533,7 +540,7 @@ We appreciate helpful conversations with C.B. Aberl\'e, who suggested our stream
 \thanksAFOSR{FA9550-23-1-0376}.
 \chapter{Background} \label{sec:background}
 
-For background on $\poly$, including the monoidal closed structure $(\otimes,[-,-])$, see \cite{niu2022poly}. In \cref{sec.(co)free(co)monad} we briefly recall the free monad $\free_-$ and cofree comonad $\cofree_-$ constructions, as well as the module structure $\free_p\otimes\cofree_q\to\free_{p\otimes q}$ between them. In \cref{sec.orgsharp} we discuss the $\smcat^\sharp$-enriched category $\org^\sharp$ to which we will extend the free monad and cofree comonad constructions.
+For background on $\poly$, including the monoidal closed structure $(\otimes,[-,-])$, see \cite{niu2022poly}. In \cref{sec.(co)free(co)monad} we briefly recall the free monad $\free_-$ and cofree comonad $\cofree_-$ constructions, as well as the module structure $\free_p\otimes\cofree_q\to\free_{p\otimes q}$ between them. In \cref{sec.orgsharp} we discuss the $\smcat^\sharp$-enriched category $\orgsharp$ to which we will extend the free monad and cofree comonad constructions.
 
 
 \section{The free monad monad and the cofree comonad comonad}\label{sec.(co)free(co)monad}
@@ -591,9 +598,9 @@ The main result of \cite[Theorem 3.4]{libkind2024pattern} was to prove that $\fr
 
 
 
-\section{The $\smcat^\sharp$-enriched category $\org^\sharp$}\label{sec.orgsharp}
+\section{The $\smcat^\sharp$-enriched category $\orgsharp$}\label{sec.orgsharp}
 
-In this paper we define $\org^\sharp$ to be the $\smcat^\sharp$-enriched category whose objects are polynomials and whose morphisms are defined by $\org^\sharp(p, q) \coloneqq \cofree_{[p,q]}$, the cofree comonad on the internal hom $[p,q]$. 
+In this paper we define $\orgsharp$ to be the $\smcat^\sharp$-enriched category whose objects are polynomials and whose morphisms are defined by $\orgsharp(p, q) \coloneqq \cofree_{[p,q]}$, the cofree comonad on the internal hom $[p,q]$. 
 Composition is defined by 
 \[
     \cofree_{[p,q]} \otimes \cofree_{[q,r]} \to \cofree_{[p, q] \otimes [q, r]} \to \cofree_{[p, r]}
@@ -613,20 +620,20 @@ Recall also \cite[Proposition 5.52]{niu2022poly} that there is a (vertical, cart
 %(\smcat^{\sharp\tn{cart}}/-)
 \smset^-\colon(\smcat^\sharp,\yon,\otimes)\too(\smcat,1,\times)
 \]
-This in turn provides a change of enrichment, which sends $\org^\sharp$ to the monoidal 2-category whose objects are polynomials under $\otimes$ and for which $\hom(p,q)=\smset^{\cofree_{[p,q]}}$. This is equivalent to the category-enriched operad $\org$ defined in \cite[Definition 2.19]{spivak2021learnersv1}.
+This in turn provides a change of enrichment, which sends $\orgsharp$ to the monoidal 2-category whose objects are polynomials under $\otimes$ and for which $\hom(p,q)=\smset^{\cofree_{[p,q]}}$. This is equivalent to the category-enriched operad $\oorg$ defined in \cite[Definition 2.19]{spivak2021learnersv1}.
 
 \begin{remark}
-    What is the relationship between $\poly$ and $\org^\sharp$? Since $(\poly, \otimes, \yon)$ has internal homs, $\poly$ can be viewed as a $(\poly, \otimes, \yon)$-enriched category. Via the lax monoidal functor of enrichment categories $\cofree\colon (\poly, \otimes, \yon) \to (\smcat^\sharp, \otimes, \yon)$, we obtain the $\smcat^\sharp$-enriched category $\org^\sharp$.
+    What is the relationship between $\poly$ and $\orgsharp$? Since $(\poly, \otimes, \yon)$ has internal homs, $\poly$ can be viewed as a $(\poly, \otimes, \yon)$-enriched category. Via the lax monoidal functor of enrichment categories $\cofree\colon (\poly, \otimes, \yon) \to (\smcat^\sharp, \otimes, \yon)$, we obtain the $\smcat^\sharp$-enriched category $\orgsharp$.
 \end{remark}
 
 We will not need the following proposition, but we record it here both as an interesting note and to settle the various notions for our readers.
 \begin{proposition}
-Both $(\org^\sharp,\yon,\otimes)$ and $(\org,\yon,\otimes)$ are monoidal closed.
+Both $(\orgsharp,\yon,\otimes)$ and $(\org,\yon,\otimes)$ are monoidal closed.
 \end{proposition}
 \begin{proof}
-For any objects $p,q:\ob(\poly)=\ob(\org^\sharp)=\ob(\org)$, the associated hom-objects for $\org^\sharp$ and $\org$ are
+For any objects $p,q:\ob(\poly)=\ob(\orgsharp)=\ob(\org)$, the associated hom-objects for $\orgsharp$ and $\oorg$ are
 \[
-  \org^\sharp(p,q)\coloneqq\cofree_{[p,q]}
+  \orgsharp(p,q)\coloneqq\cofree_{[p,q]}
   \qqand
 	\org(p,q)\coloneqq\smset^{\cofree_{[p,q]}}=[p,q]\coalg.
 \]
@@ -643,11 +650,11 @@ In either case, the monoidal closure is given by the internal hom $[-,-]$ becaus
 
 \chapter{An operad of pattern delegation}\label{sec:orgm}
 
-In this section we will promote the free monad monad $\free$ on $\poly$ to a monad on $\org^\#$ and show that it is lax monoidal with respect to the monoidal product $\vee$. Then the Kleisli construction defines an $\smcat^\#$-enriched operad $\org_\free^\#$.
+In this section we will promote the free monad monad $\free$ on $\poly$ to a monad on $\orgsharp$ and show that it is lax monoidal with respect to the monoidal product $\vee$. Then the Kleisli construction defines an $\smcat^\#$-enriched operad $\oorg_\free^\#$.
 
-\section{Extension of $\free$ to a monad on $\org^\sharp$}
+\section{Extension of $\free$ to a monad on $\orgsharp$}
 
-We will define a $\smcat^\sharp$-enriched functor $\free \colon \org^\sharp \to \org^\sharp$ and show that it is a monad. 
+We will define a $\smcat^\sharp$-enriched functor $\free \colon \orgsharp \to \orgsharp$ and show that it is a monad. 
 
 On objects $\free$ takes a polynomial $p$ to the free monad $\free_p$. On hom-objects, $\free \colon \cofree_{[p, q]} \to \cofree_{[\free_p, \free_q]}$ can be identified with the image of the composite, 
 \[
@@ -674,7 +681,7 @@ The top horizontal map is given by internal-hom composition.
 
 
 \begin{theorem}
-    The $\smcat^\sharp$-enriched functor $\free \colon \org^\sharp \to \org^\sharp$ is a monad. 
+    The $\smcat^\sharp$-enriched functor $\free \colon \orgsharp \to \orgsharp$ is a monad. 
 \end{theorem}
 \begin{proof}
     We need to define $\smcat^\sharp$-enriched natural transformations $\id_\poly \Rightarrow \free$ and $\free \circ \free \Rightarrow \free$ for the unit and multiplication.
@@ -751,12 +758,12 @@ The top horizontal map is given by internal-hom composition.
 
 \begin{remark}\label{rmk:free-lifts}
     The composite $U \circ \free \colon \poly \to \poly$ is a monad. 
-    How is it related to our monad $\free \colon \org^\sharp \to \org^\sharp$? 
-    Consider the map of enriching functors $\smcat^\sharp(\yon , -) \colon \smcat^\sharp \to \smset$. Under $\smcat^\sharp(\yon , -)$, the morphisms $\cofree_{[p,q]}$ in $\org^\sharp$ map to 
+    How is it related to our monad $\free \colon \orgsharp \to \orgsharp$? 
+    Consider the map of enriching functors $\smcat^\sharp(\yon , -) \colon \smcat^\sharp \to \smset$. Under $\smcat^\sharp(\yon , -)$, the morphisms $\cofree_{[p,q]}$ in $\orgsharp$ map to 
     \[
         \smcat^\sharp(\yon, \cofree_{[p,q]}) \iso \poly(\yon, [p,q]) \iso \poly(p, q).
     \]
-    Therefore, this map of enriching functors sends $\org^\sharp$ to $\poly$ and sends the monad $\free \colon \org^\sharp \to \org^\sharp$ to the monad $U \circ \free \colon \poly \to \poly$.
+    Therefore, this map of enriching functors sends $\orgsharp$ to $\poly$ and sends the monad $\free \colon \orgsharp \to \orgsharp$ to the monad $U \circ \free \colon \poly \to \poly$.
 \end{remark}
 
 \begin{remark}
@@ -764,25 +771,25 @@ The argument of this section works for any monad $M\colon\poly\to\poly$ equipped
 \[
 	M(p)\otimes\cofree_q\to M(p\otimes q)
 \]
-satisfying the action laws for $p\mapsto\cofree_p$ as a $\otimes$-lax monoidal functor. That is, any such monad lifts to a monad $M\colon\org^\sharp\to\org^\sharp$.
+satisfying the action laws for $p\mapsto\cofree_p$ as a $\otimes$-lax monoidal functor. That is, any such monad lifts to a monad $M\colon\orgsharp\to\orgsharp$.
 
-For example, if $(t,\eta,\mu)$ is any polynomial monad, such as the list monad, then $p\mapsto p\tri t$ and $p\mapsto t\tri p$ are monads on $\poly$ that can be given $\cofree$-module structures, and hence lift to monads on $\org^\sharp$. In fact, such monads distribute over the free monad, so that both $\free_{-\tri t}$ and $\free_{t\tri-}$ are monads on $\poly$, and they again can be equipped with a $\cofree_-$-module structure. Hence for any polynomial monad $t$ we have monads
+For example, if $(t,\eta,\mu)$ is any polynomial monad, such as the list monad, then $p\mapsto p\tri t$ and $p\mapsto t\tri p$ are monads on $\poly$ that can be given $\cofree$-module structures, and hence lift to monads on $\orgsharp$. In fact, such monads distribute over the free monad, so that both $\free_{-\tri t}$ and $\free_{t\tri-}$ are monads on $\poly$, and they again can be equipped with a $\cofree_-$-module structure. Hence for any polynomial monad $t$ we have monads
 \[
 	(p\mapsto\free_{p\tri t})\colon
-	\org^\sharp\to\org^\sharp
+	\orgsharp\to\orgsharp
 	\qqand
 	(p\mapsto\free_{t\tri p})\colon
-	\org^\sharp\to\org^\sharp.
+	\orgsharp\to\orgsharp.
 	\qedhere
 \]
 \end{remark}
 
 
-\section{The operad $\org^\sharp_\free$}\label{sec:operad-orgm}
+\section{The operad $\orgsharp_\free$}\label{sec:operad-orgm}
 
-We begin by showing that $\org^\sharp$ has a symmetric monoidal structure $(\vee, 0)$ and that $\free \colon \org^\sharp \to \org^\sharp$ is lax monoidal with respect to $\vee$. The associated Kleisli category $\org^\#_\free$ is monoidal and hence has an underlying operad which we also refer to as $\org^\#_\free$.
+We begin by showing that $\orgsharp$ has a symmetric monoidal structure $(\vee, 0)$ and that $\free \colon \orgsharp \to \orgsharp$ is lax monoidal with respect to $\vee$. The associated Kleisli category $\orgsharp_\free$ is monoidal and hence has an underlying operad which we also refer to as $\orgsharp_\free$.
 
-Before discussing the monoidal structure, we know from the previous section that $(p\mapsto\free_p)\colon\org^\sharp\to\org^\sharp$ is a  $(\catsharp,\yon,\otimes)$-enriched monad, so its Kleisli category has polynomials as objects and hom-objects of the form
+Before discussing the monoidal structure, we know from the previous section that $(p\mapsto\free_p)\colon\orgsharp\to\orgsharp$ is a  $(\catsharp,\yon,\otimes)$-enriched monad, so its Kleisli category has polynomials as objects and hom-objects of the form
 \begin{equation}
 	\ul{\Hom}(p,q)\coloneqq\cofree_{[p,\free_q]}.
 \end{equation}
@@ -809,7 +816,7 @@ The monoidal product $\nn^\nn\yon^\nn\otimes\nn^\nn\yon^\nn\to\nn^\nn\yon^\nn$ i
 So for example, $(0,1,2,3,4,\ldots)\star(0,1,2,3,4,\ldots)=(0,0,3,12,30,60,\ldots)$. The each step (position) in the first list indicates how many steps to perform in the second, and this is an associative operation.
 \end{example}
 
-We now turn to the monoidal structure on $\org_\free$. It begins with the symmetric monoidal structure $\vee$ on $\poly$ whose unit is $0$ and whose product is defined by 
+We now turn to the monoidal structure on $\oorg_\free$. It begins with the symmetric monoidal structure $\vee$ on $\poly$ whose unit is $0$ and whose product is defined by 
 \begin{equation}\label{eqn.vee}
     p \vee q \coloneqq p + (p \otimes q) + q.
 \end{equation}
@@ -876,7 +883,7 @@ First we define the maps.
 \end{proof}
 
 
-We can extend the symmetric monoidal structure $\vee$ to $\org^\sharp$ as follows.
+We can extend the symmetric monoidal structure $\vee$ to $\orgsharp$ as follows.
 The monoidal structure on objects is the same as that for $\poly$.
 We define the monoidal structure on morphisms in three components. First, there is a map 
 \[
@@ -901,7 +908,7 @@ The associator, left and right unitors, triangle identity, and pentagon identity
     
 
 \begin{theorem}
-    The $\smcat^\sharp$-enriched functor $\free \colon \org^\sharp \to \org^\sharp$ is lax monoidal with respect to the monoidal structure $\vee$.
+    The $\smcat^\sharp$-enriched functor $\free \colon \orgsharp \to \orgsharp$ is lax monoidal with respect to the monoidal structure $\vee$.
 \end{theorem}
 \begin{proof}
     The unitor is the image of the unitor (which is the unique element) of $\free \colon \poly \to \poly$ under the isomorphisms
@@ -916,32 +923,32 @@ The associator, left and right unitors, triangle identity, and pentagon identity
 \end{proof}
 
 \begin{definition}\label{def.orgsharp}
-    Let $\org^\sharp_\free$ be the $\smcat^\sharp$-enriched operad underlying the Kleisli category $\org^\sharp_\free$. The objects of $\org^\sharp_\free$ are polynomials and the morphisms are defined by 
+    Let $\orgsharp_\free$ be the $\smcat^\sharp$-enriched operad underlying the Kleisli category $\orgsharp_\free$. The objects of $\orgsharp_\free$ are polynomials and the morphisms are defined by 
     \[
-        \org^\sharp_\free(p_1 , \ldots, p_m; q) = \cofree_{[p_1 \vee \cdots \vee p_m, \free_q]}.
+        \orgsharp_\free(p_1 , \ldots, p_m; q) = \cofree_{[p_1 \vee \cdots \vee p_m, \free_q]}.
     \]
 
-    Let $(\org^\sharp_\free)\op$ be the $\smcat^\sharp$-enriched operad underlying the opposite category $(\org^\sharp_\free)\op$. Its objects are polynomials and its morphisms are defined by 
+    Let $(\orgsharp_\free)\op$ be the $\smcat^\sharp$-enriched operad underlying the opposite category $(\orgsharp_\free)\op$. Its objects are polynomials and its morphisms are defined by 
     \[
-        (\org^\sharp_\free)\op(q_1, \ldots, q_m; p) = \cofree_{[p, \free_{q_1 \vee \cdots \vee q_m}]}.
+        (\orgsharp_\free)\op(q_1, \ldots, q_m; p) = \cofree_{[p, \free_{q_1 \vee \cdots \vee q_m}]}.
     \]
 
-    Let $\org_\free$ and $\org_\free\op$ be the corresponding $\smcat$-enriched categories under the map of enriching categories $\smset^- \colon \smcat^\sharp \to \smcat$.
+    Let $\oorg_\free$ and $\oorg_\free\op$ be the corresponding $\smcat$-enriched categories under the map of enriching categories $\smset^- \colon \smcat^\sharp \to \smcat$.
 \end{definition}
 
 
 
 
-In the $\smcat$-enriched category $\org_\free\op$, an object is a polynomial and a morphism in $\org_\free\op(p_1, \cdots, p_m; q)$ is a $[q, \free_{p_1 \vee \cdots \vee p_m}]$-coalgebra (and coalgebra morphisms are 2-cells). We can think of a coalgebra $S\yon^S\to[q, \free_{p_1 \vee \cdots \vee p_m}]$ as a dynamically changing strategy that completes $q$-shaped tasks by delegating to $p_i$-shaped subordinates. Given a position of $q$---which we think of as a $q$ task---the state of the coalgebra determines a decision tree made up of $p_i$ component tasks. At each fork of the decision tree one or more $p_i$ subordinates may be invoked. Each possible outcome either returns an outcome to the $q$ task and updates the state or it determines another set of $p_i$ tasks to be invoked. This can continue in an arbitrary number of iterations, but it is well-founded in the sense that it eventually terminates. 
+In the $\smcat$-enriched category $\oorg_\free\op$, an object is a polynomial and a morphism in $\oorg_\free\op(p_1, \cdots, p_m; q)$ is a $[q, \free_{p_1 \vee \cdots \vee p_m}]$-coalgebra (and coalgebra morphisms are 2-cells). We can think of a coalgebra $S\yon^S\to[q, \free_{p_1 \vee \cdots \vee p_m}]$ as a dynamically changing strategy that completes $q$-shaped tasks by delegating to $p_i$-shaped subordinates. Given a position of $q$---which we think of as a $q$ task---the state of the coalgebra determines a decision tree made up of $p_i$ component tasks. At each fork of the decision tree one or more $p_i$ subordinates may be invoked. Each possible outcome either returns an outcome to the $q$ task and updates the state or it determines another set of $p_i$ tasks to be invoked. This can continue in an arbitrary number of iterations, but it is well-founded in the sense that it eventually terminates. 
 
 Once an outcome is determined, the whole system can learn from the sequence of events. That is, the above story was that of a single state or map $q\To{s}\free_{p_1 \vee \cdots \vee p_m}$, i.e.\ a single position $\yon\To{s}[q, \free_{p_1 \vee \cdots \vee p_m}]$. The actual $q$-task assigned and the actual sequence of outcomes constitutes a direction of $[q, \free_{p_1 \vee \cdots \vee p_m}]$ at $s$, which updates the state. This is what we meant by ``dynamically changing strategy".
 
-In the $\smcat$-enriched operad $\org$ defined in \cite{shapiro2022dynamic}, each subordinate must be consulted exactly once and the outcomes from each subordinate are aggregated into a single answer. The morphisms of $\org_\free\op$ are more general since subordinates may be consulted zero, one, or many times strategically as a result of previous subordinate answers. 
+In the $\smcat$-enriched operad $\oorg$ defined in \cite{shapiro2022dynamic}, each subordinate must be consulted exactly once and the outcomes from each subordinate are aggregated into a single answer. The morphisms of $\oorg_\free\op$ are more general since subordinates may be consulted zero, one, or many times strategically as a result of previous subordinate answers. 
 
 \begin{example}\label{ex:stream-m}
 
 Consider the polynomials \textcolor{cyan}{$\alice = \yon^2$}, \textcolor{magenta}{$\bob = \yon^2$}, and \textcolor{teal}{$\carmen = \yon^2$}. These polynomials represent subordinates Alice, Bob, and Carmen who when consulted return one of two outcomes. 
-A coalgebra in $\org_\free\op(\alice, \bob, \carmen; \yon^2)$ will consult Alice, Bob, and Carmen in order to produce one of two outcomes. It is a dynamically changing pattern for taking the task of determining one of two outcomes and delegating it to subordinates Alice, Bob, and Carmen.
+A coalgebra in $\oorg_\free\op(\alice, \bob, \carmen; \yon^2)$ will consult Alice, Bob, and Carmen in order to produce one of two outcomes. It is a dynamically changing pattern for taking the task of determining one of two outcomes and delegating it to subordinates Alice, Bob, and Carmen.
 
 To begin, consider the coalgebra with a single state that is defined by the polynomial map $\yon^2 \to \free_{\alice \vee \bob \vee \carmen}$ defined in \cref{fig:carmen-tie-breaks}. 
 
@@ -957,19 +964,19 @@ We can upgrade this coalgebra to have non-trivial dynamics. Consider a coalgebra
 
 A more complicated dynamics, involving a much larger state set, would be to learn a preference over initial consultants versus tie-breakers based on the quality of the results. Here, the state is some record of historical events and their quality scores.
 
-Now imagining that the subordinates Alice, Bob, and Carmen also dynamically decide between $0$ and $1$ based on a decision tree of their own (sub-)subordinates, then composition in $\org_\free\op$ would defines a coalgebra which operates on these sub-subordinates. 
+Now imagining that the subordinates Alice, Bob, and Carmen also dynamically decide between $0$ and $1$ based on a decision tree of their own (sub-)subordinates, then composition in $\oorg_\free\op$ would defines a coalgebra which operates on these sub-subordinates. 
 
 
 \end{example}
 
 \chapter{The behavior of delegation}\label{sec:orgc}
 
-The operad $(\org_\free)\op$ defines patterns of dynamic delegation. This interpretation begs the question of how delegation patterns translate into behaviors of manager and their subordinates. In other words, how do each of the examples in \cref{ex:stream-m} turn the behaviors of Alice, Bob, and Carmen into a behavior of their manager? We begin to answer this question by defining an operad $\org^\cofree$ that gives the semantics for the relationship between behaviors of subordinates and behaviors of their manager.
+The operad $(\oorg_\free)\op$ defines patterns of dynamic delegation. This interpretation begs the question of how delegation patterns translate into behaviors of manager and their subordinates. In other words, how do each of the examples in \cref{ex:stream-m} turn the behaviors of Alice, Bob, and Carmen into a behavior of their manager? We begin to answer this question by defining an operad $\oorg^\cofree$ that gives the semantics for the relationship between behaviors of subordinates and behaviors of their manager.
 
 
-\section{Extension of $\cofree$ to a comonad on $\org^\sharp$}
+\section{Extension of $\cofree$ to a comonad on $\orgsharp$}
 
-We will define a $\smcat^\sharp$-enriched functor $\cofree \colon \org^\sharp \to \org^\sharp$ and show that it is a comonad.
+We will define a $\smcat^\sharp$-enriched functor $\cofree \colon \orgsharp \to \orgsharp$ and show that it is a comonad.
 
 On objects $\cofree$ takes a polynomial $p$ to the cofree comonad $\cofree_p$. On morphisms $\cofree \colon \cofree_{[p,q]} \to \cofree_{[\cofree_p, \cofree_q]}$ is the image of the composite
 \[
@@ -978,10 +985,10 @@ On objects $\cofree$ takes a polynomial $p$ to the cofree comonad $\cofree_p$. O
 \[
     \smcat^\sharp(\cofree_p \otimes \cofree_{[p,q]}, \cofree_q) \To{U}  \poly(\cofree_p \otimes \cofree_{[p,q]}, \cofree_q) \iso \poly(\cofree_{[p,q]}, [\cofree_p, \cofree_q]) \iso \smcat^\sharp(\cofree_{[p,q]}, \cofree_{[\cofree_p, \cofree_q]}).
 \]
-This map $\cofree \colon \org^\# \to \org^\#$ preserves identity and composition for the same reasons that $\free \colon \org^\# \to \org^\#$ does. 
+This map $\cofree \colon \orgsharp \to \orgsharp$ preserves identity and composition for the same reasons that $\free \colon \orgsharp \to \orgsharp$ does. 
 
 \begin{theorem}
-    The $\smcat^\sharp$-enriched functor $\cofree \colon \org^\sharp \to \org^\sharp$ is a comonad.
+    The $\smcat^\sharp$-enriched functor $\cofree \colon \orgsharp \to \orgsharp$ is a comonad.
 \end{theorem}
 \begin{proof}
     We need to define $\smcat^\sharp$-enriched natural transformations $\cofree \Rightarrow \id_\poly$ and $\cofree \Rightarrow \cofree \circ \cofree$ for the co-unit and comultiplication maps.
@@ -1065,17 +1072,17 @@ This map $\cofree \colon \org^\# \to \org^\#$ preserves identity and composition
 \end{proof}
 
 \begin{remark}
-    As in \cref{rmk:free-lifts} the comonad $U \circ \cofree \colon \poly \to \poly$ is the image of $\smcat^\sharp$-enriched comonad $\cofree \colon \org^\sharp \to \org^\sharp$ under the map of the enriching functors $\smcat^\sharp(\yon, -) \colon \smcat^\sharp \to \smset$.
+    As in \cref{rmk:free-lifts} the comonad $U \circ \cofree \colon \poly \to \poly$ is the image of $\smcat^\sharp$-enriched comonad $\cofree \colon \orgsharp \to \orgsharp$ under the map of the enriching functors $\smcat^\sharp(\yon, -) \colon \smcat^\sharp \to \smset$.
 \end{remark}
 
-\section{The operad $(\org^\sharp)^\cofree$}
+\section{The operad $(\orgsharp)^\cofree$}
 
-As in \cref{sec:operad-orgm}, we will define a $\smcat^\sharp$-enriched operad $(\org^\sharp)^\cofree$ whose 1-ary morphisms are the morphisms of the co-Kleisli category $(\org^\sharp)^\cofree$. However, unlike the operad $\org^\sharp_\free$, this operad will not underlie a symmetric monoidal structure on the co-Kleisli category. We choose this more bespoke definition, because it leads to a lovely correspondence with the $\smcat^\sharp$-enriched operad $\org^\sharp_\free$ that is at the heart of \cref{sec:matter-pattern}.
+As in \cref{sec:operad-orgm}, we will define a $\smcat^\sharp$-enriched operad $(\orgsharp)^\cofree$ whose 1-ary morphisms are the morphisms of the co-Kleisli category $(\orgsharp)^\cofree$. However, unlike the operad $\orgsharp_\free$, this operad will not underlie a symmetric monoidal structure on the co-Kleisli category. We choose this more bespoke definition, because it leads to a lovely correspondence with the $\smcat^\sharp$-enriched operad $\orgsharp_\free$ that is at the heart of \cref{sec:matter-pattern}.
 
 \begin{theorem}
-    There is a $\smcat^\sharp$-enriched operad $(\org^\sharp)^\cofree$ whose objects are polynomials and whose morphisms are defined by 
+    There is a $\smcat^\sharp$-enriched operad $(\orgsharp)^\cofree$ whose objects are polynomials and whose morphisms are defined by 
     \[
-        (\org^\sharp)^\cofree(p_1, \cdots , p_m; q) \coloneqq \cofree_{[\cofree_{p_1} \otimes \cdots \otimes \cofree_{p_m}, q]}.
+        (\orgsharp)^\cofree(p_1, \cdots , p_m; q) \coloneqq \cofree_{[\cofree_{p_1} \otimes \cdots \otimes \cofree_{p_m}, q]}.
     \]
 \end{theorem}
 \begin{proof}
@@ -1093,20 +1100,20 @@ As in \cref{sec:operad-orgm}, we will define a $\smcat^\sharp$-enriched operad $
     \[
         \smcat^\sharp(\cofree_{[\cofree_{p_1} \otimes \cdots \otimes \cofree_{p_m}, q_k]} \otimes \cofree_{[\cofree_{q_1} \otimes \cdots \otimes \cofree_{q_n}, r]}, \cofree_{[\cofree_{q_1} \otimes \cdots \otimes \cofree_{q_{k - 1}} \otimes \cofree_{p_1} \otimes \cdots \otimes \cofree_{p_m} \otimes \cofree_{q _{k + 1}} \otimes \cdots \otimes \cofree_{q_n}, r]})
     \]
-    The unit and associativity laws follow from parallel reasoning of the unit and associativity laws of the comonad $\cofree \colon \org^\sharp \to \org^\sharp$.
+    The unit and associativity laws follow from parallel reasoning of the unit and associativity laws of the comonad $\cofree \colon \orgsharp \to \orgsharp$.
 \end{proof}
 
 \begin{definition}
-    Let $\org^\cofree$ be the $\smcat$-enriched category corresponding to $(\org^\sharp)^\cofree$ under the map of enriching categories $\smset^- \colon \smcat^\sharp \to \smcat$.
+    Let $\oorg^\cofree$ be the $\smcat$-enriched category corresponding to $(\orgsharp)^\cofree$ under the map of enriching categories $\smset^- \colon \smcat^\sharp \to \smcat$.
 \end{definition}
 
 \begin{example}
-    A morphism in $\org^\cofree(A_1\yon, \cdots , A_n\yon; B\yon)$ is a coalgebra $S\yon^S\to[\cofree_{A_1\yon}\otimes\cdots\otimes\cofree_{A_n\yon},B\yon]$. Given a state $s:S$, it takes a stream of symbols in $A_i$ for each $i = 1, \ldots, n$ and produces a symbol in $B$. On directions, it updates the state and returns a prefix in each of the $A_i$ streams. As we will see in \cref{sec:matter-pattern}, we interpret these prefixes as the symbols in each $A_i$ which were used in the production of the $B$ symbol. Furthermore, we interpret the $A_i$ streams as behaviors of subordinates. These subordinates simply output a symbol in $A_i$ when they are invoked, and each subordinate may be invoked any finite number of times in order to produce a symbol in $B$.
+    A morphism in $\oorg^\cofree(A_1\yon, \cdots , A_n\yon; B\yon)$ is a coalgebra $S\yon^S\to[\cofree_{A_1\yon}\otimes\cdots\otimes\cofree_{A_n\yon},B\yon]$. Given a state $s:S$, it takes a stream of symbols in $A_i$ for each $i = 1, \ldots, n$ and produces a symbol in $B$. On directions, it updates the state and returns a prefix in each of the $A_i$ streams. As we will see in \cref{sec:matter-pattern}, we interpret these prefixes as the symbols in each $A_i$ which were used in the production of the $B$ symbol. Furthermore, we interpret the $A_i$ streams as behaviors of subordinates. These subordinates simply output a symbol in $A_i$ when they are invoked, and each subordinate may be invoked any finite number of times in order to produce a symbol in $B$.
 \end{example}
 
 \chapter{From matter to pattern}\label{sec:matter-pattern}
 
-The main result of this work is the operad functor $(\org_\free^\sharp)\op \to (\org^\sharp)^\cofree$ defined in ~\cref{thm:matter-pattern} which \emph{turns patterns of delegation into matter (i.e. behaviors)}. In this Section we will prove ~\cref{thm:matter-pattern} and then make sense of this interpretation through examples.
+The main result of this work is the operad functor $(\oorg_\free^\sharp)\op \to (\orgsharp)^\cofree$ defined in ~\cref{thm:matter-pattern} which \emph{turns patterns of delegation into matter (i.e. behaviors)}. In this Section we will prove ~\cref{thm:matter-pattern} and then make sense of this interpretation through examples.
 
 % Following ~\cite{libkind2024pattern} the positions of $\free_p$ are $p$-shaped decision trees which we interpret as patterns of shape $p$. The nodes of such a tree are positions of $p$ (which we interpret as $p$-questions) and branches are directions of $p$ (which we interpret as $p$-answers). Given such a decision tree, we want a way to \textit{run} it. In other words, we want a device that gives the necessary information to 
 
@@ -1208,7 +1215,7 @@ Composing this map with the map in \cref{eq:free-p1-vee-p2} concludes the induct
 \begin{theorem}\label{thm:matter-pattern}
     For any $\tri$-monoid $t$, there is an operad functor 
     \[
-    [-,t]\colon (\org_\free^\sharp)\op \to (\org^\sharp)^\cofree
+    [-,t]\colon (\oorg_\free^\sharp)\op \to (\orgsharp)^\cofree
     \]
     which on objects maps a polynomial $p$ to the polynomial $[p,t]$. On morphisms, it is the $\smcat^\sharp$ map
     \[
@@ -1275,12 +1282,12 @@ Composing this map with the map in \cref{eq:free-p1-vee-p2} concludes the induct
 
 
 Under the map of enriching categories $\smset^- \colon \smcat^\sharp \to \smcat$, 
-\cref{thm:matter-pattern} defines an $\smcat$-enriched operad functor $\org_\free\op \to \org^\cofree$ which turns a 
+\cref{thm:matter-pattern} defines an $\smcat$-enriched operad functor $\oorg_\free\op \to \oorg^\cofree$ which turns a 
 $[q, \free_{p_1 \vee \cdots \vee p_m}]$-coalgebra into a 
 $[\cofree_{[p_1, t]} \otimes \cdots \otimes \cofree_{[p_m, t]}, [q, t]]$-coalgebra. 
 
 \begin{example}\label{ex:stream-m2}
-    Consider the $[\yon^2, \free_{\alice \vee \bob \vee \carmen}]$-coalgebras defined in \cref{ex:stream-m}. Under the $\smcat$-enriched operad functor $[-,t]\colon\org_\free\op \to \org^\cofree$, each one defines a $[\cofree_{[\alice, t] \otimes \cofree_{[\bob, t]} \otimes \cofree_{[\carmen, t]}}, [\yon^2, t])$-coalgebra which is equivalent to a polynomial map 
+    Consider the $[\yon^2, \free_{\alice \vee \bob \vee \carmen}]$-coalgebras defined in \cref{ex:stream-m}. Under the $\smcat$-enriched operad functor $[-,t]\colon\oorg_\free\op \to \oorg^\cofree$, each one defines a $[\cofree_{[\alice, t] \otimes \cofree_{[\bob, t]} \otimes \cofree_{[\carmen, t]}}, [\yon^2, t])$-coalgebra which is equivalent to a polynomial map 
     \begin{equation}\label{eq:matter}
         S\yon^S \otimes \yon^2 \otimes \cofree_{[\alice, t]} \otimes \cofree_{[\bob, t]} \otimes \cofree_{[\carmen, t]} \to t.
     \end{equation}
@@ -1300,7 +1307,7 @@ $[\cofree_{[p_1, t]} \otimes \cdots \otimes \cofree_{[p_m, t]}, [q, t]]$-coalgeb
              \include{figures/abc-stream3}
              \caption{}
          \end{subfigure}
-        \caption{The functor $[-, \yon ] \colon \org_\free\op \to \org^\cofree$ transforms the delegation pattern in \cref{fig:carmen-tie-breaks} in to a way of determining outcomes from behaviors of Alice, Bob, and Carmen. For example, given the shown streams of behavior, this delegation pattern  first produces a $0$ (see (a)) because Alice and Bob agreed. This outcome consumes the first token in Alice's stream and Bob's stream. It consumes none of the tokens in Carmen's stream, because Carmen was not invoked to tie-break. Next, it produces a $1$ (see (b)) by Carmen's tie-break. These first two outcomes consume  the first two tokens in Alice's stream and Bob's stream. It consumes the first token in Carmen's stream. Next, it produces a $0$ again (see (c)). These first three outcomes consume the first three tokens in Alice's stream and Bob's stream. It consumes the first token in Carmen's stream.}
+        \caption{The functor $[-, \yon ] \colon \oorg_\free\op \to \oorg^\cofree$ transforms the delegation pattern in \cref{fig:carmen-tie-breaks} in to a way of determining outcomes from behaviors of Alice, Bob, and Carmen. For example, given the shown streams of behavior, this delegation pattern  first produces a $0$ (see (a)) because Alice and Bob agreed. This outcome consumes the first token in Alice's stream and Bob's stream. It consumes none of the tokens in Carmen's stream, because Carmen was not invoked to tie-break. Next, it produces a $1$ (see (b)) by Carmen's tie-break. These first two outcomes consume  the first two tokens in Alice's stream and Bob's stream. It consumes the first token in Carmen's stream. Next, it produces a $0$ again (see (c)). These first three outcomes consume the first three tokens in Alice's stream and Bob's stream. It consumes the first token in Carmen's stream.}
         \label{fig:abc-stream}
     \end{figure}
     
@@ -1308,11 +1315,11 @@ $[\cofree_{[p_1, t]} \otimes \cdots \otimes \cofree_{[p_m, t]}, [q, t]]$-coalgeb
     For more general $t$, these simple behavior streams are replaced with more complicated behaviors. For example, for $t = \lott$ Alice's behavior may be that of a biased coin whose bias may change over time. 
 \end{example}
 
-Distilling this example, a morphism $\org_\free\op(\yon^{A_1}, \cdots, \yon^{A_n}; \yon^B)$ is a  dynamic pattern that defines how to turn streams of tokens in $A_1, \cdots, A_n$ into a stream of tokens in $B$. Therefore we defined the category of \defined{stream processors} to be the full subcategory of $\org_\free\op$ spanned by monomials.
+Distilling this example, a morphism $\oorg_\free\op(\yon^{A_1}, \cdots, \yon^{A_n}; \yon^B)$ is a  dynamic pattern that defines how to turn streams of tokens in $A_1, \cdots, A_n$ into a stream of tokens in $B$. Therefore we defined the category of \defined{stream processors} to be the full subcategory of $\oorg_\free\op$ spanned by monomials.
 
 \newcommand{\huff}{{\mathsf{huff}}}
 
-\begin{example}[Huffman coding]
+\begin{example}[Huffman coding]\label{ex.huffman}
 
 Huffman coding is a technique for data compression in which more frequent symbols get shorter codes, while less frequent ones get longer codes. Given a distribution on $N$ symbols, its Huffman code is a binary code for each symbol. ~\cref{fig:huffman-standard} exemplifies how to produce a Huffman code for a language with symbols and respective probabilities:
 
@@ -1411,7 +1418,7 @@ is simply to implement these ideas in working software or to find it modeled in 
 The
 % third
 other
-is to consider behavior contracts for $\org_\free$, as in \cite{schultz2016dynamical,spivak2021learnersv1}. Each hom-category $\org_\free(p;q_1,\ldots,q_n)$ is a topos, and its internal language can be used to limit which dynamic hierarchical agents we want to consider. At a high level, this is mathematically straightforward using Kripke-Joyal semantics \cite[Chapter VI]{macLane1992sheaves}, however the sort of topos we're considering, toposes of polynomial coalgebras, are quite specific and thus have certain logical constructs that don't exists generically. Moreover, because we are interested in composing systems, we need to combine these logical constructs across several toposes, and an overarching logical framework would be useful.
+is to consider behavior contracts for $\oorg_\free$, as in \cite{schultz2016dynamical,spivak2021learnersv1}. Each hom-category $\oorg_\free(p;q_1,\ldots,q_n)$ is a topos, and its internal language can be used to limit which dynamic hierarchical agents we want to consider. At a high level, this is mathematically straightforward using Kripke-Joyal semantics \cite[Chapter VI]{macLane1992sheaves}, however the sort of topos we're considering, toposes of polynomial coalgebras, are quite specific and thus have certain logical constructs that don't exists generically. Moreover, because we are interested in composing systems, we need to combine these logical constructs across several toposes, and an overarching logical framework would be useful.
 
 \printbibliography
 
