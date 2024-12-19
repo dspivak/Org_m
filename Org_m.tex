@@ -60,7 +60,7 @@ citecolor=orange!50!black, urlcolor=orange!50!black, pdfencoding=unicode]{hyperr
 
 \newcommand{\dnote}[1]{{\quad \color{blue}$\lozenge$\;David says:}~#1\;{\color{blue}$\lozenge$}\quad}
 \newcommand{\snote}[1]{{\quad \color{red}$\lozenge$\;Sophie says:}~#1\;{\color{red}$\lozenge$}\quad}
-\newcommand{\defined}[1]{\textbf{#1}}
+\newcommand{\defined}[1]{\textit{#1}}
 
 
 
@@ -337,6 +337,7 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\finset}{\Cat{Fin}}
 \newcommand{\smset}{\Cat{Set}}
 \newcommand{\smcat}{\Cat{Cat}}
+\newcommand{\lgcat}{\Cat{CAT}}
 \newcommand{\catsharp}{\Cat{Cat}^{\sharp}}
 \newcommand{\ppolyfun}{\mathbb{P}\Cat{olyFun}}
 \newcommand{\en}{\Cat{End}}
@@ -424,8 +425,8 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 % matter-pattern
 \newcommand{\modpoly}{\Cat{Mod}_\poly}
 \newcommand{\comodpoly}{\Cat{Comod}_\poly}
-\newcommand{\mun}{\zeta}
-\newcommand{\mcoun}{\theta}
+\newcommand{\mun}{\eta}
+\newcommand{\mcoun}{\sigma}
 \newcommand{\ccoun}{\epsilon}
 \newcommand{\comul}{\delta}
 
@@ -582,21 +583,41 @@ We appreciate helpful conversations with C.B. Aberl\'e, who suggested our stream
 \thanksAFOSR{FA9550-23-1-0376}.
 \chapter{Background} \label{sec:background}
 
-For background on $\poly$, including the monoidal closed structure $(\otimes,[-,-])$, see \cite{niu2022poly}. In \cref{sec.(co)free(co)monad} we briefly recall the free monad $\free_-$ and cofree comonad $\cofree_-$ constructions, as well as the module structure $\free_p\otimes\cofree_q\to\free_{p\otimes q}$ between them. In \cref{sec.orgsharp} we discuss the $\smcat^\sharp$-enriched category $\orgsharp$ to which we will extend the free monad and cofree comonad constructions.
+For background on $\poly$, including the \emph{Dirichlet} monoidal closed structure $(\yon,\otimes,[-,-])$ and the \emph{substitution} monoidal structure $(\yon,\tri)$, see \cite{niu2022poly}. In \cref{sec.(co)free(co)monad} we briefly recall the free monad $\free_-$ and cofree comonad $\cofree_-$ constructions, as well as the module structure $\free_p\otimes\cofree_q\to\free_{p\otimes q}$ between them. In \cref{sec.orgsharp} we discuss the $\smcat^\sharp$-enriched category $\orgsharp$ to which we will extend the free monad and cofree comonad constructions.
 
 
 \section{The free monad monad and the cofree comonad comonad}\label{sec.(co)free(co)monad}
 
-Two key players in our story are the free monad monad $\free$ and the cofree comonad comonad $\cofree$. The general construction of the free monad monad was introduced in \cite{kelly1980unified} (see also \cite{nlab:transfinite_construction_of_free_algebras}) and an intuitive explanation was given in \cite{libkind2024pattern}; we describe their key features below. A \defined{polynomial monad} (referred to here as monad) is a $\tri$-monoid. The category of polynomial monads is denoted $\modpoly$. A \defined{ polynomial comonad} (referred to here as comonad) is a $\tri$-comonoid. There is an equivalence
+Two key players in our story are the free monad monad $\free$ and the cofree comonad comonad $\cofree$, both of which are of type $\poly\to\poly$. The general construction of the free monad monad was introduced in \cite{kelly1980unified} (see also \cite{nlab:transfinite_construction_of_free_algebras}) and an intuitive explanation was given in \cite{libkind2024pattern}; we describe their key features below. A \defined{polynomial monad} (referred to here as monad) is a $\tri$-monoid and a \defined{ polynomial comonad} (referred to here as comonad) is a $\tri$-comonoid
+\begin{align*}
+\eta&\colon\yon\to m\hspace{-1cm}&\hspace{-1cm} \mu&\colon m\tri m\to m\\
+\epsilon&\colon c\to\yon\hspace{-1cm}&\hspace{-1cm} \delta&\colon c\to c\tri c
+\end{align*}
+The category of polynomial monads and comonads are denoted $\modpoly$ and $\comodpoly$. There is an equivalence
 \[
     \Cat{Comod}_\poly\cong\smcat^\sharp
 \]
 between the category of polynomial comonads and the category $\smcat^\sharp$ consisting of categories and retrofunctors (sometimes called cofunctors; see \cite{aguiar1997internal,clarke2022introduction,nlab:retrofunctor}) between them.
 
-Given a polynomial $p$, the associated free monad is the polynomial $\free_p$ whose positions are $p$-shaped decision trees and whose directions are the leaves of the tree. For example, the following is a position of $\free_{\yon^2}$ with $5$ directions. 
-
-\input{figures/mp-example}
-
+Given a polynomial $p$, the associated free monad is the polynomial denoted $\free_p$ whose positions are $p$-shaped decision trees and whose directions are the leaves of the tree. For example, the following is a position of $\free_{\yon^2}$ with $5$ directions. 
+\[
+\begin{tikzpicture}[trees, thick, level distance=0.5cm,
+  level 1/.style={sibling distance=10mm}, edge from parent/.style={draw, -}]
+    \node (b) {}
+        child {
+            child {node (b1) {}edge from parent[->]}
+                child {
+                    child {
+                        child {node (b2) {} edge from parent[->]}
+                        child {node (b3) {}edge from parent[->]}
+                    }
+                    child {node (b4) {}edge from parent[->]}
+                }
+        }
+        child {node (b5) {}edge from parent[->]}
+    ;
+\end{tikzpicture}
+\]
 The free monad is defined in \cite{libkind2024pattern} via transfinite induction where we define polynomials $p\hoc{\alpha}$ for ordinals $\alpha$ and cartesian inclusions $\iota\hoc\alpha\colon p\hoc{\alpha} \to p\hoc{\alpha +1}$. It is given in the base case by $p\hoc{0} \coloneqq \yon$, for successor ordinals by $p\hoc{\alpha + 1} \coloneqq \yon + p \tri p\hoc{\alpha}$, and for limit ordinals $\alpha$ by $p\hoc{\alpha} \coloneqq \colim_{\alpha' < \alpha} p \hoc{\alpha'}$. 
 
 
@@ -607,7 +628,7 @@ The free monad is defined in \cite{libkind2024pattern} via transfinite induction
 whose unit we denote $\mun$ and whose counit we denote $\mcoun$.
 
 \begin{example}
-The free monad on a set $A$ is the $A$-exceptions monad
+The free monad on a set $A=A\yon^0$ is the $A$-exceptions monad
 \[\free_A=\yon+A.\]
 In particular, $\free_0=\yon$. The free monad on $A\yon$ is $\free_{A\yon}=\List(A)\yon$, e.g.\ $\free_\yon=\nn\yon$.
 \end{example}
@@ -617,9 +638,11 @@ Given a polynomial $p$, the associated cofree comonad is $\cofree_p$ whose posit
 \begin{equation}\label{eqn.cofree_adjunction}
     \adj{\catsharp}{U}{\cofree_-}{\poly}
 \end{equation}
-whose counit we denote $\ccoun$. The functor $\cofree$ is lax monoidal with respect to $\otimes$, so it has a productor and unitor of the following types:
+whose counit we denote $\ccoun$. The functor $\cofree$ is lax monoidal with respect to $\otimes$, so it has a unitor and a productor of the following types:
 \begin{equation}\label{eqn.cofree_lax_monoidal}
-\cofree_p\otimes\cofree_q\to\cofree_{p\otimes q}\qqand\yon\to\cofree_\yon.
+  \yon\to\cofree_\yon.
+  \qqand
+  \cofree_p\otimes\cofree_q\to\cofree_{p\otimes q}
 \end{equation}
 
 \begin{example}
@@ -633,53 +656,61 @@ The main result of \cite[Theorem 3.4]{libkind2024pattern} was to prove that $\fr
 \] which is defined as the image of the composite
 \[
     p \otimes \cofree_q \xrightarrow{p \otimes \ccoun_q} p \otimes q \xrightarrow{\mun_{p \otimes q}} \free_{p \otimes q}
-\] under the isomorphisms
+\] 
+under the maps
 \[
-    \poly(p \otimes \cofree_q, \free_{p\otimes q})  \iso \modpoly(\free_p, [\cofree_q, \free_{p\otimes q}]) \to \poly(\free_p \otimes \cofree_q, \free_{p \otimes q}).
+    \poly(p \otimes \cofree_q, \free_{p\otimes q})  \iso \poly(p,[\cofree_q, \free_{p\otimes q}])\iso
+    \modpoly(\free_p, [\cofree_q, \free_{p\otimes q}]) \to \poly(\free_p \otimes \cofree_q, \free_{p \otimes q}).
 \] We call $\modstruct$ the \defined{interaction law}.
+
+\begin{example}
+Suppose $p=A\yon$ and $q=B\yon^A$, so that $\cofree_q$ classifies $(A,B)$-Moore machines and $\free_p$ produces lists of $A$'s. Then ``running the Moore machine on the list'' should produce a list of $B$'s; this is achieved using $\modstruct$ and the natural map $\varphi\colon A\yon\otimes B\yon^A\to B\yon$ as follows:
+\[
+\free_{A\yon}\otimes\cofree_{B\yon^A}\To{\modstruct_{A\yon,B\yon^A}}\free_{A\yon\otimes B\yon^A}\To{\free_\varphi}\free_{B\yon}.
+\]
+\end{example}
 
 
 
 \section{The $\smcat^\sharp$-enriched category $\orgsharp$}\label{sec.orgsharp}
 
-In this paper we define $\orgsharp$ to be the $\smcat^\sharp$-enriched category whose objects are polynomials and whose morphisms are defined by $\orgsharp(p, q) \coloneqq \cofree_{[p,q]}$, the cofree comonad on the internal hom $[p,q]$. 
+In this paper we define $\orgsharp$ to be the $\smcat^\sharp$-enriched category whose objects are polynomials and whose morphisms are defined by $\orgsharp(p, q) \coloneqq \cofree_{[p,q]}$, the cofree comonad on the Dirichlet hom $[p,q]$. 
 Composition is defined by 
 \[
     \cofree_{[p,q]} \otimes \cofree_{[q,r]} \to \cofree_{[p, q] \otimes [q, r]} \to \cofree_{[p, r]}
 \]
 where the first map is the productor \eqref{eqn.cofree_lax_monoidal} of $\cofree$ and the second uses functoriality of $\cofree$ and internal-hom composition.
 
-For the identity on a polynomial $p$, we use the fact that $\yon$ has a unique comonoid structure, and take the image of the polynomial identity on $p$ under the isomorphisms
+We take the the identity on a polynomial $p$ to be the composite
 \[
-    \poly(p, p) \iso \poly(\yon , [p, p]) \iso \smcat^\#(\yon, \cofree_{[p,p]}).
+    1\To{\id_p}\poly(p, p) \iso \poly(\yon , [p, p]) \iso \smcat^\#(\yon, \cofree_{[p,p]}).
 \]
+where the last map arises from the unique comonad structure on $\yon$.
 
-Recall that for any orthogonal factorization system $(\cat{L},\cat{R})$ on a category $\cat{C}$, there is a functor $(\cat{R}/-)\colon\cat{C}\to\smcat$ sending $c$ to the slice category $\cat{R}/c$ of maps $d\To{\rho}c$ and sending $f\colon c\to c'$ to the functor $\rho\mapsto\rho'$ where $\rho'$ is the right-factor of the composite $\rho\then f=\ell\then\rho'$. If $\cat{C}$ has a monoidal structure $\otimes$ that lifts to a monoidal structure on $\cat{L}$ and $\cat{R}$, then $(\cat{R}/-)$ is lax monoidal
+Let's understand the relationship between $\poly, \orgsharp,$ and $\oorg$. We begin with $\poly$ and $\orgsharp$. Since $(\poly, \otimes, \yon)$ has internal homs, $\poly$ can be viewed as a $(\poly, \otimes, \yon)$-enriched category. Via the lax monoidal functor of enrichment categories $\cofree\colon (\poly, \otimes, \yon) \to (\smcat^\sharp, \otimes, \yon)$, we obtain the $\smcat^\sharp$-enriched category $\orgsharp$.
+
+The relationship between $\orgsharp$ and $\oorg$ is not much harder, but it requires a small bit of technology. Recall that for any orthogonal factorization system $(\cat{L},\cat{R})$ on a category $\cat{C}$, there is a functor $(\cat{R}/-)\colon\cat{C}\to\smcat$ sending $c$ to the slice category $\cat{R}/c$ of maps $d\To{\rho}c$ and sending $f\colon c\to c'$ to the functor $\rho\mapsto\rho'$ where $\rho'$ is the right-factor of the composite $\rho\then f=\ell\then\rho'$. If $\cat{C}$ has a monoidal structure $\otimes$ that lifts to a monoidal structure on $\cat{L}$ and $\cat{R}$, then $(\cat{R}/-)\colon(\cat{C},I,\otimes)\to(\smcat,1,\times)$ is lax monoidal
 \[
 \big((d\To{\rho}c), (d'\To{\rho'}c')\big)\mapsto (d\otimes d'\To{\rho\otimes\rho'}c\otimes c').\]
-Recall also \cite[Proposition 5.52]{niu2022poly} that there is a (vertical, cartesian) orthogonal factorization system on $\smcat^\sharp$ and that cartesian retrofunctors over $\cat{C}$ can be identified with discrete opfibrations over $\cat{C}$, or equivalently to functors $\cat{C}\to\smset$. By the previous paragraph, we have a lax monoidal functor
-\[
-%(\smcat^{\sharp\tn{cart}}/-)
-\smset^-\colon(\smcat^\sharp,\yon,\otimes)\too(\smcat,1,\times)
-\]
-This in turn provides a change of enrichment, which sends $\orgsharp$ to the monoidal 2-category whose objects are polynomials under $\otimes$ and for which $\hom(p,q)=\smset^{\cofree_{[p,q]}}$. This is equivalent to the category-enriched operad $\oorg$ defined in \cite[Definition 2.19]{spivak2021learnersv1}.
 
-\begin{remark}
-    What is the relationship between $\poly$ and $\orgsharp$? Since $(\poly, \otimes, \yon)$ has internal homs, $\poly$ can be viewed as a $(\poly, \otimes, \yon)$-enriched category. Via the lax monoidal functor of enrichment categories $\cofree\colon (\poly, \otimes, \yon) \to (\smcat^\sharp, \otimes, \yon)$, we obtain the $\smcat^\sharp$-enriched category $\orgsharp$.
-\end{remark}
+We apply this in our context, using the fact \cite[Proposition 5.52]{niu2022poly} that there is a (vertical, cartesian) orthogonal factorization system on $\smcat^\sharp$ and that cartesian retrofunctors $\cat{D}\To{\rho}\cat{C}$ can be identified with discrete opfibrations over $\cat{C}$, or equivalently to functors $\cat{C}\to\smset$. By the previous paragraph, we have a lax monoidal functor
+\begin{equation}\label{eqn.enrich_change}
+\smset^-\colon(\smcat^\sharp,\yon,\otimes)\too(\smcat,1,\times)
+\end{equation}
+Applying this to the cofree comonad $\cofree_p$ gives $\smset^{\cofree_p}\cong p\coalg$, the category of $p$-coalgebras. Thus \eqref{eqn.enrich_change} provides a change of enrichment senging $\orgsharp\mapsto\oorg$. The codomain $\oorg$, defined in \cite[Definition 2.19]{spivak2021learnersv1}, is the monoidal 2-category whose objects are polynomials under $\otimes$ and for which $\hom(p,q)=[p,q]\coalg$.
 
 We will not need the following proposition, but we record it here both as an interesting note and to settle the various notions for our readers.
 \begin{proposition}
-Both $(\orgsharp,\yon,\otimes)$ and $(\org,\yon,\otimes)$ are monoidal closed.
+Both the $\catsharp$-enriched category $(\orgsharp,\yon,\otimes)$ and the $\lgcat$-enriched category $(\oorg,\yon,\otimes)$ are monoidal closed.
 \end{proposition}
 \begin{proof}
-For any objects $p,q:\ob(\poly)=\ob(\orgsharp)=\ob(\org)$, the associated hom-objects for $\orgsharp$ and $\oorg$ are
+For any objects $p,q:\ob(\poly)=\ob(\orgsharp)=\ob(\oorg)$, the associated hom-objects for $\orgsharp$ and $\oorg$ are
 \[
   \orgsharp(p,q)\coloneqq\cofree_{[p,q]}
   \qqand
 	\org(p,q)\coloneqq\smset^{\cofree_{[p,q]}}=[p,q]\coalg.
 \]
-In either case, the monoidal closure is given by the internal hom $[-,-]$ because we have natural isomorphisms (in $\catsharp$ and $\Cat{CAT}$ respectively) of the form:
+In either case, the monoidal closure is given by the internal hom $[-,-]$ because we have natural isomorphisms (in $\catsharp$ and $\lgcat$ respectively) of the form:
 \[
 	\cofree_{[p\otimes p',q]}\cong\cofree_{[p,[p',q]]}
 	\qqand
