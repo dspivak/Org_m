@@ -448,6 +448,18 @@ replacement=\&]{}\ar[r,tick, "{#1}"]\&{}\end{tikzcd}}
 \newcommand{\cone}{\textcolor{teal}{1}}
 \newcommand{\czero}{\textcolor{teal}{0}}
 
+\definecolor{ToposLight}{RGB}{148, 217, 213}
+\definecolor{ToposDark}{RGB}{17, 114, 127} 
+\definecolor{ToposMauve}{RGB}{189, 64, 98}
+\definecolor{ToposBlue}{RGB}{0, 85, 178}
+\definecolor{ToposGray}{RGB}{126, 133, 139}
+\newcommand{\myblue}[1]{{\textcolor{ToposBlue}{#1}}}
+\newcommand{\mygray}[1]{{\textcolor{ToposGray}{#1}}}
+\newcommand{\blueblack}[1]{{\textcolor{blue!50!black}{#1}}}
+\newcommand{\redblack}[1]{{\textcolor{red!50!black}{#1}}}
+\newcommand{\myorange}[1]{{\color{black!20!orange}#1}}
+
+
 \usepackage{forest}
 
 \usepackage[utf8]{inputenc} %allows non-ascii in bib file
@@ -506,22 +518,52 @@ In this paper, we consider a more general sort of task delegation by invoking tw
 
 For example, consider the polynomial $\yon^\nn$; it has only one task, for which an outcome is any natural number. A map $\yon^\nn\to\free_{\yon^\nn+\yon^\nn}$ delegates the task to two subagents of the same sort. Such a map might assign to the unique task the three-step process that first asks each subagent for a natural number, then asks whoever had the bigger number (or the first subagent if the numbers were equal) to choose a second number, and finally returns the sum to the original agent. 
 
-\dnote{Update:\\
-In Example~\ref{ex:stream-m}, we will define a map $\yon ^2 \to \free_{{\color{cyan}\yon^2} \vee {\color{magenta}\yon^2} \vee \color{teal}{\yon^2}}$ that delegates the task of selecting a bit to three subagents by asking the first two subagents for a bit. If they agree then return that bit. Otherwise, invoke the third subagent as a tie-breaker. This pattern of task delegation corresponds to the following position of $\free_{{\color{cyan}\yon^2} \vee {\color{magenta}\yon^2} \vee \color{teal}{\yon^2}}$. Note that below we use colors to depict the outcomes of the different subagents. 
-\input{figures/carmen-tie-breaks}
+In Example~\ref{ex:stream-m}, we will define a map $\yon ^2 \to \free_{{\color{cyan}\yon^2} + {\color{magenta}\yon^2} + \color{teal}{\yon^2}}$ that delegates the task of selecting a bit to three subagents by asking the first and second subagents for a bit. If they agree then return that bit. Otherwise, invoke the third subagent as a tie-breaker. This pattern of task delegation corresponds to the following position of $\free_{{\color{cyan}\yon^2} + {\color{magenta}\yon^2} + \color{teal}{\yon^2}}$. Note that below we use colors to depict the outcomes happening with the three subagents and the outcome.
+\[
+\begin{tikzpicture}[trees,thick,
+   level distance=.8cm, sibling distance=1cm, 
+   edge from parent path={(\tikzparentnode) -- (\tikzchildnode)}]
+\Tree [.$\quad$
+    \edge node[auto=left] {$\azero$};
+    [.$\quad$
+      \edge node[auto=left] {$\bzero$};
+      [.$\mygray{0}$ ] 
+      \edge node[auto=right] {$\bone$};
+      [.$\quad$ 
+      	\edge node[auto=left] {$\czero$};
+				[.$\mygray{0}$ ]
+				\edge node[auto=right] {$\cone$};
+				[.$\mygray{1}$ ]
+			] 
+    ] 
+    \edge node[auto=right] {$\aone$};
+    [.$\quad$
+      \edge node[auto=left] {$\bzero$};
+      [.$\quad$ 
+      	\edge node[auto=left] {$\czero$};
+				[.$\mygray{0}$ ]
+				\edge node[auto=right] {$\cone$};
+				[.$\mygray{1}$ ]
+			]
+     \edge node[auto=right] {$\bone$};
+      [.$\mygray{1}$ ] 
+    ] 
+    ]
+\end{tikzpicture}
+\]
 In \cref{ex.huffman} we will see that Huffman coding, an efficient data compression technique, is another example.
-}
+
 
 We thus obtain a language, which can be seen as an accounting system for agents that can each recursively call subagents to perform tasks, as well as for how agents can \emph{learn} from the resulting outcomes. 
-\dnote{Reconsider:\\
+
 Mathematically, we structure this as a variant of the 2-category $\oorg$, introduced in \cite[Def 2.19]{spivak2021learnersv1}, which forms the enrichment base of what \cite{shapiro2022dynamic} refers to as \emph{dynamic categorical structures} (dynamic categories, dynamic monoidal categories, dynamic multicategories, etc.) That paper shows that gradient descent and backpropagation algorithm in deep learning is an example.
 
 In this paper, we show that the free monad monad $\free_-\colon\poly\to\poly$ extends to a monad on $\oorg$. The Kleisli $\smcat$-enriched category $\oorg_\free$ inherits coproducts from $\poly$ and hence serves as a base of enrichment for a more flexible kind of dynamic categorical structures, ones where the subordinate dynamics can occur at \emph{faster timescales} than the higher-level dynamics does. The above natural language description of an agent $A$, assuming it has portfolio $p$ and that its subordinates have portfolios $q_1,\ldots,q_k$, shows up in  \cref{def.orgsharp} as the following formal object:
 \begin{equation}\label{eqn.homset}
-\orgsharp_\free(p;q_1,\ldots,q_k)\coloneqq\cofree_{[p,\free_{q_1\vee\cdots\vee q_k}]},
+\orgsharp_\free(p;q_1,\ldots,q_k)\coloneqq\cofree_{[p,\free_{q_1+\cdots+ q_k}]},
 \end{equation}
-The monoidal product $\vee$ lets any ``bunch'' of agents be chosen at each time step. The free monad $\free$ brings in the planning aspect, a flow-chart for how subordinate outcomes select new subordinate tasks. The internal hom $[-,-]$ lets tasks pass forward and outcomes pass backwards. And the cofree comonad $\cofree$ lets this whole process evolve through time.
-}
+The coproduct $+$ lets any agents be chosen from a fixed collection, at each time step. The free monad $\free$ brings in the planning aspect, a flow-chart for how subordinate outcomes select new subordinate tasks. The internal hom $[-,-]$ lets tasks pass forward and outcomes pass backwards. And the cofree comonad $\cofree$ lets this whole process evolve through time.
+
 
 As a very special case, we give the example of the monoid $\oorg_\free(\yon,\yon)$, where there is only one subordinate and neither the agent nor the subordinate can vary their task or outcome. In this case, the plan or flow-chart just becomes a number of steps to perform and the evolution is blind, just a stream of plans. Thus an element of this monoid is a natural number sequence $s\colon\nn\to\nn$ and the multiplication $s\star t$ is what appears to be a novel method for combining two such sequences, where $s$ provides the ``time-scale'' for summing in $t$; see \cref{ex.sequence_counter}.
 
